@@ -9,7 +9,7 @@
 
     <link id="style" rel=stylesheet href=style.css>
 
-    <script>
+    <script type="text/javascript">
       function clearStyle(e) {
         if (!e) e = window.event;
         if (e.stopPropagation) e.stopPropagation();
@@ -19,9 +19,21 @@
       }
     </script>
 
+
   </head>
 
   <body>
+
+<!-- DJ: amcharts stuff taken from line.html -->
+		<!-- amcharts script-->
+		<!-- swf object (version 2.2) is used to detect if flash is installed and include swf in the page -->
+		<script type="text/javascript" src="amcharts/flash/swfobject.js"></script>
+
+		<!-- following scripts required for JavaScript version. The order is important! -->
+		<script type="text/javascript" src="amcharts/javascript/amcharts.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/amfallback.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/raphael.js"></script>
+
 
     <div id=left>
       <header>
@@ -38,8 +50,7 @@
         </div>
       </div>
       <div id="tagline">
-        Public data is impossible to use. <br>
-        We’re going to fix it.
+        Stats that matter. <br>
       </div>
       </header>
 
@@ -96,7 +107,8 @@ Personal income is from Table 2.1. Personal Income and Its Disposition, Last Rev
 
 
       <div id=chart_wrapper>
-        <img id=chart src="taxpercent.svg">
+	<div id="chartdiv" style="height:400px; background-color:#FFFFFF"></div>
+<!-- DJ: TODO remove the explicit height from here, preferably let height be inherited from chart_wrapper? -->
       </div>
       </section>
 
@@ -241,6 +253,40 @@ Personal income is from Table 2.1. Personal Income and Its Disposition, Last Rev
       </section>
 
     </div>
+
+    <script type="text/javascript">
+     <!-- DJ: added amcharts stuff from line.html -->
+	    
+            var params = {
+                bgcolor:"#FFFFFF"
+                };
+
+		    var flashVars = {
+		        path: "amcharts/flash/",
+
+				/* in most cases settings and data are loaded from files, but, as this require
+				 all the files to be upladed to web server, we use inline data and settings here.*/
+				 
+		        settings_file: "taxpercent_chart.xml",
+		        data_file: "taxpercent_chart.csv",
+			};
+
+			// change == to != to test flash version
+   			if(AmCharts.recommended() == "js"){
+				var amFallback = new AmCharts.AmFallback();
+				amFallback.settingsFile = flashVars.settings_file;  		// doesn't support multiple settings files or additional_chart_settins as flash does
+				amFallback.dataFile = flashVars.data_file;
+				amFallback.chartSettings = flashVars.chart_settings;
+				amFallback.pathToImages = "amcharts/javascript/images/";
+				amFallback.chartData = flashVars.chart_data;
+				amFallback.type = "line";
+				amFallback.write("chartdiv");
+			}
+			else{
+                swfobject.embedSWF("amcharts/flash/amline.swf", "chartdiv", "600", "400", "8.0.0", "amcharts/flash/expressInstall.swf", flashVars, params);
+            }
+
+  </script>
 
   </body>
 </html>
