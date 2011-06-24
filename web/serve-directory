@@ -1,11 +1,12 @@
 #!/usr/bin/env python2.7
 # coding: UTF-8
 
+import argparse
+import os
+import posixpath
+import sys
 import SimpleHTTPServer
 import SocketServer
-import posixpath
-
-PORT = 8123
 
 class Server(SocketServer.TCPServer):
 
@@ -26,7 +27,29 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             return 'text/html'
         return SimpleHTTPServer.SimpleHTTPRequestHandler.guess_type(self, path)
 
-httpd = Server(("localhost", PORT), Handler)
+def main():
 
-print "serving at localhost:%d" % (PORT, )
-httpd.serve_forever()
+    parser = argparse.ArgumentParser(description='Simple web server.',
+            add_help=False)
+    parser.add_argument('directory', nargs='?', default='.')
+    parser.add_argument('--help', type=bool)
+    parser.add_argument('-h', '--host', default='localhost')
+    parser.add_argument('-p', '--port', type=int, default=8123)
+
+    args = vars(parser.parse_args())
+
+    if args['help']:
+        parser.print_help()
+        return
+
+    os.chdir(args['directory'])
+    host = args['host']
+    port = args['port']
+
+    httpd = Server((host, port), Handler)
+
+    print "Serving HTTP at %s:%d" % (host, port)
+    httpd.serve_forever()
+
+if __name__ == '__main__':
+    sys.exit(main())
