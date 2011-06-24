@@ -6,6 +6,16 @@
 
     <link id="style" rel=stylesheet href=style.css>
 
+    <script>
+      function clearStyle(e) {
+        if (!e) e = window.event;
+        if (e.stopPropagation) e.stopPropagation();
+        if (e.preventDefault) e.preventDefault();
+        var a = document.getElementById('style');
+        a.parentElement.removeChild(a);
+      }
+    </script>
+
   </head>
 
   <body>
@@ -14,15 +24,20 @@
     <div id="logo">
       <img src="header_image.jpg">
     </div>
-    <div class="demo_warning">This is a mockup; nothing works yet.</div>
-    <div class="tagline">
-      Public data is impossible to use. We’re going to fix it.
+    <div class="demo_warning">This is a mockup; nothing works yet.
+      <div id="clear_style">
+        <a href="" onclick="clearStyle()">Clear style</a>
+      </div>
+    </div>
+    <div id="tagline">
+      Public data is impossible to use. <br>
+      We’re going to fix it.
     </div>
     </header>
 
     <div id=container>
       <section id=search>
-      <h1 class=notopmargin>Search</h1>
+      <h1 class=no_top_margin>Search</h1>
       <input id=searchbox type="search" placeholder="search for data">
       <input type="button" value="go">
 
