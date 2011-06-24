@@ -7,6 +7,14 @@ import posixpath
 
 PORT = 8123
 
+class Server(SocketServer.TCPServer):
+
+    allow_reuse_address = True
+
+    def __init__(self, *args, **kwargs):
+        SocketServer.TCPServer.__init__(self, *args, **kwargs)
+
+
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         SimpleHTTPServer.SimpleHTTPRequestHandler.__init__(
@@ -18,7 +26,7 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             return 'text/html'
         return SimpleHTTPServer.SimpleHTTPRequestHandler.guess_type(self, path)
 
-httpd = SocketServer.TCPServer(("", PORT), Handler)
+httpd = Server(("localhost", PORT), Handler)
 
 print "serving at localhost:%d" % (PORT, )
 httpd.serve_forever()
