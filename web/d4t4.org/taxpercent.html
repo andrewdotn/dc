@@ -27,12 +27,12 @@
 <!-- DJ: amcharts stuff taken from line.html -->
 		<!-- amcharts script-->
 		<!-- swf object (version 2.2) is used to detect if flash is installed and include swf in the page -->
-		<script type="text/javascript" src="../../external/amcharts/flash/swfobject.js"></script>
+		<script type="text/javascript" src="amcharts/flash/swfobject.js"></script>
 
 		<!-- following scripts required for JavaScript version. The order is important! -->
-		<script type="text/javascript" src="../../external/amcharts/javascript/amcharts.js"></script>
-		<script type="text/javascript" src="../../external/amcharts/javascript/amfallback.js"></script>
-		<script type="text/javascript" src="../../external/amcharts/javascript/raphael.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/amcharts.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/amfallback.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/raphael.js"></script>
 
 
     <div id=left>
@@ -262,7 +262,7 @@ Personal income is from Table 2.1. Personal Income and Its Disposition, Last Rev
                 };
 
 		    var flashVars = {
-		        path: "../../external/amcharts/flash/",
+		        path: "amcharts/flash/",
 
 				/* in most cases settings and data are loaded from files, but, as this require
 				 all the files to be upladed to web server, we use inline data and settings here.*/
@@ -277,13 +277,13 @@ Personal income is from Table 2.1. Personal Income and Its Disposition, Last Rev
 				amFallback.settingsFile = flashVars.settings_file;  		// doesn't support multiple settings files or additional_chart_settins as flash does
 				amFallback.dataFile = flashVars.data_file;
 				amFallback.chartSettings = flashVars.chart_settings;
-				amFallback.pathToImages = "../../external/amcharts/javascript/images/";
+				amFallback.pathToImages = "amcharts/javascript/images/";
 				amFallback.chartData = flashVars.chart_data;
 				amFallback.type = "line";
 				amFallback.write("chartdiv");
 			}
 			else{
-                swfobject.embedSWF("../../external/amcharts/flash/amline.swf", "chartdiv", "600", "400", "8.0.0", "../../external/amcharts/flash/expressInstall.swf", flashVars, params);
+                swfobject.embedSWF("amcharts/flash/amline.swf", "chartdiv", "600", "400", "8.0.0", "amcharts/flash/expressInstall.swf", flashVars, params);
             }
 
   </script>
