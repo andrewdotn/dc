@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Data Collective: Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <link id="style" rel=stylesheet href=style.css>
+
+  </head>
+
+  <body>
+
+    <header>
+    <div id="logo">
+      <img src="header_image.jpg">
+    </div>
+    <div class="demo_warning">This is a mockup; nothing works yet.</div>
+    <div class="tagline">
+      Public data is impossible to use. We’re going to fix it.
+    </div>
+    </header>
+
+    <div id=container>
+      <section id=search>
+      <h1 class=notopmargin>Search</h1>
+      <input id=searchbox type="search" placeholder="search for data">
+      <input type="button" value="go">
+
+      <p>
+      Recent searches:
+      <div id="recentsearches">
+        <a href="">inflation</a>
+        <a href="">debt</a>
+        <a href="">gun violence</a>
+        <a href="">file sharing</a>
+      </div>
+      </section>
+
+      <section id=about>
+      <h1>About us</h1>
+      <p>
+      In ten seconds, you can find out who was the guest star on “30 Rock”
+      last week.
+
+      <p>
+      How long does it take you to find historical charts and data for:
+
+      <ul>
+        <li> <a href="">income inequality</a>
+        <li> <a href="">government tax and spending</a>
+        <li> <a href="">global temperature trends</a>
+      </ul>
+
+      <p>
+      And do you trust the results once you find them?
+
+      <p>
+      Our ultimate goal: nudge public discourse in the direction of the facts.
+      </section>
+
+      <section id=share>
+      <h1>Share</h1>
+
+      <script src="sparkblocks.js"></script>
+
+      Enter some data to create a chart
+
+      <br>
+
+      <INPUT TYPE=TEXT NAME="fahr" id="userinput" SIZE=30 ONKEYUP="redraw()"
+      placeholder="9.6 9.5 9.5 9.6 9.6 9.7 9.8 9.4 9.0 8.9 8.8 9.0 9.1">
+
+      <p id="demo">▇▆▆▇▇▇▇▅▂▁▁▂</p>
+
+      <span id=range style="display: none">15</span>
+
+      <input type=button value="create chart">
+      <!--
+      DEBUGGING: <p id="numbers">Numbers are going to be here.</p>
+      -->
+
+      </section>
+
+      <section id=blog>
+      <h1>Our blog</h1>
+
+      <div class="bloglink">
+        <img src="dummychart.png">
+        <a href="http://blog.datacollective.org/?p=8">
+          Lifelong Inflation is Sort of a New Thing
+        </a>
+        <span class=date>June 14, 2011</span>
+      </div>
+
+      <div class="bloglink">
+        <img src="dummychart.png">
+        <a href="">US Personal Taxes are Currently the Lowest Since 1950</a>
+        <span class=date>June 11, 2011</span>
+      </div>
+
+      </section>
+
+      <section id=topcharts>
+      <h1>Top charts</h1>
+
+      <div class="chartlink">
+        <img src="dummychart.png">
+        US Personal Taxes as a Percentage of Personal Income
+      </div>
+
+      <div class="chartlink">
+        <img src="dummychart.png">
+        US Annual Consumer Price Index
+      </div>
+
+      <div class="chartlink">
+        <img src="dummychart.png">
+        US Personal Taxes as a Percentage of Personal Income
+      </div>
+
+      <div class="chartlink">
+        <img src="dummychart.png">
+        US Annual Consumer Price Index
+      </div>
+
+      </section>
+
+      <section id=discuss>
+      <h1>Discuss</h1>
+
+      <p>
+      For discussion about The Data Collective, please
+      <a href="http://groups.google.com/forum/#!forum/datacollective">
+        join our Google Group</a>. We’d love to hear your ideas!
+      </section>
+    </div>
+
+  </body>
+</html>
