@@ -20,7 +20,7 @@ header {
   overflow: hidden;
 }
 
-.tagline {
+#tagline {
   font: 14pt Verdana;
   color: #731c2b;
   margin: 10px;
