@@ -1,6 +1,9 @@
 <settings>
  <skip_rows>0</skip_rows>
  <csv_separator>,</csv_separator>
+ <legend>
+  <align>right</align>
+ </legend>
  <hide_bullets_count>18</hide_bullets_count>
  <data_type>csv</data_type>
  <plot_area>
@@ -10,6 +13,9 @@
        <y_left><alpha>5</alpha></y_left>
  </grid>
  <axes><x><width>1</width><color>cccccc</color></x><y_left><width>1</width><color>cccccc</color></y_left></axes>
+ <scroller>
+   <enabled>0</enabled>
+ </scroller>
  <indicator>
   <color>0D8ECF</color>
   <x_balloon_text_color>FFFFFF</x_balloon_text_color>

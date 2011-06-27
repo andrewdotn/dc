@@ -8,6 +8,7 @@
 
 body {
   background: #f2efe9;
+  font: 8pt verdana;
 }
 
 header {
@@ -138,7 +139,7 @@ section h2 {
 
 #source_details {
   line-height: 130%;
-  max-width: 20em;
+/*  max-width: 20em; */
 }
 
 a[href=""] {
