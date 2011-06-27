@@ -1,0 +1,8 @@
+syntax:glob
+
+*.aux
+*.dvi
+*.log
+*~
+.DS_Store
+amcharts

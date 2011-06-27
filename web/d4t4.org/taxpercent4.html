@@ -6,7 +6,7 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-  // Hide the "view" div.
+
   $("#datafrom").hide();
   $("#postedby").hide();
 
@@ -62,7 +62,7 @@ body {
 }
 </style>
 </head>
-<body>
+<body style="background-color:#fffafc">
 
 <!-- DJ: amcharts stuff taken from line.html -->
 		<!-- amcharts script-->
@@ -74,6 +74,8 @@ body {
 		<script type="text/javascript" src="amcharts/javascript/amfallback.js"></script>
 		<script type="text/javascript" src="amcharts/javascript/raphael.js"></script>
 
+<div id="container" style="width:100%; background-color:#fffafc">
+<div id="main" style="width:800px; margin:auto">
 <div class="titlediv">
   <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective</div>
 </div>
@@ -81,7 +83,7 @@ body {
   <span class="title">US Taxes as Percentage of Personal Income</span>
 </div>
 <div id=chart_wrapper>
- <div id="chartdiv" style="height:400px; background-color:#FFFFFF"></div>
+ <div id="chartdiv" style="height:400px; background-color:#fffafc"></div>
 </div>
 
 <div class="titlediv">
@@ -97,6 +99,13 @@ Tax data is from <a href="http://www.bea.gov/national/nipaweb/TableView.asp?Sele
 Personal income is from <a target="_blank" href="http://www.bea.gov/national/nipaweb/TableView.asp?SelectedTable=58&Freq=Year&FirstYear=1&LastYear=2100">Table 2.1. Personal Income and Its Disposition</a>
 <p>
 Data was downloaded on June 22, 2011 into this <a target="_blank" href="https://spreadsheets.google.com/spreadsheet/ccc?key=0AkpTmG7ijJvXdEVCMkRULUEya2VJbnM0ci1DbTZ3WUE&hl=en_US">Google spreadsheet</a> and then posted here.
+<br>
+<br>
+    <span style="font-size:0.75em; float:right">
+      <span>Is this data recipe accurate?</span>
+      <span>Yes</span>
+      <span>No</span>
+    </span>
   </div>
 </div>
 
@@ -108,9 +117,8 @@ Data was downloaded on June 22, 2011 into this <a target="_blank" href="https://
   </span>
   <div id="postedby" class="title" style="background-color:#BF5F22; max-width:750px; margin-top:-0.5em; border-top-left-radius:0px">
     <div  style="float:right; margin-right:0px; margin-top:10px">
-      <div style="border-radius:15px; border:5px solid #ae4e11; padding:2px">
-        <img src="aneitsch.jpeg">
-      </div>
+        <img src="aneitsch.jpeg" style="border-radius:5px; border:5px solid #fffafc; padding:0px">
+<!-- or border-radius:15px; border:5px solid #ae4e11; padding:2px  -->
 <!--
       <span style="font-size:0.5em">msg</span>
       <span style="font-size:0.5em; align:right">like</span>
@@ -159,6 +167,8 @@ Andrew joined The Data Collective on June 18, 2011.
     <span class="bottom_nav">Terms</span>
     <span style="float:right">©2011 The Data Collective</span>
   </div>
+</div>
+</div>
 </div>
 
     <script type="text/javascript">
