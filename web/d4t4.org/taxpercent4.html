@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>US Taxes as Percentage of Personal Income</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+  // Hide the "view" div.
+  $("#datafrom").hide();
+  $("#postedby").hide();
+
+    $("#datafromhead").click(function() {
+      $("#datafrom").slideToggle(400);
+      return false;
+    });
+
+    $("#postedbyhead").click(function() {
+      $("#postedby").slideToggle(400);
+      return false;
+    });
+
+  });
+</script>
+<style>
+body {
+  font: 100% verdana;
+  margin:0;
+  padding:0;
+}
+.title {
+  background-color:#ffde00;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  font-size:1.5em;
+  border-radius:15px;
+}
+.titlediv {
+  margin: 1.5em;
+}
+.bottom_nav {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+#chart_wrapper {
+  padding: 0px;
+  margin: 0px;
+  width: 600px;
+  height: 400px;
+  overflow: hidden;
+}
+#disqus_wrapper {
+  padding:0.5em;
+  margin: 1.5em;
+  max-width:750px;
+  background-color:#eeffee;
+  border-radius:15px;
+  border:2px solid #ccddcc;
+/*  outline:#ddeedd solid medium; */
+}
+</style>
+</head>
+<body>
+
+<!-- DJ: amcharts stuff taken from line.html -->
+		<!-- amcharts script-->
+		<!-- swf object (version 2.2) is used to detect if flash is installed and include swf in the page -->
+		<script type="text/javascript" src="amcharts/flash/swfobject.js"></script>
+
+		<!-- following scripts required for JavaScript version. The order is important! -->
+		<script type="text/javascript" src="amcharts/javascript/amcharts.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/amfallback.js"></script>
+		<script type="text/javascript" src="amcharts/javascript/raphael.js"></script>
+
+<div class="titlediv">
+  <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective</div>
+</div>
+<div class="titlediv">
+  <span class="title">US Taxes as Percentage of Personal Income</span>
+</div>
+<div id=chart_wrapper>
+ <div id="chartdiv" style="height:400px; background-color:#FFFFFF"></div>
+</div>
+
+<div class="titlediv">
+  <span id="datafromhead" class="title" style="background-color:#E58F17">
+   <span>data from the US Bureau of Economic Analysis</span>
+   <span style="padding-left:2em"></span>
+   <span style="font-size:0.5em">▼</span>
+  </span>
+  <div id="datafrom" class="title" style="background-color:#E58F17; max-width:750px; margin-top:-0.5em; border-top-left-radius:0px">
+<br>
+Tax data is from <a href="http://www.bea.gov/national/nipaweb/TableView.asp?SelectedTable=89&Freq=Year&FirstYear=1&LastYear=2100" target="_blank">Table 3.4, Personal Current Tax Receipts</a>.
+        <p>
+Personal income is from <a target="_blank" href="http://www.bea.gov/national/nipaweb/TableView.asp?SelectedTable=58&Freq=Year&FirstYear=1&LastYear=2100">Table 2.1. Personal Income and Its Disposition</a>
+<p>
+Data was downloaded on June 22, 2011 into this <a target="_blank" href="https://spreadsheets.google.com/spreadsheet/ccc?key=0AkpTmG7ijJvXdEVCMkRULUEya2VJbnM0ci1DbTZ3WUE&hl=en_US">Google spreadsheet</a> and then posted here.
+  </div>
+</div>
+
+<div class="titlediv">
+  <span id="postedbyhead" class="title" style="background-color:#BF5F22">
+   <span>posted by Andrew Neitsch</span>
+   <span style="padding-left:2em"></span>
+   <span style="font-size:0.5em">▼</span>
+  </span>
+  <div id="postedby" class="title" style="background-color:#BF5F22; max-width:750px; margin-top:-0.5em; border-top-left-radius:0px">
+    <div  style="float:right; margin-right:0px; margin-top:10px">
+      <div style="border-radius:15px; border:5px solid #ae4e11; padding:2px">
+        <img src="aneitsch.jpeg">
+      </div>
+<!--
+      <span style="font-size:0.5em">msg</span>
+      <span style="font-size:0.5em; align:right">like</span>
+-->
+    </div>
+<br>
+2 charts posted<br>
+3 articles on the web include Andrew's charts <br>
+5 likes from 2 people <br>
+10 comments written <br>
+15 people follow Andrew <br>
+Andrew follows 8 people <br>
+<br>
+Andrew joined The Data Collective on June 18, 2011.
+
+  </div>
+</div>
+
+<div id="disqus_wrapper">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'd4t4'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    var disqus_identifier = 'taxpercent';
+    var disqus_url = 'http://d4t4.org/taxpercent.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+<div class="titlediv">
+  <div class="title" style="background-color:#990031; color:#ffffff; width:750px; font-size:1.0em; padding-top:1em; padding-bottom:1em">
+    <span class="bottom_nav">About</span>
+    <span class="bottom_nav">Blog</span>
+    <span class="bottom_nav">Contact</span>
+    <span class="bottom_nav">Help</span>
+    <span class="bottom_nav">Terms</span>
+    <span style="float:right">©2011 The Data Collective</span>
+  </div>
+</div>
+
+    <script type="text/javascript">
+     <!-- DJ: added amcharts stuff from line.html -->
+	    
+            var params = {
+                bgcolor:"#FFFFFF"
+                };
+
+		    var flashVars = {
+		        path: "amcharts/flash/",
+
+				/* in most cases settings and data are loaded from files, but, as this require
+				 all the files to be upladed to web server, we use inline data and settings here.*/
+				 
+		        settings_file: "taxpercent_chart.xml",
+		        data_file: "taxpercent_chart.csv",
+			};
+
+			// change == to != to test flash version
+   			if(AmCharts.recommended() == "js"){
+				var amFallback = new AmCharts.AmFallback();
+				amFallback.settingsFile = flashVars.settings_file;  		// doesn't support multiple settings files or additional_chart_settins as flash does
+				amFallback.dataFile = flashVars.data_file;
+				amFallback.chartSettings = flashVars.chart_settings;
+				amFallback.pathToImages = "amcharts/javascript/images/";
+				amFallback.chartData = flashVars.chart_data;
+				amFallback.type = "line";
+				amFallback.write("chartdiv");
+			}
+			else{
+                swfobject.embedSWF("amcharts/flash/amline.swf", "chartdiv", "600", "400", "8.0.0", "amcharts/flash/expressInstall.swf", flashVars, params);
+            }
+
+  </script>
+
+</body>
+</html>
