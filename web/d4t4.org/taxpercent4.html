@@ -12,6 +12,7 @@
 
     $("#datafromhead").click(function() {
       $("#datafrom").slideToggle(400);
+
       return false;
     });
 
@@ -38,7 +39,8 @@ body {
   border-radius:15px;
 }
 .titlediv {
-  margin: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 .bottom_nav {
   padding-left: 1em;
@@ -53,7 +55,8 @@ body {
 }
 #disqus_wrapper {
   padding:0.5em;
-  margin: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
   max-width:750px;
   background-color:#eeffee;
   border-radius:15px;
@@ -79,11 +82,11 @@ body {
 <div class="titlediv">
   <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective</div>
 </div>
-<div class="titlediv">
+<div class="titlediv" style="margin-bottom:0px">
   <span class="title">US Taxes as Percentage of Personal Income</span>
 </div>
-<div id=chart_wrapper>
- <div id="chartdiv" style="height:400px; margin-top:-50px; background-color:#fffafc"></div>
+<div id=chart_wrapper style="border-radius:15px; border:6px solid #ffde00; padding: 8px">
+  <div id="chartdiv" style="height:400px; margin-top:-50px; padding:5px; background-color:#fffafc"></div>
 </div>
 
 <div class="titlediv">
