@@ -48,7 +48,7 @@ body {
   padding: 0px;
   margin: 0px;
   width: 600px;
-  height: 400px;
+  height: 350px;
   overflow: hidden;
 }
 #disqus_wrapper {
@@ -83,7 +83,7 @@ body {
   <span class="title">US Taxes as Percentage of Personal Income</span>
 </div>
 <div id=chart_wrapper>
- <div id="chartdiv" style="height:400px; background-color:#fffafc"></div>
+ <div id="chartdiv" style="height:400px; margin-top:-50px; background-color:#fffafc"></div>
 </div>
 
 <div class="titlediv">
@@ -202,6 +202,11 @@ Andrew joined The Data Collective on June 18, 2011.
 			else{
                 swfobject.embedSWF("amcharts/flash/amline.swf", "chartdiv", "600", "400", "8.0.0", "amcharts/flash/expressInstall.swf", flashVars, params);
             }
+
+
+            // if we actually end up using amcharts.com, we'll pay them
+            // until then...
+              $("tspan:contains('chart by amcharts.com')").remove();
 
   </script>
 
