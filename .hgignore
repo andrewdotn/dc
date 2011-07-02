@@ -6,3 +6,5 @@ syntax:glob
 *~
 .DS_Store
 amcharts
+*.sqlite3
+web/projects/d4t4/secrets.py
