@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  </head>
+  <body>
+
+    <h1>Documentation</h1>
+
+    <p>
+    (Eventually this will move to a wiki or something.)
+    </p>
+
+    <h4>Contents</h4>
+    <ul>
+      <li><a href="#setup">Setup</a>
+      <ul>
+        <li><a href="#prereqs">Installing prerequisites</a>
+        <li><a href="#running">Running the development server</a>
+      </ul>
+      <li><a href="#schemamigration">Schema migration</a>
+      <li><a href="#stuff">Stuff to look into</a>
+      </ul>
+
+      <a name="setup"></a>
+      <h2>Setup</h2>
+
+      <p>
+      To get a version running on your local machine, assuming you have a Mac:
+      </p>
+
+      <a name="prereqs"></a>
+      <h3>Installing prerequisites</h3>
+
+      <p>
+      These steps only needs to be followed once. You’ll install python
+      locally, and a tool to make installing needed python libraries easy,
+      and then install the needed python libraries.
+      </p>
+
+      <ol>
+        <li>Download <a
+          href="http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tar.bz2">Python-2.7.2.tar.bz2</a>,
+        and build it with <code>./configure --with-system-expat
+          --prefix=$HOME/local &amp;&amp; make -j2 &amp;&amp; make
+          install</code>
+        <li>Add <code>~/local/bin</code> to your path in
+        <code>~/.bashrc</code> or <code>~/.bash_profile</code> as needed
+        <li>Run <code>hash -r</code> to clear the binary path cache
+        <li>Download <a
+          href="distribute-0.6.19.tar.gz">http://pypi.python.org/packages/source/d/distribute/distribute-0.6.19.tar.gz</a>,
+        unpack and cd into it and run
+        <code>python2.7 setup.py install</code>
+        <li>Run <code>easy_install-2.7 django docutils</code>
+      </ol>
+
+      <a name="running"></a>
+      <h3>Running the development server</h3>
+
+      Run this script:
+
+      <pre>
+set -e
+cd ~
+
+# path is hardcoded right now, should fix that
+if ! [ -d dcexternal ]; then
+  cd ~ &amp;&amp; hg clone ssh://d4t4.org/hg/external dcexternal
+fi
+
+if ! [ -d dc ]; then
+  hg clone ssh://hg@bitbucket.org/datacollective/dc
+fi
+
+cd dc
+echo "SECRET_KEY = '$(python -c
+  "import os; print os.urandom(25).encode('hex')")'" \
+  &gt; web/projects/d4t4/secrets.py
+yes no | python2.7 web/projects/d4t4/manage.py syncdb
+# You can create an admin user afterwards with manage.py createsuperuser
+echo 'import chart.models; chart.models.init()' \
+  | python2.7 web/projects/d4t4/manage.py shell
+python2.7 web/projects/d4t4/manage.py runserver
+# Visit http://localhost:8000/chart/ and http://localhost:8000/admin/
+# in your browser
+</pre>
+
+
+      <a name="schemamigration"></a>
+      <h2>
+        Schema migration
+      </h2>
+
+      <p>
+      <a href="http://south.aeracode.org/">South</a> is the most popular tool
+      for schema migration. It lets you snapshot Django models, perform
+      simple operations using snapshotted models, and auto-generates code to
+      migrate between model snapshots.
+      </p>
+
+      <p>
+      The South development workflow is:
+      </p>
+
+      <ol start=0>
+        <li>Capture the model with
+        <code>./manage.py schemamigration appname --initial</code>
+        <li>Update the model by hand
+        <li>Snapshot the new model and generate a migration script with
+        <code>./manage.py schemamigration appname --auto
+          short_change_name</code>
+        <li>If needed, create a template data migration file with
+        <code>./manage.py datamigration appname short_change_name</code> and
+        insert the needed logic by hand, using
+        <code>orm.Modelname</code> object to access the snapshotted model
+        <li>Run <code>./manage.py migrate appname</code> to change the schema
+        in the database and run any data migration code
+        <li>Go to step 1
+      </ol>
+
+      <p> The <a
+        href="http://south.aeracode.org/docs/tutorial/index.html">tutorial</a>
+      walks you through changing a database that uses plaintext passwords to
+      one with salted hashed passwords—not that that’s any more secure <a
+        href="http://codahale.com/how-to-safely-store-a-password/"> these
+        days</a>. The concrete migration plan:</p>
+
+      <ol>
+        <li>Add <code>password_salt</code> and <code>password_hash</code>
+        fields to the model.
+        <li>Capture the change with <code>schemamigration</code>
+        <li>Create a data migration that hashes the plaintext passwords
+        <li>Remove the model’s plaintext password column
+        <li>Capture the change with <code>schemamigration</code>
+      </ol>
+
+      <p>
+      You can do all that, save it in version control, and then on the
+      production server run <code>hg update &amp;&amp; ./manage.py syncdb
+        &amp;&amp; ./manage.py migrate</code> and everything will be up to
+      date—except that the code and the database will be inconsistent during
+      the upgrade, causing downtime if you stop the server, or errors and
+      possible data corruption if you don’t.
+      </p>
+
+      <p>
+      The continuous-deployment way to do it on the server is:
+      </p>
+
+      <ol>
+        <li>Add the new columns to the database.
+        <li>Deploy code that can work with both versions—it’ll use the hashed
+        password if there’s a hash, otherwise fall back to plaintext.
+        <li>Run the password-hashing data migration.
+        <li>Deploy code that only knows about hashed passwords.
+        <li>When that’s definitely working, drop the plaintext password
+        column.
+      </ol>
+
+      <p>
+      That’s a very different order from the South workflow, and irreversible
+      operations like dropping columns being migrated should probably be
+      written at the same time as the rest of the migration, although the
+      change might not be deployed for quite some time, if ever.
+      </p>
+
+      <p>
+      South can definitely do the individual schema and data migrations, and
+      if we’re ok with downtime we can do them all at once at the same time
+      as the code upgrade without writing any more tools, but for continuous
+      availability we’d need something to carefully manage the code and data
+      versions and keep them in sync.
+      </p>
+
+      <a name="stuff"></a>
+      <h2>Stuff to look into</h2>
+
+      <ul>
+        <li><a href="http://ontwik.com/python/disqus-scaling-the-world%E2%80%99s-largest-django-application/">Scaling The World’s Largest Django Application</a>,
+        slides and video of how Disqus manages Django.
+
+        <li>
+        <a
+          href="http://blip.tv/djangocon-europe-2011/tuesday-1145-szilveszter-farkas-5310580">Video
+          of talk about continuous deployment with Django at Prezi</a>. Lots
+        of references to tools.
+
+      </ul>
+
+    </body>
+
+  </html>
