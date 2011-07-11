@@ -1,0 +1,35 @@
+img{-ms-interpolation-mode:bicubic}
+body { padding: 0; margin: 0; background: #990031; color: #FFF; font-family: arial, verdana, helvetica, tahoma, sans-serif; font-size: 80%; }
+ img { border: 0; }
+ a { text-decoration: none; color: #FF80A8; }
+ a:hover { text-decoration: none; color: #FFF; }
+ #centrecontainer { position: absolute; top: 50%; left: 0px; width: 100%; }
+ #outercontainer { margin-left: -400px; position: absolute; top: -236px; left: 50%; }
+ #header { width: 800px; height: 27px; letter-spacing: 1px; }
+ #container { border: 20px solid #FFF; width: 760px; height: 370px; }
+ #containerleft { float: left; width: 350px; height: 350px; background-image:url('theme/default_header.jpg?624578'); border-right: 20px solid #FFF; padding: 10px; }
+ #containerleft a { text-decoration: none; color: #FFF; }
+ #containerleft a:hover { text-decoration: none; color: #FF80A8; }
+ #containerleft h2 { margin: 0; padding: 0; font-family: helvetica, arial, verdana, tahoma, sans-serif; letter-spacing: -1px; font-size: 250%; text-align: right; }
+ #containerright { float: left; width: 350px; height: 350px; background: #660021; overflow: auto; padding: 10px; position: relative; line-height:1.25; }
+ #containerright h2 { margin: 0; padding: 0; font-family: helvetica, arial, verdana, tahoma, sans-serif; letter-spacing: -1px; font-size: 200%; border-bottom: 1px solid #FFF; padding-bottom: 5px; width: 90%; line-height:1.25; }
+ #navcontainer ul { padding: 0; margin: 0; float: right; width: 100%; }
+ #navcontainer ul li { display: inline; }
+ #navcontainer ul li a { padding: 6px 10px 6px 9px; color: #FFF; text-decoration: none; float: right; }
+ #navcontainer ul li a:hover { background-color: #FFF; color: #990031; }
+ #active a:link { background-color: #FFF; color: #990031; }
+ #active a:hover { background-color: #FFF; color: #990031; }
+ #active a:visited { background-color: #FFF; color: #990031; }
+
+div.paragraph ul, div.paragraph ol { padding-left: 25px !important; margin: 5px 0 !important; overflow:hidden; }
+div.paragraph li { padding-left: 5px !important; margin: 3px 0 0 !important; }
+div.paragraph ul, div.paragraph ul li { list-style: disc outside !important; }
+div.paragraph ol, div.paragraph ol li { list-style: decimal outside !important; }
+
+#wsite-content div.paragraph, #wsite-content p, #wsite-content.product-description, .blog-sidebar div.paragraph, .blog-sidebar p{font-family:monospace !important;font-size:15px !important;line-height:15px !important;}
+#wsite-content h2, #wsite-content .product-title, .blog-sidebar h2{font-family:monospace !important;}
+#wsite-title{}
+.wsite-header {
+	background-image: url(header.jpg) !important;
+	background-position: 0 0 !important;
+}
