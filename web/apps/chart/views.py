@@ -20,6 +20,6 @@ def view(request, chart_id=None, chart=None):
         'chart': chart,
         'url': 'http://d4t4.org/' + chart.sparkblocks,
         'shorturl': 'http://d4t4.org/' + chart.sparkblocks,
-        'chart_data': chart.chart_data.replace('\n', r'\n'),
+        'chart_data': chart.chart_data.replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n'),
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
     })
