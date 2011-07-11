@@ -33,8 +33,7 @@
 
       <p>
       These steps only needs to be followed once. You’ll install python
-      locally, and a tool to make installing needed python libraries easy,
-      and then install the needed python libraries.
+      locally, and a tool to make installing needed python libraries easy.
       </p>
 
       <ol>
@@ -50,7 +49,7 @@
           href="distribute-0.6.19.tar.gz">http://pypi.python.org/packages/source/d/distribute/distribute-0.6.19.tar.gz</a>,
         unpack and cd into it and run
         <code>python2.7 setup.py install</code>
-        <li>Run <code>easy_install-2.7 django docutils</code>
+        <li>Run <code>easy_install-2.7 pip</code>
       </ol>
 
       <a name="running"></a>
@@ -72,6 +71,7 @@ if ! [ -d dc ]; then
 fi
 
 cd dc
+pip install -r requirements.txt
 echo "SECRET_KEY = '$(python -c
   "import os; print os.urandom(25).encode('hex')")'" \
   &gt; web/projects/d4t4/secrets.py
