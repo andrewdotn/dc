@@ -386,8 +386,11 @@ GA_googleAddSlot('ca-pub-4864286300355536', 'header2');
 			$(document).ready(function() {
 				chart = new Highcharts.Chart({
                                         credits: {
-                                          text: 'Click here for sources, discussion and more at datacollective.org.',
+                                          text: 'Sources: Centers for Medicare and Medicaid Services, Bureau of Economic Analysis.  For complete source data, click here.',
+			                  style: { width: '300px', textAlign: 'left', textAnchor: 'begin' },
+                                          position: { y: -20 },
                                           href: 'http://d4t4.org/medicaid.html'
+
                                         },
                                         exporting: {
                                           enabled: false
@@ -395,7 +398,7 @@ GA_googleAddSlot('ca-pub-4864286300355536', 'header2');
 					chart: {
 						renderTo: 'chartdiv', 
 						defaultSeriesType: 'line',
-                                                spacingBottom: 20,
+                                                spacingBottom: 40,
                                                 width:600
 					},
                                         legend: {
