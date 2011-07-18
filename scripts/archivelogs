@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -eu
+set -o pipefail
 
 for LOG in logs/*/http.*/{access,error}.log.*.gz; do
     if ! [ -f "${LOG}" ]; then
