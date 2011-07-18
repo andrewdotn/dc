@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eu
+
+for LOG in logs/*/http.*/{access,error}.log.*.gz; do
+    if ! [ -f "${LOG}" ]; then
+        continue
+    fi
+
+    NEWLOG="logs.archived/${LOG#logs/}"
+    NEWLOGDIR="$(dirname -- "${NEWLOG}")"
+    mkdir -p -- "${NEWLOGDIR}"
+
+    RESOLVED_LOG="${NEWLOG%.gz}.resolved.gz"
+    zcat "${LOG}" | logresolve | gzip > "${RESOLVED_LOG}"
+    mv "${LOG}" "${NEWLOG}"
+done
