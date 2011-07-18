@@ -8,10 +8,17 @@ for LOG in logs/*/http.*/{access,error}.log.*.gz; do
     fi
 
     NEWLOG="logs.archived/${LOG#logs/}"
+    if [ -f "${NEWLOG}" ]; then
+        continue
+    fi
+
+
     NEWLOGDIR="$(dirname -- "${NEWLOG}")"
     mkdir -p -- "${NEWLOGDIR}"
 
     RESOLVED_LOG="${NEWLOG%.gz}.resolved.gz"
     zcat "${LOG}" | logresolve | gzip > "${RESOLVED_LOG}"
-    mv "${LOG}" "${NEWLOG}"
+
+    # root owns log directory, can’t move files out
+    cp -p -- "${LOG}" "${NEWLOG}"
 done
