@@ -27,7 +27,8 @@ if not os.path.isfile(secret_file):
 with open(secret_file) as secrets:
     stuff = json.load(secrets)
     for k, v in stuff.items():
-        setattr(sys.modules[__name__], k, v)
+        # json returns unicode objects, but module definitions are strs.
+        setattr(sys.modules[__name__], k.encode('UTF-8'), v.encode('UTF-8'))
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -51,6 +52,12 @@ LANGUAGES = (('en', 'English'),)
 USE_I18N = False
 
 USE_L10N = False
+
+# defaults for South
+
+SKIP_SOUTH_TESTS = False
+
+SOUTH_TESTS_MIGRATE = True
 
 SITE_ID = 1
 
@@ -83,8 +90,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'common',
-    #'chart',
-    #'amcharts',
+    'chart',
+    'south',
+    'vendor.amcharts',
 )
 
 # A sample logging configuration. The only tangible logging

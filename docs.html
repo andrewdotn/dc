@@ -58,30 +58,14 @@
       Run this script:
 
       <pre>
-set -e
-cd ~
-
-# path is hardcoded right now, should fix that
-if ! [ -d dcexternal ]; then
-  cd ~ &amp;&amp; hg clone ssh://d4t4.org/hg/external dcexternal
-fi
-
-if ! [ -d dc ]; then
-  hg clone ssh://hg@bitbucket.org/datacollective/dc
-fi
-
+hg clone ssh://hg@bitbucket.org/datacollective/dc
 cd dc
+# private repo for non-freely-redistributable code
+hg clone ssh://hg@bitbucket.org/datacollective/dcvendor vendor
 pip install -r requirements.txt
-echo "SECRET_KEY = '$(python -c
-  "import os; print os.urandom(25).encode('hex')")'" \
-  &gt; web/projects/d4t4/secrets.py
-yes no | python2.7 web/projects/d4t4/manage.py syncdb
-# You can create an admin user afterwards with manage.py createsuperuser
-echo 'import chart.models; chart.models.init()' \
-  | python2.7 web/projects/d4t4/manage.py shell
-python2.7 web/projects/d4t4/manage.py runserver
+./manage.py developmentsetup
+./manage.py runserver
 # Visit http://localhost:8000/chart/ and http://localhost:8000/admin/
-# in your browser
 </pre>
 
 
@@ -166,9 +150,32 @@ python2.7 web/projects/d4t4/manage.py runserver
       <p>
       South can definitely do the individual schema and data migrations, and
       if we’re ok with downtime we can do them all at once at the same time
-      as the code upgrade without writing any more tools, but for continuous
-      availability we’d need something to carefully manage the code and data
-      versions and keep them in sync.
+      as the code upgrade without writing any more tools.
+      </p>
+
+      <p>
+      But for continuous availability we’ll probably do something like this
+      to ensure at runtime that the model code is compatible with the
+      database schema:
+      </p>
+
+      <pre>if db_version == 3:
+  class Chart(models.Model):
+    # previous version of model
+    ...
+elif db_version == 4:
+  class Chart(models.Model):
+    # intermediate version of model
+    ...
+elif db_version == 5:
+  class Chart(models.Model):
+    # new version of model
+    ...
+</pre>
+      </p>
+
+      <p>
+      The details for that still need to be worked out though.
       </p>
 
       <a name="stuff"></a>
