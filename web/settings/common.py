@@ -89,10 +89,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'south',
+
+    'vendor.amcharts',
+
     'common',
     'chart',
-    'south',
-    'vendor.amcharts',
+    'pageset'
 )
 
 # A sample logging configuration. The only tangible logging

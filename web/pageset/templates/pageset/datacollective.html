@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{title}} - The Data Collective</title>
+    <title>{{ page.title }} - The Data Collective</title>
     <meta charset=UTF-8>
-    <link rel='stylesheet' href='common.css' type='text/css' />
+    <link rel='stylesheet' href='{{STATIC_URL}}pageset/common.css' type='text/css' />
   </head>
   <body class='wsite-page-discuss'>
     <div id="centrecontainer">
@@ -13,9 +13,17 @@
         <div id="header">
           <div id="navcontainer">
             <ul id="navlist">
-              {% for page in pages %}
-              <li {{ page.isactive }}>
-              <a href="{{ page.filename }}">{{ page.title }}</a></li>
+              {% for other_page in pages %}
+              <li {% if page.filename == other_page.filename %}
+              id=active
+              {% endif %}>
+              <a href="{{ other_page.filename }}">
+                {% if other_page.short_title %}
+                {{ other_page.short_title }}
+                {% else %}
+                {{ other_page.title }}
+                {% endif %}
+              </a></li>
               {% endfor %}
             </ul>
           </div>
@@ -27,7 +35,11 @@
             <h2><span style="visibility:hidden;">The Data Collective</span></h2>
           </div>
           <div id="containerright">
-            <div id='wsite-content'>{{ content }}</div>
+            <div id='wsite-content'>
+              {% autoescape off %}
+              {{ page.content }}
+              {% endautoescape %}
+            </div>
           </div>
         </div>
 

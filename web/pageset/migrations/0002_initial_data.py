@@ -1,9 +1,49 @@
-#!/usr/bin/env python2.7
-# coding: UTF-8
-"""
-Mini static CMS that generates a set of pages based on template.html and
-the contents of this file.
-"""
+# encoding: utf-8
+import datetime
+from south.db import db
+from south.v2 import DataMigration
+from django.db import models
+
+class Migration(DataMigration):
+
+    def forwards(self, orm):
+        "Write your forwards methods here."
+
+        pageset = orm.Pageset(name='datacollective',
+            template_name='pageset/datacollective.html')
+        pageset.save()
+
+        for i in range(len(PAGES)):
+            page_data = dict(PAGES[i])
+            page_data.setdefault('order', i)
+            page_data.setdefault('pageset', pageset)
+            page = orm.Page(**page_data)
+            page.save()
+
+    def backwards(self, orm):
+        orm.Pageset.objects.all().delete()
+        orm.Page.objects.all().delete()
+
+    models = {
+        'pageset.page': {
+            'Meta': {'object_name': 'Page'},
+            'content': ('django.db.models.fields.TextField', [], {}),
+            'filename': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'order': ('django.db.models.fields.IntegerField', [], {}),
+            'pageset': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['pageset.PageSet']"}),
+            'short_title': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+        },
+        'pageset.pageset': {
+            'Meta': {'object_name': 'PageSet'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'template_name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+        }
+    }
+
+    complete_apps = ['pageset']
 
 PAGES = [{'title': 'Tweetable Sparkblocks',
           'short_title': 'Sparkblocks',
@@ -198,36 +238,3 @@ To apply or learn more, email dsjoerg@datacollective.org.</strong></div>""",
     # 'content': 'this is a test',
     # },
 ]
-
-import os
-import os.path
-
-from django import template
-from django.utils.safestring import mark_safe
-
-# dummy settings module
-os.environ['DJANGO_SETTINGS_MODULE'] = '__main__'
-
-def _filename(filename):
-    "Return the current path for a filename relative to this module’s code."
-
-    return os.path.join(os.path.dirname(__file__), filename)
-
-if __name__ == '__main__':
-    if not os.path.isdir(_filename('public')):
-        os.mkdir(_filename('public'))
-
-    with open(_filename('template.html')) as template_source:
-        t = template.Template(template_source.read())
-    for page in PAGES:
-        data = dict(page)
-        data['pages'] = reversed([{
-                'title': p.get('short_title', p['title']),
-                'filename': p['filename'],
-                'isactive': 'id=active' if p == page else ''} for p in PAGES])
-        data['content'] = mark_safe(data['content'])
-        c = template.Context(data)
-
-        outfilename = _filename(os.path.join('public', page['filename']))
-        with open(outfilename, 'w') as out:
-            out.write(t.render(c))
