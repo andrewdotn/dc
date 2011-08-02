@@ -9,7 +9,5 @@ def byfilename(request, filename, pageset_name):
             'filename', 'order'))
     other_pages.sort(key=lambda x: -x['order'])
 
-    print RequestContext(request)
-
     return render(request, pageset.template_name,
             {'pages': other_pages, 'page': page})

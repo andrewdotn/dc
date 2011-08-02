@@ -58,16 +58,25 @@
       Run this script:
 
       <pre>
+# clone main repo
 hg clone ssh://hg@bitbucket.org/datacollective/dc
 cd dc
-# private repo for non-freely-redistributable code
+# clone private repo for non-freely-redistributable code
 hg clone ssh://hg@bitbucket.org/datacollective/dcvendor vendor
 pip install -r requirements.txt
 ./manage.py developmentsetup
-./manage.py runserver
-# Visit http://localhost:8000/chart/ and http://localhost:8000/admin/
+./manage.py runservers
+# Visit http://localhost:8000/, http://localhost:8001/chart/,
+# http://localhost:8001/admin/
 </pre>
 
+      <p>
+      You can specify which site to operate on with the option
+      <code>./manage.py --dc</code> or <code>./manage.py --d4t4</code>. But
+      all of the configuration except for URL definitions is shared between
+      the two sites, so the default <code>--dc</code> is usually good
+      enough.
+      </p>
 
       <a name="schemamigration"></a>
       <h2>

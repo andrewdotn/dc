@@ -59,6 +59,12 @@ SKIP_SOUTH_TESTS = False
 
 SOUTH_TESTS_MIGRATE = True
 
+# currently only used by runservers command
+SITES = [
+    {'name': 'dc'},
+    {'name': 'd4t4'},
+]
+
 SITE_ID = 1
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
