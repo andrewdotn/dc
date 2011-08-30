@@ -61,9 +61,10 @@
 # clone main repo
 hg clone ssh://hg@bitbucket.org/datacollective/dc
 cd dc
+pip install -r requirements.txt
+cd web
 # clone private repo for non-freely-redistributable code
 hg clone ssh://hg@bitbucket.org/datacollective/dcvendor vendor
-pip install -r requirements.txt
 ./manage.py developmentsetup
 ./manage.py runservers
 # Visit http://localhost:8000/, http://localhost:8001/chart/,
