@@ -1,10 +1,14 @@
 #!/usr/bin/env python2.7
 
 import argparse
+import locale
 import os.path
 import sys
 
 from django.core.management import ManagementUtility
+
+if hasattr(sys, 'setdefaultencoding'):
+    sys.setdefaultencoding(locale.getpreferredencoding().lower())
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
