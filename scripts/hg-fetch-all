@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "`dirname $0`/.."
+hg fetch
+cd web/vendor
+hg fetch
