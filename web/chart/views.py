@@ -13,9 +13,11 @@ def sparklink(request, sparkblocks):
     return view(request, chart=chart)
 
 # XXX admin needs this
-def view(request, chart_id=None, chart=None):
-    if chart is None:
+def view(request, chart_id=None, chart=None, short_name=None):
+    if chart_id is not None:
         chart = get_object_or_404(Chart, id=chart_id)
+    elif short_name is not None:
+        chart = get_object_or_404(Chart, short_name=short_name)
     return render_to_response('chart/chart.html', {
         'chart': chart,
         'url': 'http://d4t4.org/' + chart.sparkblocks,

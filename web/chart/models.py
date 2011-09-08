@@ -17,6 +17,7 @@ class Chart(models.Model):
     chart_settings = models.TextField()
     csv_url = models.URLField()
     xls_url = models.URLField()
+    short_name = models.CharField(max_length=255)
 
     def __unicode__(self):
         return self.title

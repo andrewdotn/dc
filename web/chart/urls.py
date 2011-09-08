@@ -6,5 +6,6 @@ from chart.models import Chart
 
 urlpatterns = patterns('',
     (r'^(?P<chart_id>\d+)/$', 'chart.views.view'),
+    (r'^(?P<short_name>.+)/$', 'chart.views.view'),
     (r'^$', 'chart.views.index'),
 )

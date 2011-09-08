@@ -31,7 +31,8 @@ class Migration(DataMigration):
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'tweet': ('django.db.models.fields.CharField', [], {'max_length': '140'}),
             'csv_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
-            'xls_url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
+            'xls_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
+            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         }
     }
 
@@ -50,6 +51,7 @@ CHART_DATA = [{
             Data was downloaded on June 22, 2011 into this <a target="_blank" href="https://spreadsheets.google.com/spreadsheet/ccc?key=0AkpTmG7ijJvXdEVCMkRULUEya2VJbnM0ci1DbTZ3WUE&hl=en_US">Google spreadsheet</a> and then posted here.""",
  "csv_url": "/static/files/taxpercent.csv",
  "xls_url": "xls",
+ "short_name": "taxpercent",
  "chart_creator": "Andrew Neitsch",
  "chart_creator_avatar": "http://www.gravatar.com/avatar/dc87?d=identicon",
  "chart_creator_detail": r"""2 charts posted<br>
@@ -126,6 +128,7 @@ CHART_DATA = [{
  "source_detail": "Let’s take the ~300,000 projects posted on DonorsChoose.org, sort them by the project cost and divide them into 10 equally-sized groups of about 30,000 projects each.  Then for each group, let’s plot its average project size and the % of projects in that group that were completed.",
  "csv_url": "csv",
  "xls_url": "xls",
+ "short_name": "dc_completion_vs_size",
  "chart_creator": "David Joerg",
  "chart_creator_avatar": "http://a3.twimg.com/profile_images/1392074933/dj7_bigger.png",
  "chart_creator_detail": "Banned from Ogame until 2033.",
@@ -159,6 +162,7 @@ CHART_DATA = [{
  "source_detail": "For further discussion of the limitations of the CPI, and for detailed exposition of development of this CPI series, please read <a target=\"_blank\" href=\"http://www.measuringworth.com/docs/cpistudyrev.pdf\">What Was the Consumer Price Index Then? A Data Study (349K PDF)</a>.",
  "csv_url": "csv",
  "xls_url": "xls",
+ "short_name": "us_cpi",
  "chart_creator": "David Joerg",
  "chart_creator_avatar": "http://a3.twimg.com/profile_images/1392074933/dj7_bigger.png",
  "chart_creator_detail": "David Joerg",
@@ -190,6 +194,7 @@ which is part of the US Department of Health and Human Services.</p>
 """,
  "csv_url": "csv",
  "xls_url": "xls",
+ "short_name": "medicaid_vs_gdp",
  "chart_creator": "David Joerg",
  "chart_creator_avatar": "http://a3.twimg.com/profile_images/1392074933/dj7_bigger.png",
  "chart_creator_detail": """
