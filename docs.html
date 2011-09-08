@@ -17,6 +17,7 @@
         <li><a href="#prereqs">Installing prerequisites</a>
         <li><a href="#running">Running the development server</a>
       </ul>
+      <li><a href="#updatingdata">Updating data</a>
       <li><a href="#schemamigration">Schema migration</a>
       <li><a href="#stuff">Stuff to look into</a>
       </ul>
@@ -78,6 +79,21 @@ hg clone ssh://hg@bitbucket.org/datacollective/dcvendor vendor
       the two sites, so the default <code>--dc</code> is usually good
       enough.
       </p>
+
+      <a name="updatingdata"></a>
+      <h2>
+        Updating data
+      </h2>
+      <p>
+      This is dumb but it works for now.  It blows away any
+      data/schema changes you may have in your local DB and restores
+      the tables associated with the "chart" app back to how our
+      repository wants them to be.
+<pre>
+hg fetch
+./manage.py migrate chart zero
+./manage.py migrate chart
+</pre>
 
       <a name="schemamigration"></a>
       <h2>
