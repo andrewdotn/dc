@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'south',
 
     'vendor.amcharts',
+    'vendor.highcharts',
 
     'common',
     'chart',

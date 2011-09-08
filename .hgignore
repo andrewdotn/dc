@@ -3,6 +3,7 @@ syntax:glob
 *.aux
 *.dvi
 *.log
+*.pyc
 *~
 .DS_Store
 amcharts
