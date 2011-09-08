@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
     (r'chart/', include('chart.urls')),
 
+# the following line causes UnicodeEncodeError on DJs Mac. crazy.
     (ur'^(?P<sparkblocks>[▁▂▃▅▆▇]+)$', 'chart.views.sparklink'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
