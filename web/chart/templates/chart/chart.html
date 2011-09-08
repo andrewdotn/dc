@@ -40,47 +40,7 @@
 						renderTo: 'chartdiv', 
 						defaultSeriesType: 'line'
 					},
-					title: {
-						text: ''
-					},
-					xAxis: {
-						labels: {
-							formatter: function() {
-								return this.value; // clean, unformatted number for year
-							}
-						}							
-					},
-					yAxis: {
-			                        min: 0,
-						title: {
-							text: 'Medicaid Spending, % GDP'
-						},
-						labels: {
-							formatter: function() {
-								return this.value +'%';
-							}
-						}
-					},
-					tooltip: {
-						formatter: function() {
-							return this.series.name +' spending was <b>'+
-								Highcharts.numberFormat(this.y, 1) +'%</b><br/>of GDP in '+ this.x;
-						}
-					},
-					plotOptions: {
-						line: {
-							pointStart: 1966,
-							marker: {
-								enabled: false,
-								symbol: 'circle',
-								states: {
-									hover: {
-										enabled: true
-									}
-								}
-							}
-						}
-					},
+                                        {{ chart.chart_settings|safe }}
 					series: [ {{ chart.chart_data|safe }} ]
 				});
 				
@@ -154,12 +114,16 @@
 
 	  <span style="float:left; width:280px">
 	    <div>
-	      <a target="_blank" href="/static/files/medicaid.csv">
+	      <a target="_blank" href=" {{ chart.csv_url }} ">
 		<img src="/static/images/csv_32x32.png" style="position:relative; left:20px">
 	      </a>
-	      <a target="_blank" href="https://spreadsheets1.google.com/spreadsheet/ccc?hl=en&key=t9I-YHnO6bEza7hsE7bU5jQ&hl=en#gid=2">
+<!--
+XLS doesnt really work yet.  Need to think about it some more.
+
+	      <a target="_blank" href=" {{ chart.xls_url }} ">
 		<img src="/static/images/xls_32x32.png" style="position:relative; left:20px">
 	      </a>
+-->
 	    </div>
 	  </span>
 				   

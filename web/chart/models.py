@@ -15,6 +15,8 @@ class Chart(models.Model):
     disqus_identifier = models.TextField(max_length=20)
     chart_data = models.TextField()
     chart_settings = models.TextField()
+    csv_url = models.URLField()
+    xls_url = models.URLField()
 
     def __unicode__(self):
         return self.title
