@@ -74,6 +74,19 @@ hg clone ssh://hg@bitbucket.org/datacollective/dcvendor vendor
 </pre>
 
       <p>
+      After fetching code changes, you might have to run
+      </p>
+
+      <pre>
+pip -q install -r requirements.txt
+./manage.py syncdb --migrate
+</pre>
+
+      <p>
+      to pick up new dependencies or schema changes.
+      </p>
+
+      <p>
       You can specify which site to operate on with the option
       <code>./manage.py --dc</code> or <code>./manage.py --d4t4</code>. But
       all of the configuration except for URL definitions is shared between

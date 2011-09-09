@@ -38,6 +38,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 # Python timezone handling is problematic, just use UTC
 TIME_ZONE = 'UTC'
 
@@ -79,11 +81,21 @@ TEMPLATE_DIRS = (
 
 MIDDLEWARE_CLASSES = (
     #'common.middleware.UseDebugCursorMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages'
 )
 
 INSTALLED_APPS = (
@@ -96,6 +108,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'south',
+    'debug_toolbar',
 
     'vendor.amcharts',
     'vendor.highcharts',
