@@ -131,8 +131,11 @@ CHART_DATA = [{
  "short_name": "dc_completion_vs_size",
  "chart_creator": "David Joerg",
  "chart_creator_avatar": "http://a3.twimg.com/profile_images/1392074933/dj7_bigger.png",
- "chart_creator_detail": "Banned from Ogame until 2033.",
- "disqus_identifier": "donorschoose_completion_vs_size",
+ "chart_creator_detail": """
+Data Collective co-founder.<br>
+Interested in: how numbers explain the world, coding awesomeness, fun things, unicode abuse.  In real life: <a href="http://about.me/dsjoerg">http://about.me/dsjoerg</a>.
+""",
+ "disqus_identifier": "dc_completion_vs_size",
  "chart_data": r"""
 {
   name: "Completion Rate",
@@ -166,7 +169,7 @@ CHART_DATA = [{
  "chart_creator": "David Joerg",
  "chart_creator_avatar": "http://a3.twimg.com/profile_images/1392074933/dj7_bigger.png",
  "chart_creator_detail": "David Joerg",
- "disqus_identifier": "mw_inflation",
+ "disqus_identifier": "mw_us_cpi",
  "chart_data": r"""
 {
   name: "CPI",
@@ -192,7 +195,7 @@ which is part of the US Department of Health and Human Services.</p>
 <p><a href="http://bea.gov/national/xls/gdplev.xls" target="_blank">GDP data</a> comes from <a href="http://bea.gov/national/index.htm#gdp" target="_blank">this page</a> at the website of the Bureau of Economic Analysis, which is part of the US Department of Commerce.</p>
 <p>Data was downloaded on March 16, 2011 into this <a target="_blank" href="https://spreadsheets1.google.com/spreadsheet/ccc?hl=en&key=t9I-YHnO6bEza7hsE7bU5jQ&hl=en#gid=2">Google spreadsheet</a> and then posted here.</p>
 """,
- "csv_url": "csv",
+ "csv_url": "/static/files/medicaid.csv",
  "xls_url": "xls",
  "short_name": "medicaid_vs_gdp",
  "chart_creator": "David Joerg",

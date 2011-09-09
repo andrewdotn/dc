@@ -1,3 +1,35 @@
+
+//
+// supportsVml and supportsSVG thanks to http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
+//
+
+function supportsVml() {
+    if (typeof supportsVml.supported == "undefined") {
+        var a = document.body.appendChild(document.createElement('div'));
+        a.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
+        var b = a.firstChild;
+        b.style.behavior = "url(#default#VML)";
+        supportsVml.supported = b ? typeof b.adj == "object": true;
+        a.parentNode.removeChild(a);
+    }
+    return supportsVml.supported
+}
+
+function supportsSVG() {
+  return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")
+}
+
+// Highcharts/Raphael can work on devices that have SVG or VML
+// on other devices (such as all android 2.X devices), we must
+// fall back to a static image.
+
+      if (supportsSVG() || supportsVml()) {
+        document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');      
+      } else {
+        document.write('<img src="/static/images/medicaid.png" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/>')
+      }
+
+
 			var chart;
 			$(document).ready(function() {
 				chart = new Highcharts.Chart({
