@@ -121,7 +121,8 @@
     <div id="container" style="width:100%; background-color:#fffafc">
       <div id="main" style="width:800px; margin:auto">
         <div class="titlediv">
-          <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective</div>
+          <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective
+          {% ifequal user.username "admin" %} ADMIN MODE {% endifequal %} </div>
         </div>
         <div class="titlediv" style="margin-bottom:0px">
           <div class="title" style="max-width:550px">{{ chart.title }}</div>
