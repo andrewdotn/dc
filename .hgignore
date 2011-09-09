@@ -11,3 +11,4 @@ amcharts
 web/projects/d4t4/secrets.py
 web/datacollective.org/public
 web/data/images/*.png
+web/data/images/*.svg

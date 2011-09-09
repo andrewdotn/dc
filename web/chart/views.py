@@ -51,11 +51,16 @@ def convert(request, chart_id):
     png_path = utils.chart_image_path(chart_id)
     
     fd = os.fdopen(f, "w")
-    fd.write(request.POST['svg'])
+    fd.write(request.POST["svg"])
     fd.close()
     
     status = subprocess.call(["java", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
     
-    os.remove(svg_path)
+    # For debug purposes, if we were asked for svg, save the svg data as well.  Otherwise delete it.
+    
+    if request.POST["type"] == "image/svg+xml":
+        os.rename(svg_path, utils.chart_image_path(chart_id, ext="svg"))
+    else:
+        os.remove(svg_path)
 
     return image(request, chart_id)
