@@ -7,6 +7,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 
+from chart import utils
+from settings.common import VENDOR_ROOT
+
 from chart.models import Chart
 
 def index(request):
@@ -38,24 +41,26 @@ def view(request, chart_id=None, chart=None, short_name=None):
 
 def image(request, chart_id=None, short_name=None):
     chart = get_chart(chart_id, short_name)
-    image_data = open("data/images/{0}.png".format(chart.id), "rb").read()
+    image_data = open(utils.chart_image_path(chart.id), "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 
 # TODO Queue conversion requests.
 # TODO Handle csrf issues when this becomes an Ajax request.
+
+BATIK_JAR_PATH = os.path.join(VENDOR_ROOT, "batik", "batik-rasterizer.jar")
 
 @csrf_exempt
 def convert(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
     f, svg_path = tempfile.mkstemp()
-    png_path = "data/images/{0}.png".format(chart_id)
+    png_path = utils.chart_image_path(chart_id)
     
     fd = os.fdopen(f, "w")
     fd.write(request.POST['svg'])
     fd.close()
     
-    status = subprocess.call(["java", "-jar", "vendor/batik/batik-rasterizer.jar", "-d", png_path, svg_path])
+    status = subprocess.call(["java", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
     
     os.remove(svg_path)
 
