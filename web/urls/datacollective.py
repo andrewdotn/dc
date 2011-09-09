@@ -9,6 +9,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
+    (r'', include('urls.d4t4')),
+
     (r'^$', redirect_to, {'url': 'index.html'}),
 
     (r'^(?P<filename>[a-z-]+.html)$', 'pageset.views.byfilename',
