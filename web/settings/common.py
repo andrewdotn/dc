@@ -79,6 +79,8 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
+VENDOR_ROOT = os.path.join(BASE_DIR, 'vendor')
+
 MIDDLEWARE_CLASSES = (
     #'common.middleware.UseDebugCursorMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
