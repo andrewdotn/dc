@@ -197,6 +197,9 @@ XLS doesnt really work yet.  Need to think about it some more.
             // The following are highly recommended additional parameters. Remove the slashes in front to use.
             var disqus_identifier = '{{ chart.disqus_identifier }}';
             var disqus_url = 'http://d4t4.org/taxpercent.html';
+            {% if debug %}
+            var disqus_developer = 1;
+            {% endif %}
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
             (function() {
