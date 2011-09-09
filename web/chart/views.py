@@ -20,12 +20,17 @@ def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
     return view(request, chart=chart)
 
-# XXX admin needs this
-def view(request, chart_id=None, chart=None, short_name=None):
+def get_chart(chart_id=None, short_name=None):
     if chart_id is not None:
         chart = get_object_or_404(Chart, id=chart_id)
     elif short_name is not None:
         chart = get_object_or_404(Chart, short_name=short_name)
+    return chart
+
+# XXX admin needs this
+def view(request, chart_id=None, chart=None, short_name=None):
+    if chart is None:
+        chart = get_chart(chart_id, short_name)
     return render(request, 'chart/chart.html', {
         'chart': chart,
         'url': 'http://d4t4.org/' + chart.sparkblocks,
@@ -34,8 +39,9 @@ def view(request, chart_id=None, chart=None, short_name=None):
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
     })
 
-def image(request, chart_id):
-    image_data = open(utils.chart_image_path(chart_id), "rb").read()
+def image(request, chart_id=None, short_name=None):
+    chart = get_chart(chart_id, short_name)
+    image_data = open(utils.chart_image_path(chart.id), "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 
 # TODO Queue conversion requests.
