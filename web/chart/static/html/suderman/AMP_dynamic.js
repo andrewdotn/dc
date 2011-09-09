@@ -27,7 +27,7 @@ function supportsSVG() {
 	  document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');      
       } else {
 	  document.write('<h2><p align="center">Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009</p></h2>');
-	  document.write('<a href="/chart/medicaid_vs_gdp"><img src="/static/images/medicaid.png" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/></a>');
+	  document.write('<a href="/chart/medicaid_vs_gdp"><img src="/chart/image/medicaid_vs_gdp" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/></a>');
       }
 
 

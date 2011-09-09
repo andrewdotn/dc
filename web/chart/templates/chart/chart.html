@@ -49,7 +49,9 @@
 <!-- HIGHCHARTS HOORAY -->
 
 		<script type="text/javascript" src="/static/highcharts.js"></script>
+{% ifequal user.username "admin" %}
 		<script type="text/javascript" src="/static/modules/exporting.js"></script>
+{% endifequal %}
 
 		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
 		<script type="text/javascript">
@@ -136,11 +138,11 @@
               if (supportsSVG() || supportsVml()) {
                 document.write('<div id="chartdiv" style="height:400px; padding:5px; background-color:#fffafc"></div>');      
               } else {
-                document.write('<img src="/static/images/medicaid.png" alt="{{ chart.title }}"/>')
+                document.write('<img src="/chart/image/{{ chart.short_name }}" alt="{{ chart.title }}"/>')
               }
             </script>
             <noscript>
-              <img src="/static/images/medicaid.png" alt="{{ chart.title }}"/>
+              <img src="/chart/image/{{ chart.short_name }}" alt="{{ chart.title }}"/>
             </noscript>
 
 	    
