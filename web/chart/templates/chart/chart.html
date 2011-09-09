@@ -49,6 +49,7 @@
 <!-- HIGHCHARTS HOORAY -->
 
 		<script type="text/javascript" src="/static/highcharts.js"></script>
+		<script type="text/javascript" src="/static/modules/exporting.js"></script>
 
 		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
 		<script type="text/javascript">
@@ -61,7 +62,8 @@
 						defaultSeriesType: 'line'
 					},
                                         {{ chart.chart_settings|safe }}
-					series: [ {{ chart.chart_data|safe }} ]
+					series: [ {{ chart.chart_data|safe }} ],
+					exporting: {url: "/chart/convert/{{ chart.id|safe }}/"}
 				});
 				
 				
