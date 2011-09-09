@@ -3,38 +3,37 @@
   <head>
     <title>{{ chart.title }}</title>
     <meta charset='UTF-8'>
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript">
-    //
-    // supportsVml and supportsSVG thanks to http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
-    //
+      //
+      // supportsVml and supportsSVG thanks to http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
+      //
     
-    function supportsVml() {
+      function supportsVml() {
         if (typeof supportsVml.supported == "undefined") {
-            var a = document.body.appendChild(document.createElement('div'));
-            a.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
-            var b = a.firstChild;
-            b.style.behavior = "url(#default#VML)";
-            supportsVml.supported = b ? typeof b.adj == "object": true;
-            a.parentNode.removeChild(a);
+          var a = document.body.appendChild(document.createElement('div'));
+          a.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
+          var b = a.firstChild;
+          b.style.behavior = "url(#default#VML)";
+          supportsVml.supported = b ? typeof b.adj == "object": true;
+          a.parentNode.removeChild(a);
         }
-        return supportsVml.supported
-    }
+
+        return supportsVml.supported;
+      }
     
-    function supportsSVG() {
-      return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")
-    }
+      function supportsSVG() {
+        return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+      }
 
       $(document).ready(function() {
-
 /*
         $("#datafrom").hide();
         $("#postedby").hide();
 */
-
         $("#datafromhead").click(function() {
           $("#datafrom").slideToggle(400);
-
           return false;
         });
 
@@ -48,30 +47,26 @@
 
 <!-- HIGHCHARTS HOORAY -->
 
-		<script type="text/javascript" src="/static/highcharts.js"></script>
+    <script type="text/javascript" src="/static/highcharts.js"></script>
 {% ifequal user.username "admin" %}
-		<script type="text/javascript" src="/static/modules/exporting.js"></script>
+    <script type="text/javascript" src="/static/modules/exporting.js"></script>
 {% endifequal %}
 
-		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
-		<script type="text/javascript">
-		
-			var chart;
-			$(document).ready(function() {
-				chart = new Highcharts.Chart({
-					chart: {
-						renderTo: 'chartdiv', 
-						defaultSeriesType: 'line'
-					},
-                                        {{ chart.chart_settings|safe }}
-					series: [ {{ chart.chart_data|safe }} ],
-					exporting: {url: "/chart/convert/{{ chart.id|safe }}/"}
-				});
-				
-				
-			});
-				
-		</script>
+    <!-- 2. Add the JavaScript to initialize the chart on document ready -->
+    <script type="text/javascript">
+      var chart;
+      $(document).ready(function() {
+        chart = new Highcharts.Chart({
+          chart: {
+            renderTo: 'chartdiv', 
+            defaultSeriesType: 'line'
+          },
+          {{ chart.chart_settings|safe }}
+          series: [ {{ chart.chart_data|safe }} ],
+          exporting: {url: "/chart/convert/{{ chart.id|safe }}/"}
+        });
+      });
+    </script>
 
 <!-- HIGHCHARTS GOODBYE -->
 
@@ -120,8 +115,6 @@
     </style>
   </head>
   <body style="background-color:#fffafc">
-
-
     <div id="container" style="width:100%; background-color:#fffafc">
       <div id="main" style="width:800px; margin:auto">
         <div class="titlediv">
@@ -137,59 +130,56 @@
             <script>
               if (supportsSVG() || supportsVml()) {
                 document.write('<div id="chartdiv" style="height:400px; padding:5px; background-color:#fffafc"></div>');      
-              } else {
+              }
+              else {
                 document.write('<img src="/chart/image/{{ chart.short_name }}" alt="{{ chart.title }}"/>')
               }
             </script>
             <noscript>
               <img src="/chart/image/{{ chart.short_name }}" alt="{{ chart.title }}"/>
             </noscript>
-
-	    
           </div>
 
-	  <span style="float:left; width:280px">
-	    <div>
-	      <a target="_blank" href=" {{ chart.csv_url }} ">
-		<img src="/static/images/csv_32x32.png" style="position:relative; left:20px">
-	      </a>
+          <span style="float:left; width:280px">
+            <div>
+              <a target="_blank" href=" {{ chart.csv_url }} ">
+                <img src="/static/images/csv_32x32.png" style="position:relative; left:20px">
+              </a>
 <!--
 XLS doesnt really work yet.  Need to think about it some more.
-
-	      <a target="_blank" href=" {{ chart.xls_url }} ">
-		<img src="/static/images/xls_32x32.png" style="position:relative; left:20px">
-	      </a>
+              <a target="_blank" href=" {{ chart.xls_url }} ">
+                <img src="/static/images/xls_32x32.png" style="position:relative; left:20px">
+              </a>
 -->
-	    </div>
-	  </span>
-				   
-	  <span style="float:right; width:280px">
-	    <!-- AddThis Button BEGIN -->
-	    <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-	      <a class="addthis_button_preferred_1"></a>
-	      <a class="addthis_button_preferred_2"></a>
-	      <a class="addthis_button_preferred_3"></a>
-	      <a class="addthis_button_preferred_4"></a>
-	      <a class="addthis_button_compact"></a>
-	      <a class="addthis_counter addthis_bubble_style"></a>
-	    </div>
-	    <script type="text/javascript">
-	      var addthis_config = {"data_track_clickback":false};
-	      var addthis_share = {
+            </div>
+          </span>
+           
+          <span style="float:right; width:280px">
+            <!-- AddThis Button BEGIN -->
+            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+              <a class="addthis_button_preferred_1"></a>
+              <a class="addthis_button_preferred_2"></a>
+              <a class="addthis_button_preferred_3"></a>
+              <a class="addthis_button_preferred_4"></a>
+              <a class="addthis_button_compact"></a>
+              <a class="addthis_counter addthis_bubble_style"></a>
+            </div>
+
+            <script type="text/javascript">
+              var addthis_config = {"data_track_clickback":false};
+              var addthis_share = {
                 title: "{{ chart.title }}",
                 url: "{{ url }}",
                 lurl: "{{ shorturl }}",
                 templates: {
                   twitter: "{{ chart.tweet }}"
                 }
-	      }
-	    </script>
-	    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
-	    <!-- AddThis Button END -->
-	  </span>
+              }
+            </script>
+            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
+            <!-- AddThis Button END -->
+          </span>
         </div>
-
-
 
         <div class="titlediv">
           <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
@@ -219,7 +209,6 @@ XLS doesnt really work yet.  Need to think about it some more.
             {% autoescape off %}
             {{ chart.chart_creator_detail }}
             {% endautoescape %}
-
           </div>
         </div>
 
@@ -246,8 +235,8 @@ XLS doesnt really work yet.  Need to think about it some more.
           </script>
           <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
           <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-
         </div>
+
         <div class="titlediv">
           <div class="title" style="background-color:#990031; color:#ffffff; width:800px; font-size:1.0em; padding-top:1em; padding-bottom:1em">
             <span class="bottom_nav">About</span>
