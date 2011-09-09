@@ -26,7 +26,7 @@ function supportsSVG() {
       if (supportsSVG() || supportsVml()) {
         document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');      
       } else {
-        document.write('<img src="/static/images/medicaid.png" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/>')
+        document.write('<a href="/chart/medicaid_vs_gdp"><img src="/static/images/medicaid.png" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/></a>')
       }
 
 
@@ -37,7 +37,7 @@ function supportsSVG() {
                                           text: 'Sources: Centers for Medicare and Medicaid Services, Bureau of Economic Analysis.  For complete source data, click here.',
 			                  style: { width: '300px', textAlign: 'left', textAnchor: 'begin' },
                                           position: { y: -20 },
-                                          href: 'http://localhost:8001/chart/medicaid_vs_gdp'
+                                          href: '/chart/medicaid_vs_gdp'
 
                                         },
                                         exporting: {
