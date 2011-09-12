@@ -30,6 +30,12 @@ with open(secret_file) as secrets:
         # json returns unicode objects, but module definitions are strs.
         setattr(sys.modules[__name__], k.encode('UTF-8'), v.encode('UTF-8'))
 
+BCRYPT_ENABLED = True
+
+BCRYPT_ROUNDS = 9
+
+BCRYPT_MIGRATE = True
+
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 ADMINS = (
@@ -111,6 +117,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'south',
     'debug_toolbar',
+    'django_bcrypt',
 
     'vendor.amcharts',
     'vendor.highcharts',
