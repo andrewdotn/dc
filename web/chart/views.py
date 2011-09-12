@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import user_passes_test
 
 from chart import utils
 from settings.common import VENDOR_ROOT
@@ -50,6 +51,7 @@ def image(request, chart_id=None, short_name=None):
 BATIK_JAR_PATH = os.path.join(VENDOR_ROOT, "batik", "batik-rasterizer.jar")
 
 @csrf_exempt
+@user_passes_test(lambda u: u.username == 'admin')
 def convert(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
