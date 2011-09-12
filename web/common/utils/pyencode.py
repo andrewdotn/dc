@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 
-"""Serialize data structures as JSON-like python code with multi-line strings.
-Not bulletproof, use with caution.
+"""Convert JSON to JSON-like python code with multi-line strings.
+
+Sample usage:
+
+    ../manage.py dumpdata chart | ../common/utils/pyencode.py \
+            >> migrations/0002_initial_data.py
+
+Not thoroughly tested, use with caution.
 
 TODO: Convert to django serialization plugin format.
 """
