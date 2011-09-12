@@ -6,6 +6,27 @@
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript">
+      //
+      // supportsVml and supportsSVG thanks to http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
+      //
+    
+      function supportsVml() {
+        if (typeof supportsVml.supported == "undefined") {
+          var a = document.body.appendChild(document.createElement('div'));
+          a.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
+          var b = a.firstChild;
+          b.style.behavior = "url(#default#VML)";
+          supportsVml.supported = b ? typeof b.adj == "object": true;
+          a.parentNode.removeChild(a);
+        }
+
+        return supportsVml.supported;
+      }
+    
+      function supportsSVG() {
+        return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1");
+      }
+
       $(document).ready(function() {
 /*
         $("#datafrom").hide();
@@ -23,6 +44,31 @@
 
       });
     </script>
+
+<!-- HIGHCHARTS HOORAY -->
+
+    <script type="text/javascript" src="/static/highcharts.js"></script>
+{% ifequal user.username "admin" %}
+    <script type="text/javascript" src="/static/modules/exporting.js"></script>
+{% endifequal %}
+
+    <!-- 2. Add the JavaScript to initialize the chart on document ready -->
+    <script type="text/javascript">
+      var chart;
+      $(document).ready(function() {
+        chart = new Highcharts.Chart({
+          chart: {
+            renderTo: 'chartdiv', 
+            defaultSeriesType: 'line'
+          },
+          {{ chart.chart_settings|safe }}
+          series: [ {{ chart.chart_data|safe }} ],
+          exporting: {url: "/chart/convert/{{ chart.id|safe }}/"}
+        });
+      });
+    </script>
+
+<!-- HIGHCHARTS GOODBYE -->
 
     <style>
       body {
@@ -81,7 +127,17 @@
 
         <div id=chart_and_addthis_wrapper style="width:600px; margin-bottom:50px">
           <div id=chart_wrapper style="border-radius:15px; border:6px solid #ffde00; padding: 8px">
-            <iframe src="/chart/embed/{{ chart.id|safe }}" width="620" height="420" style="margin:0px auto; padding:0px; background-color:#ffffff; border:0px"></iframe>
+            <script>
+              if (supportsSVG() || supportsVml()) {
+                document.write('<div id="chartdiv" style="height:400px; padding:5px; background-color:#fffafc"></div>');      
+              }
+              else {
+                document.write('<img src="/chart/image/{{ chart.short_name }}" alt="{{ chart.title }}"/>')
+              }
+            </script>
+            <noscript>
+              <img src="/chart/image/{{ chart.short_name }}" alt="{{ chart.title }}"/>
+            </noscript>
           </div>
 
           <span style="float:left; width:280px">
