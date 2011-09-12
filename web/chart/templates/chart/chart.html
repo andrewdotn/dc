@@ -155,30 +155,43 @@ XLS doesnt really work yet.  Need to think about it some more.
           </span>
            
           <span style="float:right; width:280px">
+
             <!-- AddThis Button BEGIN -->
             <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+              <a style="float:left"
+                title="Tweet this" target="_blank"
+                href="https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective">
+                <img src="{{STATIC_URL}}/chart/twitter-32.png">
+              </a>
               <a class="addthis_button_preferred_1"></a>
               <a class="addthis_button_preferred_2"></a>
               <a class="addthis_button_preferred_3"></a>
-              <a class="addthis_button_preferred_4"></a>
               <a class="addthis_button_compact"></a>
               <a class="addthis_counter addthis_bubble_style"></a>
             </div>
 
             <script type="text/javascript">
-              var addthis_config = {"data_track_clickback":false};
+              var addthis_config = {
+                  "services_exclude": "twitter",
+                  "data_track_clickback":false,
+                  "ui_click": true,
+              };
               var addthis_share = {
                 title: "{{ chart.title }}",
                 url: "{{ url }}",
-                lurl: "{{ shorturl }}",
-                templates: {
-                  twitter: "{{ chart.tweet }}"
-                }
+                description: "{{ chart.description }}",
               }
             </script>
-            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
+            <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
             <!-- AddThis Button END -->
+
           </span>
+        </div>
+
+        <div class="titlediv">
+          <div class="title" style="background-color:#E58F17; max-width:800px; margin-top:-1.0em;">
+            {{ chart.description }}
+          </div>
         </div>
 
         <div class="titlediv">
