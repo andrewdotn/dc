@@ -1,6 +1,0 @@
-document.write ('<iframe width="160" height="600" frameborder="0" marginwidth="0"\n');
-document.write ('marginheight="0"\n');
-document.write ('scrolling="no"\n');
-document.write ('src="http://reason.com/media/html/passback.php/passback160x600">\n');
-document.write ('</iframe>\n');
-document.write ('<!-- USNetwork/DEF2011069001_01_Reason -- -- Reason_20110601_160x600 -->\n');
