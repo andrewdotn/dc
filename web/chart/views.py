@@ -72,3 +72,9 @@ def convert(request, chart_id):
         os.remove(svg_path)
 
     return image(request, chart_id)
+
+def embed(request, chart_id):
+    chart = get_object_or_404(Chart, id=chart_id)
+
+    return render(request, 'chart/embed.html', {'chart': chart})
+ 

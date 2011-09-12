@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/highcharts.js"></script>
+{% ifequal user.username "admin" %}
+    <script type="text/javascript" src="/static/modules/exporting.js"></script>
+{% endifequal %}
+
+    <script type="text/javascript">
+      //
+      // supportsVml and supportsSVG thanks to http://stackoverflow.com/questions/654112/how-do-you-detect-support-for-vml-or-svg-in-a-browser
+      //
+
+      function supportsVml() {
+          if (typeof supportsVml.supported == "undefined") {
+              var a = document.body.appendChild(document.createElement('div'));
+              a.innerHTML = '<v:shape id="vml_flag1" adj="1" />';
+              var b = a.firstChild;
+              b.style.behavior = "url(#default#VML)";
+              supportsVml.supported = b ? typeof b.adj == "object": true;
+              a.parentNode.removeChild(a);
+          }
+          return supportsVml.supported
+      }
+
+      function supportsSVG() {
+        return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")
+      }
+
+      function renderDynamicChart() {
+        chart = new Highcharts.Chart({
+          chart: {
+            renderTo: 'chartdiv', 
+            defaultSeriesType: 'line'
+          },
+          {{ chart.chart_settings|safe }}
+          credits: {
+            text: 'Sources: {{chart.source_title|safe}}.  For complete source data, click here.',
+            style: { width: '300px', textAlign: 'left', textAnchor: 'begin' },
+            position: { y: 0 },
+            href: '/chart/{{ chart.short_name|safe }}'
+          },
+					title: {
+						text: '{{ chart.title|safe }}',
+            style: { fontSize: '14px', color: '#000000' }
+					},
+{% ifequal user.username "admin" %}
+          exporting: {url: "/chart/convert/{{ chart.id|safe }}/"},
+{% endifequal %}
+          series: [ {{ chart.chart_data|safe }} ]
+        });
+      }
+      
+      function renderStaticImage() {
+        $("#chartdiv".append('<h2><p align="center">{{ chart.title|safe }}</p></h2>'));
+        $("#chartdiv".append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>'));
+      }
+
+// Highcharts/Raphael can work on devices that have SVG or VML
+// on other devices (such as all android 2.X devices), we must
+// fall back to a static image.
+
+      // if (supportsSVG() || supportsVml()) {
+      //        document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');      
+      // } else {
+      //        document.write('<h2><p align="center">Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009</p></h2>');
+      //        document.write('<a href="/chart/medicaid_vs_gdp"><img src="/chart/image/medicaid_vs_gdp" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/></a>');
+      // }
+
+
+			var chart;
+
+      $(document).ready(function() {
+        if (supportsVml() || supportsSVG()) {
+          renderDynamicChart();
+        }
+        else {
+          renderStaticImage();
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="chartdiv">
+      <noscript>
+        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
+      </noscript>
+    </div>
+  </body>
+</html>
