@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'd4t4.views.home', name='home'),
     # url(r'^d4t4/', include('d4t4.foo.urls')),
 
-    (r'chart/', include('chart.urls')),
+    (r'^chart/', include('chart.urls')),
 
 # the following line causes UnicodeEncodeError on DJs Mac. crazy.
     (ur'^(?P<sparkblocks>[▁▂▃▅▆▇]+)$', 'chart.views.sparklink'),
