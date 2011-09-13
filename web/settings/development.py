@@ -8,6 +8,13 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
+def custom_show_toolbar(request):
+    return False # toggle this to decide if we want toolbar or not
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar
+}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
