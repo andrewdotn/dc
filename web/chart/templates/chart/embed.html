@@ -1,5 +1,24 @@
 <html>
   <head>
+    <style type="text/css">
+      body {height: 100%;width: 100%;background: #fff;font: 12px "Trebuchet MS", Verdana, sans-serif;}
+      a	{text-decoration: none; outline: none;}
+      p	{ text-align:justify; line-height:120%;}
+
+      #panelContainer   { width:0; margin-top:10px; position:absolute; overflow:hidden; background:#333; opacity:0; z-index:2}
+      #panelContainer h1 { height:30px; background-color: #000; color:#eee; padding:10px 0 0 20px; margin-bottom: 10px;}
+      #panelContainer ul { margin-bottom:20px;}
+      #panelContainer ul li { border-bottom: 1px solid #666; margin:0 0 0 5px; padding:0 0 2px 5px;}
+      #panelContainer #panel {margin-left:-175px;}
+
+      #panelContainer #hidePanel { height:24px; padding:4px 0 0 72px;}
+      #panelContainer a { color:#FFF;}
+      #panelContainer #hidePanel a:hover{ color:#999;}
+      #panelContainer, #showPanel { color:#fff; }
+
+      #showPanel { position:absolute; z-index:2; left:0; float:left; padding-top:0px; width:0px; height:100px; cursor:pointer;}
+      #showPanel span{display:block; font-size:24px; height:30px; margin-top:20px; padding:10px 0 10px 10px; width:20px; background: #333;}
+    </style>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
 {% ifequal user.username "admin" %}
@@ -30,7 +49,7 @@
       function renderDynamicChart() {
         chart = new Highcharts.Chart({
           chart: {
-            renderTo: 'chartdiv', 
+            renderTo: 'chartdiv',
             defaultSeriesType: 'line'
           },
           {{ chart.chart_settings|safe }}
@@ -50,10 +69,22 @@
           series: [ {{ chart.chart_data|safe }} ]
         });
       }
-      
+
       function renderStaticImage() {
         $("#chartdiv".append('<h2><p align="center">{{ chart.title|safe }}</p></h2>'));
         $("#chartdiv".append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>'));
+      }
+
+      function hidePanel() {
+        $("#panel").animate({marginLeft:"-175px"}, 500 );
+        $("#panelContainer").animate({width:"0px", opacity:0}, 400 );
+        $("#showPanel").show("normal").animate({width:"28px", opacity:1}, 200);
+      }
+
+      function showPanel() {
+        $("#panel").animate({marginLeft:"0px"}, 400 );
+        $("#panelContainer").animate({width:"175px", opacity:1}, 400 );
+        $("#showPanel").animate({width:"0px", opacity:0}, 600).hide("slow");
       }
 
 // Highcharts/Raphael can work on devices that have SVG or VML
@@ -61,7 +92,7 @@
 // fall back to a static image.
 
       // if (supportsSVG() || supportsVml()) {
-      //        document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');      
+      //        document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');
       // } else {
       //        document.write('<h2><p align="center">Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009</p></h2>');
       //        document.write('<a href="/chart/medicaid_vs_gdp"><img src="/chart/image/medicaid_vs_gdp" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/></a>');
@@ -71,6 +102,13 @@
 			var chart;
 
       $(document).ready(function() {
+        $("#hidePanel").click(function() {
+          hidePanel();
+        });
+        $("#showPanel").click(function() {
+          showPanel();
+        });
+
         if (supportsVml() || supportsSVG()) {
           renderDynamicChart();
         }
@@ -82,6 +120,21 @@
   </head>
 
   <body>
+    <div id="panelContainer">
+      <div id="panel">
+        <h1>Share</h1>
+        <ul>
+          <li><a href="#" onClick="alert('?'); $('#hidePanel').click();">embed</a></li>
+          <li>etc</li>
+          <li>etc</li>
+          <li>etc</li>
+        </ul>
+        <div id="hidePanel"><a href="#">&laquo; Hide Panel</a></div>
+      </div>
+    </div>
+
+    <div id="showPanel"><span>&raquo;</span></div>
+
     <div id="chartdiv">
       <noscript>
         <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
