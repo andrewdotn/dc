@@ -33,7 +33,8 @@ class Migration(DataMigration):
             'csv_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
             'xls_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
             'short_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'html_below_title': ('django.db.models.fields.TextField', [], {'null': 'True'})
+            'html_below_title': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'y_axis_description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True'})
         }
     }
 
@@ -268,7 +269,8 @@ David follows 8 people <br>
 					},
 """},
 { "title": "Federal Spending Did Not Grow Ten Times Faster Than Personal Income",
-  "html_below_title": "The Heritage Foundation's <a target='_blank' href='http://www.heritage.org/budgetchartbook/charts/2011/growth-federal-spending-600.jpg'>chart</a> makes a misleading comparison.  What really happened: both total federal spending and total personal income grew at <i>similar</i> rates until 2009, when the recession caused personal income to shrink, while federal spending grew sharply.  The Heritage Foundation's graph, which looks only at median household income, ignores the growing number of households that have shared the Federal spending burden.",
+  "html_below_title": "What really happened: both total federal spending and total personal income grew at <i>similar</i> rates until 2009, when the recession caused personal income to shrink, while federal spending grew sharply.  The Heritage Foundation's <a target='_blank' href='http://www.heritage.org/budgetchartbook/charts/2011/growth-federal-spending-600.jpg'>chart</a> makes a misleading comparison by showing median household income, which ignores the growing <i>number</i> of households that have shared the Federal spending burden.",
+  "y_axis_description": "PERCENT CHANGE OF INFLATION-ADJUSTED DOLLARS",
  "sparkblocks": "▁▂▂▃▃▅▆▇▇▇",
  "tweet": "US Federal Spending vs Total Personal Income",
  "source_url": "(deprecated field)",
@@ -298,11 +300,11 @@ David follows 8 people <br>
  "disqus_identifier": "fedspending",
  "chart_data": r"""
                                         {
-						name: 'Growth in Total Federal Spending since 1970',
+						name: 'Total Federal Spending',
 						data: [0.02024847,0.084386671,0.114351232,0.116759721,0.232391247,0.291931289,0.351490601,0.41809864,0.425765583,0.467501971,0.506187206,0.527888493,0.596916752,0.615028417,0.733048595,0.745847686,0.744417547,0.777428758,0.824731012,0.900175572,0.900777218,0.932771418,0.909521686,0.931704932,0.948410546,0.952658029,0.94431571,0.975619212,1.00122464,1.047575515,1.055440809,1.193738133,1.296638725,1.39192261,1.504403985,1.586807773,1.604491184,1.729945275,2.218795894,2.081639342]
 					},
                                         {
-						name: 'Growth in Total Personal Income since 1970',
+						name: 'Total Personal Income',
 						data: [0.022797628,0.088602659,0.17502175,0.182690034,0.154909494,0.195544733,0.257865674,0.32463172,0.359183314,0.333424173,0.337902251,0.322522338,0.36064197,0.445987015,0.493973368,0.520051668,0.590762782,0.648417198,0.696365674,0.714800701,0.684959082,0.745331043,0.760047719,0.811267754,0.859656313,0.924334167,0.983390503,1.099061555,1.170300064,1.285639969,1.286783894,1.305957888,1.326466878,1.418577399,1.478517333,1.561326366,1.652697485,1.646060186,1.599115964,1.60877277]
 					},
 """,
@@ -353,7 +355,7 @@ David follows 8 people <br>
 					tooltip: {
 						formatter: function() {
 							return this.series.name +' was<b>'+
-								Highcharts.numberFormat(this.y*100.0, 1) +'%</b> in '+ this.x;
+								Highcharts.numberFormat(this.y*100.0, 1) +'%</b> higher in '+ this.x +' than in 1970, in inflation-adjusted dollars';
 						},
                                                 style: { fontFamily:"Georgia" }
 					},

@@ -20,6 +20,7 @@ class Chart(models.Model):
     xls_url = models.URLField()
     short_name = models.CharField(max_length=255)
     description = models.TextField(default="")
+    y_axis_description = models.CharField(max_length=255)
 
     def __unicode__(self):
         return self.title
