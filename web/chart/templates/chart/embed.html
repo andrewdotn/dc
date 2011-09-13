@@ -33,17 +33,11 @@
             renderTo: 'chartdiv', 
             defaultSeriesType: 'line'
           },
-          {{ chart.chart_settings|safe }}
           credits: {
-            text: 'Sources: {{chart.source_title|safe}}.  For complete source data, click here.',
-            style: { width: '300px', textAlign: 'left', textAnchor: 'begin' },
-            position: { y: 0 },
-            href: '/chart/{{ chart.short_name|safe }}'
+            text: ""
           },
-					title: {
-						text: '{{ chart.title|safe }}',
-            style: { fontSize: '14px', color: '#000000' }
-					},
+          {{ chart.chart_settings|safe }}
+
 {% ifequal user.username "admin" %}
           exporting: {url: "/chart/convert/{{ chart.id|safe }}/"},
 {% endifequal %}
@@ -79,13 +73,65 @@
         }
       });
     </script>
+
+    <style>
+@font-face {
+    font-family: 'ChunkFiveRegular';
+    src: url('/static/fonts/Chunkfive-webfont.eot');
+    src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
+         url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
+         url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('/static/fonts/OpenSans-Regular-webfont.eot');
+    src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansBold';
+    src: url('/static/fonts/OpenSans-Bold-webfont.eot');
+    src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
+         url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+         url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+      h1 {
+        margin-top:8px;
+        margin-left:8px;
+        margin-bottom:0px;
+        color: #3E679F;
+        font: 200%/125% 'ChunkFiveRegular', verdana, sans-serif;
+      }
+</style>
   </head>
 
   <body>
+    <h1 align="left">{{ chart.title }}</h1>
+{% if chart.html_below_title %}
+    <p align="left" style='margin-top:8px; margin-left:8px; font-family:Georgia'>{{ chart.html_below_title|safe }}</p>
+{% endif %}
+    
     <div id="chartdiv">
       <noscript>
         <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
       </noscript>
+    </div>
+
+    <div id="creditsdiv" style="font-family:Georgia; margin-left:50px; width:500px; font-size: 75%; color:#888888; text-align:left; float:left">
+      <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name|safe }}">click here</a>.
     </div>
   </body>
 </html>

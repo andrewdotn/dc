@@ -25,7 +25,8 @@ class Migration(SchemaMigration):
             ('chart_settings', self.gf('django.db.models.fields.TextField')()),
             ('csv_url', self.gf('django.db.models.fields.URLField')(default=None, max_length=200)),
             ('xls_url', self.gf('django.db.models.fields.URLField')(default=None, max_length=200)),
-            ('short_name', self.gf('django.db.models.fields.CharField')(max_length=255))
+            ('short_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+            ('html_below_title', self.gf('django.db.models.fields.TextField')(null=True))
 
         ))
         db.send_create_signal('chart', ['Chart'])
@@ -55,7 +56,8 @@ class Migration(SchemaMigration):
             'tweet': ('django.db.models.fields.CharField', [], {'max_length': '140'}),
             'csv_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
             'xls_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
-            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'short_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'html_below_title': ('django.db.models.fields.TextField', [], {'null': 'True'})
         }
     }
 

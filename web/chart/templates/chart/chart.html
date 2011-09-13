@@ -25,10 +25,47 @@
     </script>
 
     <style>
+@font-face {
+    font-family: 'ChunkFiveRegular';
+    src: url('/static/fonts/Chunkfive-webfont.eot');
+    src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
+         url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
+         url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('/static/fonts/OpenSans-Regular-webfont.eot');
+    src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansBold';
+    src: url('/static/fonts/OpenSans-Bold-webfont.eot');
+    src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
+         url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+         url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
       body {
-        font: 100% verdana;
+        font: 100% 'OpenSansRegular', verdana, sans-serif;
         margin:0;
         padding:0;
+      }
+      h1 {
+        margin:0;
+        font: 200%/125% 'OpenSansBold', verdana, sans-serif;
       }
       .title {
         background-color:#ffde00;
@@ -76,12 +113,11 @@
           {% ifequal user.username "admin" %} ADMIN MODE {% endifequal %} </div>
         </div>
         <div class="titlediv" style="margin-bottom:0px">
-          <div class="title" style="max-width:550px">{{ chart.title }}</div>
         </div>
 
-        <div id=chart_and_addthis_wrapper style="width:600px; margin-bottom:50px">
-          <div id=chart_wrapper style="border-radius:15px; border:6px solid #ffde00; padding: 8px">
-            <iframe src="/chart/embed/{{ chart.id|safe }}" width="620" height="420" frameborder="0"></iframe>
+        <div id=chart_and_addthis_wrapper style="width:650px; margin-bottom:50px">
+          <div id=chart_wrapper style="border-radius:15px; border:6px solid #ffde00; background-color: white; padding: 0px">
+            <iframe src="/chart/embed/{{ chart.id|safe }}" width="630" height="670" frameborder="0"></iframe>
           </div>
 
           <span style="float:left; width:280px">
@@ -132,15 +168,17 @@ XLS doesnt really work yet.  Need to think about it some more.
           </span>
         </div>
 
+{% if chart.description %}
         <div class="titlediv">
           <div class="title" style="background-color:#E58F17; max-width:800px; margin-top:-1.0em;">
             {{ chart.description }}
           </div>
         </div>
+{% endif %}
 
         <div class="titlediv">
           <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
-            <span> {{ chart.source_title }} </span>
+            <span> data from {{ chart.source_title }} </span>
             <span style="padding-left:2em"></span>
             <span style="font-size:0.5em">▼</span>
           </div>

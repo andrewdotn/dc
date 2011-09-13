@@ -4,6 +4,7 @@ from django.db import models
 
 class Chart(models.Model):
     title = models.CharField(max_length=255)
+    html_below_title = models.TextField()
     sparkblocks = models.CharField(max_length=30, unique=True)
     tweet = models.CharField(max_length=140)
     source_url = models.URLField()
