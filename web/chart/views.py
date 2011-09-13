@@ -76,4 +76,4 @@ def convert(request, chart_id):
 def embed(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
-    return render(request, 'chart/embed.html', {'host': request.get_host(), 'chart': chart})
+    return render(request, 'chart/embed.html', {'host': request.get_host(), 'chart': chart, 'internal': bool(request.GET.get("internal", False))})
