@@ -10,8 +10,8 @@ cd ~/d4t4.org.new
 (cd ~/hg/dcvendor && hg pull)
 
 # Export repo code to files
-hg archive -R ~/hg/dc dc
-hg archive -R ~/hg/dcvendor dc/web/vendor
+hg archive -r tip -R ~/hg/dc dc
+hg archive -r tip -R ~/hg/dcvendor dc/web/vendor
 
 pip install -r dc/requirements.txt
 
