@@ -4,7 +4,7 @@ import os.path
 
 from common import *
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = False
 
 # 127.0.0.1 can’t be trusted on a shared host
