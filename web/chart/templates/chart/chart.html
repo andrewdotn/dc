@@ -21,6 +21,13 @@
           return false;
         });
 
+        $("input.readonly").hover(function() {
+          this.focus();
+          this.select();
+        }, function() {
+        });
+
+
       });
     </script>
 
@@ -136,33 +143,37 @@ XLS doesnt really work yet.  Need to think about it some more.
 -->
             </div>
           </span>
-
-          <span style="float:right; width:280px">
+          <span style="float:right" width=100%>
 
             <!-- AddThis Button BEGIN -->
             <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
               <a style="float:left"
                 title="Tweet this" target="_blank"
-                href="https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective">
+                href="https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective" rel="nofollow">
                 <img src="{{STATIC_URL}}/chart/twitter-32.png">
               </a>
-              <a class="addthis_button_preferred_1"></a>
-              <a class="addthis_button_preferred_2"></a>
-              <a class="addthis_button_preferred_3"></a>
-              <a class="addthis_button_compact"></a>
-              <a class="addthis_counter addthis_bubble_style"></a>
+              <a style="float:left"
+                title="Share this on Facebook" target="_blank"
+                href="https://www.facebook.com/sharer.php?u={{ url }}&t={{ chart.title }}" rel="nofollow">
+                <img src="{{STATIC_URL}}/chart/fb-32.png">
+              </a>
+              <form style="float:left">
+                <input value="{{url}}" class="readonly" readonly>
+              </form>
+
+              <a class="addthis_button_compact" onmouseover="void(0);"></a>
             </div>
 
             <script type="text/javascript">
               var addthis_config = {
-                  "services_exclude": "twitter",
-                  "data_track_clickback":false,
-                  "ui_click": true,
+                services_exclude: "twitter,facebook",
+                data_track_clickback: false,
+                ui_click: true
               };
               var addthis_share = {
-                title: "{{ chart.title }}",
-                url: "{{ url }}",
-                description: "{{ chart.description }}",
+                title: "{{ chart.title|escapejs }}",
+                url: "{{ url|escapejs }}",
+                description: "{{ chart.description|escapejs }}"
               }
             </script>
             <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
