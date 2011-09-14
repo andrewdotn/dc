@@ -75,7 +75,7 @@ SITES = [
 
 SITE_ID = 1
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '..', '..', 'public', 'static')
 
 STATIC_URL = '/static/'
 
@@ -87,15 +87,14 @@ TEMPLATE_DIRS = (
 
 VENDOR_ROOT = os.path.join(BASE_DIR, 'vendor')
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     #'common.middleware.UseDebugCursorMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
+]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -106,7 +105,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages'
 )
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -116,7 +115,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'south',
-    'debug_toolbar',
     'django_bcrypt',
 
     'vendor.amcharts',
@@ -125,7 +123,7 @@ INSTALLED_APPS = (
     'common',
     'chart',
     'pageset'
-)
+]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

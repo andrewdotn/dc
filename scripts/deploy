@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -eu
+
+rm -rf ~/d4t4.org.new
+mkdir ~/d4t4.org.new
+cd ~/d4t4.org.new
+
+(cd ~/hg/dc && hg pull)
+(cd ~/hg/dcvendor && hg pull)
+
+# Export repo code to files
+hg archive -R ~/hg/dc dc
+hg archive -R ~/hg/dcvendor dc/web/vendor
+
+pip install -r dc/requirements.txt
+
+dc/web/manage.py --prod syncdb --noinput --migrate
+
+dc/web/manage.py --prod collectstatic --noinput
+
+mkdir tmp
+touch tmp/restart.txt
+
+ln -s dc/web/common/deploy/passenger_wsgi.py .
+
+cd ..
+if [ -d d4t4.org.old ]; then
+    rm -rf d4t4.org.old
+fi
+mv d4t4.org d4t4.org.old; mv d4t4.org.new d4t4.org
+
+touch d4t4.org/tmp/restart.txt

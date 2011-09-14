@@ -19,6 +19,10 @@ group = parser.add_mutually_exclusive_group()
 group.add_argument('--d4t4', action='store_const', dest='site', const='d4t4')
 group.add_argument('--dc', action='store_const', dest='site', const='dc')
 
+group = parser.add_mutually_exclusive_group()
+group.add_argument('--dev', action='store_const', dest='realm', const='dev')
+group.add_argument('--prod', action='store_const', dest='realm', const='prod')
+
 if '--help' in sys.argv or 'help' in sys.argv:
     print """Usage: %(prog)s [--d4t4 | --dc] ARGS...
 
@@ -28,9 +32,13 @@ manage. ARGS are as described below.
 
 options, args = parser.parse_known_args()
 if options.site is None:
-    options.site = 'dc'
+    options.site = 'd4t4'
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings.%s_dev' % options.site
+if options.realm is None:
+    options.realm = 'dev'
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings.%s_%s' % (
+        options.site, options.realm)
 
 utility = ManagementUtility([sys.argv[0]] + args)
 utility.execute()
