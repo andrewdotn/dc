@@ -3,7 +3,7 @@
 from django.db import models
 
 class Chart(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, help_text='Chart title')
     html_below_title = models.TextField()
     sparkblocks = models.CharField(max_length=30, unique=True)
     tweet = models.CharField(max_length=140)
@@ -19,7 +19,9 @@ class Chart(models.Model):
     csv_url = models.URLField()
     xls_url = models.URLField()
     short_name = models.CharField(max_length=255)
-    description = models.TextField(default="")
+    description = models.TextField(default="",
+        help_text='Text-only description that goes below title when sharing '
+            'on sites like Facebook')
     y_axis_description = models.CharField(max_length=255)
 
     def __unicode__(self):
