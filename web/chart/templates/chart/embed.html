@@ -210,6 +210,20 @@
   </head>
 
   <body>
+    <h1 align="left">{{ chart.title }}</h1>
+{% if chart.html_below_title %}
+    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; font-family:Georgia'>{{ chart.html_below_title|safe }}</p>
+{% endif %}
+{% if chart.y_axis_description %}
+    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; color:#888888; font-family:ChunkFiveRegular; font-size:75%'>{{ chart.y_axis_description|safe }}</p>
+{% endif %}
+
+    <div id="chartdiv">
+      <noscript>
+        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
+      </noscript>
+    </div>
+
     <div id="panelContainer">
       <div id="panel">
         <h1 id="title">&laquo; Share</h1>
@@ -228,20 +242,6 @@
     </div>
 
     <h1 id="showPanel"><span>Share &raquo;</span></h1>
-
-    <h1 align="left">{{ chart.title }}</h1>
-{% if chart.html_below_title %}
-    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; font-family:Georgia'>{{ chart.html_below_title|safe }}</p>
-{% endif %}
-{% if chart.y_axis_description %}
-    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; color:#888888; font-family:ChunkFiveRegular; font-size:75%'>{{ chart.y_axis_description|safe }}</p>
-{% endif %}
-
-    <div id="chartdiv">
-      <noscript>
-        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
-      </noscript>
-    </div>
 
     <div id="creditsdiv" style="font-family:Georgia; margin-left:50px; width:525px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name|safe }}">click here</a>.
