@@ -31,6 +31,7 @@ if [ -d d4t4.org.old ]; then
     rm -rf d4t4.org.old
 fi
 mv d4t4.org d4t4.org.old; mv d4t4.org.new d4t4.org
+ln -nfs ~/d4t4.org/dc ~/dc
 
 touch d4t4.org/tmp/restart.txt
 
