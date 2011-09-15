@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# coding: UTF-8
+
+import os
+import os.path
+import subprocess
+import sys
+import time
+
+BACKUP_PATH = os.path.expanduser('~/backups/database/nightly')
+
+# This is a Python version of the shell command
+#
+#   mysqldump | gzip > $(date).sql.gz
+#
+# except that mysqldump’s return code is checked, and a spurious warning is
+# filtered out of mysqldump’s stderr to reduce cron noise.
+
+if sys.version < "2.7":
+    python = os.path.join(os.environ['HOME'], 'local', 'bin', 'python2.7')
+    os.execl(python, python, *sys.argv)
+
+if not os.path.isdir(BACKUP_PATH):
+    os.makedirs(BACKUP_PATH, mode=0700)
+
+dumpfile = open(os.path.join(BACKUP_PATH,
+        time.strftime("%Y-%m-%dT%H%M%SZ%z") + '.sql.gz'), 'w')
+
+gzip = subprocess.Popen(["gzip"], stdin=subprocess.PIPE, stdout=dumpfile)
+
+mysqldump = subprocess.Popen(["mysqldump", "--all-databases"],
+        stdout=gzip.stdin, stderr=subprocess.PIPE)
+
+(_, err) = mysqldump.communicate(None)
+
+if err.endswith('\n'):
+    err = err[:-1]
+
+for line in err.split('\n'):
+    if not line.startswith(
+            "Warning: mysqldump: ignoring option '--databases' due"):
+        print >> sys.stderr, line
+
+def check_ret_code(process, name):
+    retcode = process.wait()
+    if retcode:
+        print >> sys.stderr, '%s returned %d.' % (name, retcode)
+        sys.exit(retcode)
+
+check_ret_code(mysqldump, 'mysqldump')
+gzip.stdin.close()
+check_ret_code(gzip, 'gzip')

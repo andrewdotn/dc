@@ -1,0 +1,26 @@
+#!/usr/bin/env python2.7
+
+import os.path
+import sys
+import subprocess
+
+# Run this regularly at your house to make offsite copies of backups.
+
+LOCAL_DIR = os.path.expanduser('~/datacollective_backups')
+
+PATHS = [
+    # Entries need trailing slashes.
+    'd4t4.org:archives/',
+    'd4t4.org:backups/database/nightly/',
+    'd4t4.org:hg/',
+    'd4t4.org:logs.archived/',
+]
+
+def makedir_maybe(path):
+    if not os.path.isdir(path):
+        os.makedirs(path, mode=0700)
+
+for path in PATHS:
+    local_path = os.path.join(LOCAL_DIR, path.replace(':', '/'))
+    makedir_maybe(local_path)
+    subprocess.call(['rsync', '-a', path, local_path])
