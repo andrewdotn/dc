@@ -22,6 +22,8 @@ group.add_argument('--dc', action='store_const', dest='site', const='dc')
 group = parser.add_mutually_exclusive_group()
 group.add_argument('--dev', action='store_const', dest='realm', const='dev')
 group.add_argument('--prod', action='store_const', dest='realm', const='prod')
+group.add_argument('--staging', action='store_const', dest='realm',
+        const='staging')
 
 if '--help' in sys.argv or 'help' in sys.argv:
     print """Usage: %(prog)s [--d4t4 | --dc] ARGS...
