@@ -13,6 +13,8 @@ cd ~/d4t4.org.new
 hg archive -r tip -R ~/hg/dc dc
 hg archive -r tip -R ~/hg/dcvendor dc/web/vendor
 
+ln -s dc/web/public public
+
 pip install -r dc/requirements.txt
 
 dc/web/manage.py --prod syncdb --noinput --migrate
