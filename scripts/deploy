@@ -2,6 +2,18 @@
 
 set -eu
 
+REVISION="tip"
+
+if (( $# != 0 )); then
+    if (( $# != 1 )); then
+        PROG="$(basename -- "${0}")"
+        echo "${PROG}: Usage: ${PROG} [revision]" 1>&2
+        exit 1
+    else
+        REVISION="${1}"
+    fi
+fi
+
 rm -rf ~/d4t4.org.new
 mkdir ~/d4t4.org.new
 cd ~/d4t4.org.new
@@ -10,14 +22,16 @@ cd ~/d4t4.org.new
 (cd ~/hg/dcvendor && hg pull)
 
 # Export repo code to files
-hg archive -r tip -R ~/hg/dc dc
-hg archive -r tip -R ~/hg/dcvendor dc/web/vendor
+hg archive -r "${REVISION}" -R ~/hg/dc dc
+hg archive -r "${REVISION}" -R ~/hg/dcvendor dc/web/vendor
 
 pip install -r dc/requirements.txt
 
 dc/web/manage.py --prod syncdb --noinput --migrate
 
 dc/web/manage.py --prod collectstatic --noinput
+
+crontab dc/cron/crontab
 
 mkdir tmp
 touch tmp/restart.txt
@@ -31,3 +45,5 @@ fi
 mv d4t4.org d4t4.org.old; mv d4t4.org.new d4t4.org
 
 touch d4t4.org/tmp/restart.txt
+
+echo 'It’s alive!'
