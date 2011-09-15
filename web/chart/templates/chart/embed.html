@@ -2,19 +2,22 @@
   <head>
     <style type="text/css">
 
-      #panelContainer   { width:0; margin-top:450px; position:absolute; overflow:hidden; background:#333; opacity:0; z-index:2}
-      #panelContainer h1 { height:30px; background-color: #000; color:#eee; padding:10px 0 0 20px; margin-bottom: 10px;}
-      #panelContainer ul { margin-bottom:20px;}
-      #panelContainer ul li { border-bottom: 1px solid #666; margin:0 0 0 5px; padding:0 0 2px 5px;}
-      #panelContainer #panel {margin-left:-175px;}
+      #panelContainer { width:0; left:0; top:450px; position:absolute; overflow:hidden; background:#333; opacity:0; z-index:2 }
+      #panelContainer h1 { font-size:20px; height:30px; background-color:#000; color:#eee; padding:10px 0 0 10px; margin-bottom:10px; cursor:pointer }
+      #panelContainer ul { list-style:none; margin-top:0px; margin-bottom:20px; padding-left:10 }
+      #panelContainer ul li { margin:0; padding:0 0 2px 0; cursor:pointer; font-family:Verdana; }
+      #panelContainer a { color:#fff; text-decoration:none }
+      #panelContainer #panel { margin-left:-175px }
+      #panelContainer #panel a:hover {text-decoration:underline }
+      #panelContainer #panel li img { vertical-align:text-bottom; padding-right: 5px; }
 
-      #panelContainer #hidePanel { height:24px; padding:4px 0 0 72px;}
-      #panelContainer a { color:#FFF;}
-      #panelContainer #hidePanel a:hover{ color:#999;}
-      #panelContainer, #showPanel { color:#fff; }
+      #showPanel { position:absolute; z-index:2; left:0; top:500px; padding-top:0px; width:0px; height:100px; cursor:pointer; margin-left:0 }
+      #showPanel span { display:block; font-size:20px; height:30px; padding:10px 0 10px 10px; width:100px; color:#fff; background:#333 }
 
-      #showPanel { position:absolute; z-index:2; left:0; float:left; padding-top:0px; width:0px; height:100px; cursor:pointer;}
-      #showPanel span{display:block; font-size:24px; height:30px; margin-top:605px; padding:10px 0 10px 10px; width:20px; background: #333;}
+      #embeddiv { top:100px; left:50px; padding: 10px; border: 2px solid; background-color: #eee;  z-index:2 }
+      #embeddiv a { color: #000; text-decoration:none; }
+      #embeddiv a:hover { text-decoration:underline; }
+
     </style>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
@@ -44,7 +47,7 @@
       }
 
       function renderDynamicChart() {
-        chart = new Highcharts.Chart({
+        var chart = new Highcharts.Chart({
           chart: {
             renderTo: 'chartdiv',
             defaultSeriesType: 'line'
@@ -53,7 +56,6 @@
             text: ""
           },
           {{ chart.chart_settings|safe }}
-
 {% ifequal user.username "admin" %}
           exporting: {url: "/chart/convert/{{ chart.id|safe }}/"},
 {% endifequal %}
@@ -78,26 +80,40 @@
         $("#showPanel").animate({width:"0px", opacity:0}, 600).hide("slow");
       }
 
-// Highcharts/Raphael can work on devices that have SVG or VML
-// on other devices (such as all android 2.X devices), we must
-// fall back to a static image.
+      function showEmbed() {
+        var div = $("#embeddiv");
+        div.css("top", (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop() + "px");
+        div.css("left", (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft() + "px");
+        div.fadeIn();
+      }
 
-      // if (supportsSVG() || supportsVml()) {
-      //        document.write('<div id="chartdiv" style="margin:0px auto; max-width:600px; padding:8px; background-color:#ffffff; border:1px solid #aaaaaa "> </div>');
-      // } else {
-      //        document.write('<h2><p align="center">Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009</p></h2>');
-      //        document.write('<a href="/chart/medicaid_vs_gdp"><img src="/chart/image/medicaid_vs_gdp" alt="Chart: Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009"/></a>');
-      // }
-
-
-			var chart;
+      function hideEmbed() {
+        $("#embeddiv").fadeOut();
+      }
 
       $(document).ready(function() {
-        $("#hidePanel").click(function() {
+        $("#panel #title").click(function() {
           hidePanel();
         });
+
         $("#showPanel").click(function() {
           showPanel();
+        });
+
+        $("#embed").click(function() {
+          showEmbed();
+          $("#embeddiv textarea").select();
+          hidePanel();
+        });
+
+        $("#facebook").click(function() {
+          window.open("https://www.facebook.com/sharer.php?u={http://d4t4.org/{{ chart.sparkblocks }}&t={{ chart.title }}");
+          hidePanel();
+        });
+
+        $("#twitter").click(function() {
+          window.open("https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective");
+          hidePanel();
         });
 
         if (supportsVml() || supportsSVG()) {
@@ -157,18 +173,23 @@
   <body>
     <div id="panelContainer">
       <div id="panel">
-        <h1>Share</h1>
+        <h1 id="title">&laquo; Share</h1>
         <ul>
-          <li><a href="#" onClick="alert('?'); $('#hidePanel').click();">embed</a></li>
-          <li>etc</li>
-          <li>etc</li>
-          <li>etc</li>
+          <li id="embed"><a href="#" style="padding-left:21px;">embed code</a></li>
+          <li id="link"><a href="#" style="padding-left:21px;">link</a></li>
+          <li id="facebook"><img src="/static/images/facebook.gif"><a href="#">facebook</a></li>
+          <li id="twitter"><img src="/static/images/twitter.gif"><a href="#">twitter</a></li>
         </ul>
-        <div id="hidePanel"><a href="#">&laquo; Hide Panel</a></div>
       </div>
     </div>
 
-    <div id="showPanel"><span>&raquo;</span></div>
+
+<a style="float:left"
+                title="Tweet this" target="_blank"
+                href="https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective" rel="nofollow">
+                <img src="{{STATIC_URL}}/chart/twitter-32.png">
+              </a>
+    <h1 id="showPanel"><span>Share &raquo;</span></h1>
 
     <h1 align="left">{{ chart.title }}</h1>
 {% if chart.html_below_title %}
@@ -186,6 +207,11 @@
 
     <div id="creditsdiv" style="font-family:Georgia; margin-left:50px; width:525px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name|safe }}">click here</a>.
+    </div>
+
+    <div id="embeddiv" style="position:absolute; display:none">
+      <textarea rows="2" cols="50">&lt;iframe src="http://{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="670" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
+      <div><a href="#" onclick="hideEmbed();">close</a></div>
     </div>
   </body>
 </html>
