@@ -95,6 +95,28 @@ pip -q install -r requirements.txt
       enough.
       </p>
 
+      <h3>Unicode Errors</h3>
+
+      <p>
+      If you get messages like <tt>UnicodeEncodeError: 'ascii' codec can't
+      encode characters in position 40-45: ordinal not in
+      range(128)</tt>, that means your python installation is defaulting
+      to using ASCII. You can fix this with a <code>sitecustomize.py</code>
+      file. First check if you have one already with this command:
+      </p>
+
+      <pre>python -c 'import sys; print sys.modules.get("sitecustomize", None)'</pre>
+
+      <p>
+      If that doesn’t tell you about an existing
+      <code>sitecustomize.py</code> file, create one in
+      <code>~/local/lib/python2.7/sitecustomize.py</code>. Then add these
+      two lines to it:
+      </p>
+
+<pre>import sys
+sys.setdefaultencoding('UTF-8')</pre>
+
       <a name="prototype"></a>
       <h2>Our Latest, Greatest Prototype</h2>
       <p>Is <a href="http://localhost:8001/static/html/suderman/AMP_dynamic.html">here</a>.
