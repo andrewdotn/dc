@@ -123,26 +123,33 @@
         $("#chartdiv".append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>'));
       }
 
-      function hidePanel() {
-        $("#panel").animate({marginLeft:"-175px"}, 500 );
-        $("#panelContainer").animate({width:"0px", opacity:0}, 400 );
-        $("#showPanel").show("normal").animate({width:"28px", opacity:1}, 200);
-      }
-
       function showPanel() {
         $("#panel").animate({marginLeft:"0px"}, 400 );
         $("#panelContainer").animate({width:"175px", opacity:1}, 400 );
         $("#showPanel").animate({width:"0px", opacity:0}, 600).hide("slow");
       }
 
-      function showEmbed() {
-        var div = $("#embeddiv");
-        div.css("top", (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop() + "px");
-        div.css("left", (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft() + "px");
-        div.fadeIn();
+      function hidePanel() {
+        $("#panel").animate({marginLeft:"-175px"}, 500 );
+        $("#panelContainer").animate({width:"0px", opacity:0}, 400 );
+        $("#showPanel").show("normal").animate({width:"28px", opacity:1}, 200);
       }
 
-      function hideEmbed() {
+      function centerPopupDiv(div) {
+        div.css("top", (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop() + "px");
+        div.css("left", (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft() + "px");
+      }
+
+      function showEmbedPopup() {
+        var div = $("#embeddiv");
+
+        centerPopupDiv(div);
+        div.fadeIn();
+
+        $("#embeddiv textarea").select();
+      }
+
+      function hideEmbedPopup() {
         $("#embeddiv").fadeOut();
       }
 
@@ -156,8 +163,7 @@
         });
 
         $("#embed").click(function() {
-          showEmbed();
-          $("#embeddiv textarea").select();
+          showEmbedPopup();
           hidePanel();
         });
 
@@ -221,7 +227,7 @@
 
     <div id="embeddiv" style="position:absolute; display:none">
       <textarea rows="2" cols="50">&lt;iframe src="http://{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="670" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
-      <div><a href="#" onclick="hideEmbed();">close</a></div>
+      <div><a href="#" onclick="hideEmbedPopup();">close</a></div>
     </div>
   </body>
 </html>
