@@ -18,6 +18,7 @@
         <li><a href="#running">Running the development server</a>
       </ul>
       <li><a href="#prototype">Our latest prototype</a>
+      <li><a href="#deploying">Deploying</a>
       <li><a href="#updatingdata">Updating data</a>
       <li><a href="#schemamigration">Schema migration</a>
       <li><a href="#stuff">Stuff to look into</a>
@@ -97,6 +98,30 @@ pip -q install -r requirements.txt
       <a name="prototype"></a>
       <h2>Our Latest, Greatest Prototype</h2>
       <p>Is <a href="http://localhost:8001/static/html/suderman/AMP_dynamic.html">here</a>.
+
+      <a name="deploying"></a>
+      <h2>Deploying</h2>
+      <p>
+      Once your changes are pushed to bitbucket, run
+      </p>
+
+<pre>
+./manage.py
+</pre>
+
+      <p>
+      to push them to production.
+      </p>
+
+      <p>
+      For now, you need a UNIX account on the server to do this.
+      </p>
+
+      <p>
+      If you get any errors, keep in mind that the errors are occurring on
+      the server, so you’ll probably need to log in there to debug and fix
+      them.
+      </p>
 
       <a name="updatingdata"></a>
       <h2>
