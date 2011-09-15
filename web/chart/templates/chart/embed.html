@@ -1,6 +1,47 @@
 <html>
   <head>
     <style type="text/css">
+      @font-face {
+          font-family: 'ChunkFiveRegular';
+          src: url('/static/fonts/Chunkfive-webfont.eot');
+          src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+               url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
+               url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
+               url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+          font-weight: normal;
+          font-style: normal;
+      }
+
+      @font-face {
+          font-family: 'OpenSansRegular';
+          src: url('/static/fonts/OpenSans-Regular-webfont.eot');
+          src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+               url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
+               url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+               url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+          font-weight: normal;
+          font-style: normal;
+      }
+
+      @font-face {
+          font-family: 'OpenSansBold';
+          src: url('/static/fonts/OpenSans-Bold-webfont.eot');
+          src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+               url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
+               url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+               url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
+          font-weight: normal;
+          font-style: normal;
+      }
+
+      h1 {
+        margin-top:8px;
+        margin-left:8px;
+        margin-right:8px;
+        margin-bottom:0px;
+        color: #3E679F;
+        font: 200%/125% 'ChunkFiveRegular', verdana, sans-serif;
+      }
 
       #panelContainer { width:0; left:0; top:450px; position:absolute; overflow:hidden; background:#333; opacity:0; z-index:2 }
       #panelContainer h1 { font-size:20px; height:30px; background-color:#000; color:#eee; padding:10px 0 0 10px; margin-bottom:10px; cursor:pointer }
@@ -17,13 +58,27 @@
       #embeddiv { top:100px; left:50px; padding: 10px; border: 2px solid; background-color: #eee;  z-index:2 }
       #embeddiv a { color: #000; text-decoration:none; }
       #embeddiv a:hover { text-decoration:underline; }
-
     </style>
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
 {% ifequal user.username "admin" %}
     <script type="text/javascript" src="/static/modules/exporting.js"></script>
 {% endifequal %}
+
+    <script type="text/javascript">
+      var addthis_config = {
+        services_exclude: "twitter,facebook",
+        data_track_clickback: false,
+        ui_click: true
+      };
+      var addthis_share = {
+        title: "{{ chart.title|escapejs }}",
+        url: "{{ url|escapejs }}",
+        description: "{{ chart.description|escapejs }}"
+      }
+    </script>
+    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
 
     <script type="text/javascript">
       //
@@ -124,50 +179,6 @@
         }
       });
     </script>
-
-    <style>
-@font-face {
-    font-family: 'ChunkFiveRegular';
-    src: url('/static/fonts/Chunkfive-webfont.eot');
-    src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
-         url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
-         url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'OpenSansRegular';
-    src: url('/static/fonts/OpenSans-Regular-webfont.eot');
-    src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
-         url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
-         url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'OpenSansBold';
-    src: url('/static/fonts/OpenSans-Bold-webfont.eot');
-    src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
-         url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
-         url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-      h1 {
-        margin-top:8px;
-        margin-left:8px;
-        margin-right:8px;
-        margin-bottom:0px;
-        color: #3E679F;
-        font: 200%/125% 'ChunkFiveRegular', verdana, sans-serif;
-      }
-</style>
   </head>
 
   <body>
@@ -179,10 +190,14 @@
           <li id="link"><a href="#" style="padding-left:21px;">link</a></li>
           <li id="facebook"><img src="/static/images/facebook.gif"><a href="#">facebook</a></li>
           <li id="twitter"><img src="/static/images/twitter.gif"><a href="#">twitter</a></li>
+          <li id="addthis">
+            <div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+              <a class="addthis_button_compact" onmouseover="void(0);">other</a>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
-
 
     <h1 id="showPanel"><span>Share &raquo;</span></h1>
 
