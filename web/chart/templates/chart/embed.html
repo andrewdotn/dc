@@ -58,6 +58,10 @@
       #embeddiv { top:100px; left:50px; padding: 10px; border: 2px solid; background-color: #eee;  z-index:2 }
       #embeddiv a { color: #000; text-decoration:none; }
       #embeddiv a:hover { text-decoration:underline; }
+
+      #linkdiv { top:100px; left:50px; padding: 10px; border: 2px solid; background-color: #eee;  z-index:2 }
+      #linkdiv a { color: #000; text-decoration:none; }
+      #linkdiv a:hover { text-decoration:underline; }
     </style>
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -123,27 +127,47 @@
         $("#chartdiv".append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>'));
       }
 
-      function hidePanel() {
-        $("#panel").animate({marginLeft:"-175px"}, 500 );
-        $("#panelContainer").animate({width:"0px", opacity:0}, 400 );
-        $("#showPanel").show("normal").animate({width:"28px", opacity:1}, 200);
-      }
-
       function showPanel() {
         $("#panel").animate({marginLeft:"0px"}, 400 );
         $("#panelContainer").animate({width:"175px", opacity:1}, 400 );
         $("#showPanel").animate({width:"0px", opacity:0}, 600).hide("slow");
       }
 
-      function showEmbed() {
-        var div = $("#embeddiv");
-        div.css("top", (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop() + "px");
-        div.css("left", (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft() + "px");
-        div.fadeIn();
+      function hidePanel() {
+        $("#panel").animate({marginLeft:"-175px"}, 500 );
+        $("#panelContainer").animate({width:"0px", opacity:0}, 400 );
+        $("#showPanel").show("normal").animate({width:"28px", opacity:1}, 200);
       }
 
-      function hideEmbed() {
+      function centerPopupDiv(div) {
+        div.css("top", (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop() + "px");
+        div.css("left", (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft() + "px");
+      }
+
+      function showEmbedPopup() {
+        var div = $("#embeddiv");
+
+        centerPopupDiv(div);
+        div.fadeIn();
+
+        $("#embeddiv textarea").select();
+      }
+
+      function hideEmbedPopup() {
         $("#embeddiv").fadeOut();
+      }
+
+      function showLinkPopup() {
+        var div = $("#linkdiv");
+
+        centerPopupDiv(div);
+        div.fadeIn();
+
+        $("#linkdiv textarea").select();
+      }
+
+      function hideLinkPopup() {
+        $("#linkdiv").fadeOut();
       }
 
       $(document).ready(function() {
@@ -156,8 +180,12 @@
         });
 
         $("#embed").click(function() {
-          showEmbed();
-          $("#embeddiv textarea").select();
+          showEmbedPopup();
+          hidePanel();
+        });
+
+        $("#link").click(function() {
+          showLinkPopup();
           hidePanel();
         });
 
@@ -182,6 +210,20 @@
   </head>
 
   <body>
+    <h1 align="left">{{ chart.title }}</h1>
+{% if chart.html_below_title %}
+    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; font-family:Georgia'>{{ chart.html_below_title|safe }}</p>
+{% endif %}
+{% if chart.y_axis_description %}
+    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; color:#888888; font-family:ChunkFiveRegular; font-size:75%'>{{ chart.y_axis_description|safe }}</p>
+{% endif %}
+
+    <div id="chartdiv">
+      <noscript>
+        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
+      </noscript>
+    </div>
+
     <div id="panelContainer">
       <div id="panel">
         <h1 id="title">&laquo; Share</h1>
@@ -202,27 +244,18 @@
 
     <h1 id="showPanel"><span>Share &raquo;</span></h1>
 
-    <h1 align="left">{{ chart.title }}</h1>
-{% if chart.html_below_title %}
-    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; font-family:Georgia'>{{ chart.html_below_title|safe }}</p>
-{% endif %}
-{% if chart.y_axis_description %}
-    <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; color:#888888; font-family:ChunkFiveRegular; font-size:75%'>{{ chart.y_axis_description|safe }}</p>
-{% endif %}
-
-    <div id="chartdiv">
-      <noscript>
-        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
-      </noscript>
-    </div>
-
     <div id="creditsdiv" style="font-family:Georgia; margin-left:50px; width:525px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name|safe }}">click here</a>.
     </div>
 
     <div id="embeddiv" style="position:absolute; display:none">
       <textarea rows="2" cols="50">&lt;iframe src="http://{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="670" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
-      <div><a href="#" onclick="hideEmbed();">close</a></div>
+      <div><a href="#" onclick="hideEmbedPopup();">close</a></div>
+    </div>
+
+    <div id="linkdiv" style="position:absolute; display:none">
+      <textarea rows="1" cols="50">{{url|safe}}</textarea>
+      <div><a href="#" onclick="hideLinkPopup();">close</a></div>
     </div>
   </body>
 </html>
