@@ -2,18 +2,6 @@
 
 set -eu
 
-REVISION="tip"
-
-if (( $# != 0 )); then
-    if (( $# != 1 )); then
-        PROG="$(basename -- "${0}")"
-        echo "${PROG}: Usage: ${PROG} [revision]" 1>&2
-        exit 1
-    else
-        REVISION="${1}"
-    fi
-fi
-
 rm -rf ~/d4t4.org.new
 mkdir ~/d4t4.org.new
 cd ~/d4t4.org.new
@@ -22,8 +10,8 @@ cd ~/d4t4.org.new
 (cd ~/hg/dcvendor && hg pull)
 
 # Export repo code to files
-hg archive -r "${REVISION}" -R ~/hg/dc dc
-hg archive -r "${REVISION}" -R ~/hg/dcvendor dc/web/vendor
+hg archive -r tip -R ~/hg/dc dc
+hg archive -r tip -R ~/hg/dcvendor dc/web/vendor
 
 pip install -r dc/requirements.txt
 
