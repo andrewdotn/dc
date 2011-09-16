@@ -22,7 +22,6 @@ class ServePublicInDevelopmentMiddleware(object):
     def __init__(self):
         if not settings.DEBUG:
             raise MiddlewareNotUsed()
-        print 'hi'
 
     def process_request(self, request):
         try:
