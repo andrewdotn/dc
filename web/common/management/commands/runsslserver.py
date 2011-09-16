@@ -24,8 +24,8 @@ class Command(static_command, core_command):
     # can’t find a later place to run it that still works.
     os.environ['HTTPS'] = 'on'
 
-    # literal copy-and-paste of program text from core_command so that
-    # run() refers to this module
+    # Literal s/http/https/ of program text from core_command. This is done
+    # so that the run() call in this method refers to this module
     def inner_run(self, *args, **options):
         from django.conf import settings
         from django.utils import translation
@@ -37,7 +37,7 @@ class Command(static_command, core_command):
         self.validate(display_num_errors=True)
         self.stdout.write((
             "Django version %(version)s, using settings %(settings)r\n"
-            "Development server is running at http://%(addr)s:%(port)s/\n"
+            "Development server is running at https://%(addr)s:%(port)s/\n"
             "Quit the server with %(quit_command)s.\n"
         ) % {
             "version": self.get_version(),
