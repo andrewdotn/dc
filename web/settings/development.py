@@ -13,6 +13,9 @@ if False:
     MIDDLEWARE_CLASSES.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INSTALLED_APPS.append('debug_toolbar')
 
+MIDDLEWARE_CLASSES.insert(0,
+    'common.middleware.ServePublicInDevelopmentMiddleware')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
