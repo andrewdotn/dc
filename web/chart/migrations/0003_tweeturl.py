@@ -9,7 +9,7 @@ class Migration(DataMigration):
     def forwards(self, orm):
         for c in orm.Chart.objects.all():
             if 'd4t4.org' not in c.tweet:
-                c.tweet = c.tweet + ': d4t4.org/' + c.sparkblocks
+                c.tweet = c.tweet + ': d4t4.org/chart/' + c.short_name
                 c.save()
 
     def backwards(self, orm):
