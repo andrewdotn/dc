@@ -1,0 +1,5 @@
+Header set Strict-Transport-Security "max-age=3600"
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L]

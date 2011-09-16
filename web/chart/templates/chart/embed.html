@@ -68,7 +68,7 @@
       #linkdiv a:hover { text-decoration:underline; }
     </style>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
 {% ifequal user.username "admin" %}
     <script type="text/javascript" src="/static/modules/exporting.js"></script>
@@ -86,7 +86,7 @@
         description: "{{ chart.description|escapejs }}"
       }
     </script>
-    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
 
     <script type="text/javascript">
       //
@@ -260,7 +260,7 @@
 {{ funtext|random }}
       or anywhere else!
       <br><br>
-      <textarea style="width:400px; height:3em">&lt;iframe src="http://{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="690" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
+      <textarea style="width:400px; height:3em">&lt;iframe src="//{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="690" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
       <br>
       <div>
       <p align="right" style="margin-bottom:0px"><a href="#" onclick="hideEmbedPopup();">close</a></p>
