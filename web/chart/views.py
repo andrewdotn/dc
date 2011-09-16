@@ -80,5 +80,9 @@ def embed(request, chart_id):
       'host': request.get_host(),
       'url': 'http://' + request.get_host() + '/' + chart.sparkblocks,
       'chart': chart, 'internal':
-      bool(request.GET.get("internal", False))
+      bool(request.GET.get("internal", False)),
+      'funtext':['term paper', 'love letter', 'op-ed', 'manifesto']
+
+# is there a way to put funtext into the template where it belongs?
+
     })

@@ -47,19 +47,19 @@
         font: 200%/125% 'ChunkFiveRegular', verdana, sans-serif;
       }
 
-      #panelContainer { width:0; left:0; top:450px; position:absolute; overflow:hidden; background:#333; opacity:0; z-index:2 }
+      #panelContainer { width:0; left:0; top:475px; position:absolute; overflow:hidden; background:#333; opacity:0; z-index:2 }
       #panelContainer h1 { font-size:20px; height:30px; background-color:#000; color:#eee; padding:10px 0 0 10px; margin-bottom:10px; cursor:pointer }
       #panelContainer ul { list-style:none; margin-top:0px; margin-bottom:20px; padding-left:10 }
-      #panelContainer ul li { margin:0; padding:0 0 2px 0; cursor:pointer; font-family:Verdana; }
+      #panelContainer ul li { margin:0; padding:0 0 2px 0; cursor:pointer; font-family:Verdana; font-size:12px; }
       #panelContainer a { color:#fff; text-decoration:none }
       #panelContainer #panel { margin-left:-175px }
       #panelContainer #panel a:hover {text-decoration:underline }
       #panelContainer #panel li img { vertical-align:text-bottom; padding-right: 5px; }
 
-      #showPanel { position:absolute; z-index:2; left:0; top:500px; padding-top:0px; width:0px; height:100px; cursor:pointer; margin-left:0 }
-      #showPanel span { display:block; font-size:20px; height:30px; padding:10px 0 10px 10px; width:100px; color:#fff; background:#333 }
+      #showPanel { position:absolute; z-index:2; left:0; top:624px; padding-top:0px; width:0px; height:30px; cursor:pointer; margin-left:0; padding-bottom:0px; }
+      #showPanel span { display:block; font-size:20px; height:30px; padding:10px 0 0px 10px; width:100px; color:#fff; background:#333 }
 
-      #embeddiv { top:100px; left:50px; padding: 10px; border: 2px solid; background-color: #eee;  z-index:2 }
+      #embeddiv { top:100px; left:50px; width:400px; padding: 10px; border: 2px solid; background-color: #eee;  z-index:2 }
       #embeddiv a { color: #000; text-decoration:none; }
       #embeddiv a:hover { text-decoration:underline; }
 
@@ -133,7 +133,7 @@
 
       function showPanel() {
         $("#panel").animate({marginLeft:"0px"}, 400 );
-        $("#panelContainer").animate({width:"175px", opacity:1}, 400 );
+        $("#panelContainer").animate({width:"250px", opacity:1}, 400 );
         $("#showPanel").animate({width:"0px", opacity:0}, 600).hide("slow");
       }
 
@@ -194,7 +194,7 @@
         });
 
         $("#facebook").click(function() {
-          window.open("https://www.facebook.com/sharer.php?u={http://d4t4.org/{{ chart.sparkblocks }}&t={{ chart.title }}");
+          window.open("https://www.facebook.com/sharer.php?u={http://datacollective.org/chart/{{ chart.short_name }}&t={{ chart.title }}");
           hidePanel();
         });
 
@@ -230,10 +230,9 @@
 
     <div id="panelContainer">
       <div id="panel">
-        <h1 id="title">&laquo; Share</h1>
+        <h1 id="title">&laquo; Share this chart!</h1>
         <ul>
-          <li id="embed"><a href="#" style="padding-left:21px;">embed code</a></li>
-          <li id="link"><a href="#" style="padding-left:21px;">link</a></li>
+          <li id="embed"><img src="/static/chart/embed.png"><a href="#">put it in your own webpage</a></li>
           <li id="facebook"><img src="/static/chart/fb-16.png"><a href="#">facebook</a></li>
           <li id="twitter"><img src="/static/chart/twitter-16.png"><a href="#">twitter</a></li>
           <li id="addthis">
@@ -242,19 +241,30 @@
             <img src="/static/chart/addthis-16.png">other
           </a>
           </li>
+{% if not internal %}
+          <li>&nbsp</li>
+	  <li><a target="_blank" href="/chart/{{ chart.short_name|safe }}">See source data and credits here</a></li>
+{% endif %}
         </ul>
       </div>
     </div>
 
     <h1 id="showPanel"><span>Share &raquo;</span></h1>
 
-    <div id="creditsdiv" style="font-family:Georgia; margin-left:50px; width:525px; font-size: 85%; color:#888888; text-align:left; float:left">
+    <div id="creditsdiv" style="font-family:Georgia; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name|safe }}">click here</a>.
     </div>
 
-    <div id="embeddiv" style="position:absolute; display:none">
-      <textarea rows="2" cols="50">&lt;iframe src="http://{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="670" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
-      <div><a href="#" onclick="hideEmbedPopup();">close</a></div>
+    <div id="embeddiv" style="position:absolute; display:none; font-family:Georgia">
+      Copy and paste the following code into your web page, blog post,
+{{ funtext|random }}
+      or anywhere else!
+      <br><br>
+      <textarea style="width:400px; height:3em">&lt;iframe src="http://{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="690" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
+      <br>
+      <div>
+      <p align="right" style="margin-bottom:0px"><a href="#" onclick="hideEmbedPopup();">close</a></p>
+      </div>
     </div>
 
     <div id="linkdiv" style="position:absolute; display:none">
