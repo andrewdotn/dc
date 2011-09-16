@@ -8,8 +8,9 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-# toggle this to decide if we want toolbar or not
-if False:
+def enable_toolbar():
+    global MIDDLEWARE_CLASSES
+    global INSTALLED_APPS
     MIDDLEWARE_CLASSES.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     INSTALLED_APPS.append('debug_toolbar')
 
