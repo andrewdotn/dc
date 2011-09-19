@@ -128,8 +128,7 @@
       }
 
       function renderStaticImage() {
-        $("#chartdiv".append('<h2><p align="center">{{ chart.title|safe }}</p></h2>'));
-        $("#chartdiv".append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>'));
+        $("#chartdiv").append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>');
       }
 
       function showPanel() {
