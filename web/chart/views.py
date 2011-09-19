@@ -34,8 +34,8 @@ def view(request, chart_id=None, chart=None, short_name=None):
         chart = get_chart(chart_id, short_name)
     return render(request, 'chart/chart.html', {
         'chart': chart,
-        'url': '//d4t4.org/' + chart.sparkblocks,
-        'shorturl': '//d4t4.org/' + chart.sparkblocks,
+        'url': '//' + request.get_host() + '/chart/' + chart.short_name,
+        'shorturl': '//' + request.get_host() + '/chart/' + chart.short_name,
         'chart_data': chart.chart_data.replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n'),
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
     })
