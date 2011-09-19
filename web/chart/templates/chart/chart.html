@@ -173,14 +173,6 @@ XLS doesnt really work yet.  Need to think about it some more.
           </span>
         </div>
 
-{% if chart.description %}
-        <div class="titlediv">
-          <div class="title" style="background-color:#E58F17; max-width:800px; margin-top:-1.0em;">
-            {{ chart.description }}
-          </div>
-        </div>
-{% endif %}
-
         <div class="titlediv">
           <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
             <span> data from {{ chart.source_title }} </span>
@@ -220,7 +212,7 @@ XLS doesnt really work yet.  Need to think about it some more.
 
             // The following are highly recommended additional parameters. Remove the slashes in front to use.
             var disqus_identifier = '{{ chart.disqus_identifier }}';
-            var disqus_url = '//{{host}}/chart/{{ chart.short_name }}';
+            var disqus_url = 'https://{{host}}/chart/{{ chart.short_name }}';
 
             {% if debug %}
             var disqus_developer = 1;
