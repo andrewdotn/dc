@@ -128,7 +128,7 @@
       }
 
       function renderStaticImage() {
-        $("#chartdiv").append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>');
+        $("#chartdiv").append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title }}"/></a>');
       }
 
       function showPanel() {
@@ -230,7 +230,7 @@
 
     <div id="chartdiv">
       <noscript>
-        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
+        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title }}"/></a>
       </noscript>
     </div>
 
@@ -249,7 +249,7 @@
           </li>
 {% if not internal %}
           <li>&nbsp</li>
-	  <li><a target="_blank" href="/chart/{{ chart.short_name|safe }}">See source data and credits here</a></li>
+	  <li><a target="_blank" href="/chart/{{ chart.short_name }}">See source data and credits here</a></li>
 {% endif %}
         </ul>
       </div>
@@ -258,7 +258,7 @@
     <h1 id="showPanel"><span>Share &raquo;</span></h1>
 
     <div id="creditsdiv" style="font-family:Georgia; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
-      <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name|safe }}">click here</a>.
+      <b>Sources</b>: {{chart.source_title|safe}}.  For complete source data, credits and more, <a target="_blank" href="/chart/{{ chart.short_name }}">click here</a>.
     </div>
 
     <div id="embeddiv" style="position:absolute; display:none; font-family:Georgia">
