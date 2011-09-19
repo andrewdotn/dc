@@ -44,6 +44,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+# The default root@localhost is blocked by mail servers
+SERVER_EMAIL = 'webmaster@datacollective.org'
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 # Python timezone handling is problematic, just use UTC
@@ -147,6 +150,11 @@ LOGGING = {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': [],
+            'level': 'WARNING',
             'propagate': True,
         },
     }

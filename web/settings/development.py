@@ -8,6 +8,8 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 def enable_toolbar():
     global MIDDLEWARE_CLASSES
     global INSTALLED_APPS
