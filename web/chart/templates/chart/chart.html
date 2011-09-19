@@ -26,8 +26,6 @@
           this.select();
         }, function() {
         });
-
-
       });
     </script>
 
@@ -91,15 +89,6 @@
         padding-left: 1em;
         padding-right: 1em;
       }
-      #chart_wrapper {
-        padding: 0px;
-        margin: 0px;
-/*
-        width: 600px;
-        height: 350px;
-*/
-        overflow: hidden;
-      }
       #disqus_wrapper {
         padding:0.5em;
         margin-top: 1.5em;
@@ -123,12 +112,12 @@
         </div>
 
         <div id=chart_and_addthis_wrapper style="width:650px; margin-bottom:50px">
-          <div id=chart_wrapper style="border-radius:15px; border:6px solid #ffde00; background-color: white; padding: 0px">
-            <iframe src="/chart/embed/{{ chart.id|safe }}?internal=1" width="630" height="690" frameborder="0"></iframe>
+          <div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}" style="padding: 0px; margin: 0px; overflow: hidden; border-radius:15px; border:6px solid #ffde00; background-color: white; padding: 0px"></div>
+          <script type="text/javascript" src="/static/easyxdm/easyXDM.js"></script>
+          <script type="text/javascript" src="/chart/embedjs/{{chart.id|safe}}?internal=1"></script>
+          <div style="float:right; font-size:75%">
+            charting software by Highcharts.com
           </div>
-            <div style="float:right; font-size:75%">
-              charting software by Highcharts.com
-            </div>
 
           <span style="float:left; width:280px">
             <div>

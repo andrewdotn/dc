@@ -69,6 +69,7 @@
     </style>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/easyxdm/easyXDM.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
 {% ifequal user.username "admin" %}
     <script type="text/javascript" src="/static/modules/exporting.js"></script>
@@ -210,6 +211,12 @@
           renderStaticImage();
         }
       });
+
+      var DATACOLLECTIVE = { easyXDM: easyXDM.noConflict("DATACOLLECTIVE")  };
+      var socket = new DATACOLLECTIVE.easyXDM.Socket({
+        onReady: function() { socket.postMessage(document.body.scrollHeight); }
+      });
+
     </script>
   </head>
 
@@ -260,7 +267,11 @@
 {{ funtext|random }}
       or anywhere else!
       <br><br>
-      <textarea style="width:400px; height:3em">&lt;iframe src="//{{ host }}/chart/embed/{{ chart.id|safe }}" width="630" height="690" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
+<textarea style="width:400px; height:3em">
+&lt;div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}"&gt;&lt;/div&gt;
+&lt;script type="text/javascript" src="http://{{host}}/static/easyxdm/easyXDM.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://{{host}}/chart/embedjs/{{chart.id|safe}}"&gt;&lt;/script&gt;
+</textarea>
       <br>
       <div>
       <p align="right" style="margin-bottom:0px"><a href="#" onclick="hideEmbedPopup();">close</a></p>
