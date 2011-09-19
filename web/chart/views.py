@@ -79,6 +79,19 @@ def embed(request, chart_id):
     return render(request, 'chart/embed.html', {
       'host': request.get_host(),
       'url': 'http://' + request.get_host() + '/' + chart.sparkblocks,
-      'chart': chart, 'internal':
-      bool(request.GET.get("internal", False))
+      'chart': chart,
+      'internal': bool(request.GET.get("internal", False))
+    })
+
+def embed_js(request, chart_id):
+    chart = get_object_or_404(Chart, id=chart_id)
+
+    chart_url = "http://" + request.get_host() + "/chart/embed/" + str(chart.id)
+    if request.GET.get("internal", False):
+        chart_url += "?internal=1"
+
+    return render(request, 'chart/embed.js', {
+      'chart': chart,
+      'chart_url': chart_url,
+      'internal': bool(request.GET.get("internal", False))
     })
