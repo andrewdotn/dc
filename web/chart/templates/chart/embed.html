@@ -267,7 +267,9 @@
       or anywhere else!
       <br><br>
 <textarea style="width:400px; height:3em">
-&lt;div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}"&gt;&lt;/div&gt;
+&lt;div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}"&gt;
+&lt;noscript&gt;&lt;iframe src="http://{{host}}/chart/embed/{{chart.id|safe}}" width="630" height="690" frameborder="0">&lt;/iframe&gt;&lt;/noscript&gt;
+&lt;/div&gt;
 &lt;script type="text/javascript" src="http://{{host}}/static/easyxdm/easyXDM.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="http://{{host}}/chart/embedjs/{{chart.id|safe}}"&gt;&lt;/script&gt;
 </textarea>
