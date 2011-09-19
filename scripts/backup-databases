@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 
-BACKUP_PATH = os.path.expanduser('~/backups/database/nightly')
+BACKUP_PATH = os.path.expanduser('~/backups/database/')
 
 # This is a Python version of the shell command
 #
@@ -15,10 +15,27 @@ BACKUP_PATH = os.path.expanduser('~/backups/database/nightly')
 #
 # except that mysqldump’s return code is checked, and a spurious warning is
 # filtered out of mysqldump’s stderr to reduce cron noise.
+#
+# The --nightly and --deploy arguments store backups in different folders.
+# TODO: prune old backups in non-nightly folders.
 
 if sys.version < "2.7":
     python = os.path.join(os.environ['HOME'], 'local', 'bin', 'python2.7')
     os.execl(python, python, *sys.argv)
+
+import argparse
+parser = argparse.ArgumentParser()
+group = parser.add_mutually_exclusive_group()
+group.add_argument('--nightly', action='store_const', dest='dir',
+        const='nightly')
+group.add_argument('--deploy', action='store_const', dest='dir',
+        const='deploy')
+
+args = parser.parse_args()
+if args.dir is None:
+    args.dir = 'occasional'
+
+BACKUP_PATH = os.path.join(BACKUP_PATH, args.dir)
 
 if not os.path.isdir(BACKUP_PATH):
     os.makedirs(BACKUP_PATH, mode=0700)

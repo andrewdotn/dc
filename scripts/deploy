@@ -17,6 +17,8 @@ ln -s dc/web/public public
 
 pip install -r dc/requirements.txt
 
+dc/scripts/backup-databases --deploy
+
 dc/web/manage.py --prod syncdb --noinput --migrate
 
 dc/web/manage.py --prod collectstatic --noinput
