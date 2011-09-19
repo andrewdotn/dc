@@ -36,7 +36,7 @@ class Command(BaseCommand):
             for site in settings.SITES:
                 p = subprocess.Popen(['./manage.py', '--' + site['name']]
                         + settings.MANAGEMENT_COMMAND_ARGUMENTS
-                        + ['runserver', str(port)],
+                        + ['runsslserver', str(port)],
                     stderr=subprocess.PIPE, bufsize=1)
                 port += 1
                 processes.append(p)
