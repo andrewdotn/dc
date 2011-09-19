@@ -34,8 +34,8 @@ def view(request, chart_id=None, chart=None, short_name=None):
         chart = get_chart(chart_id, short_name)
     return render(request, 'chart/chart.html', {
         'chart': chart,
-        'url': 'http://d4t4.org/' + chart.sparkblocks,
-        'shorturl': 'http://d4t4.org/' + chart.sparkblocks,
+        'url': '//d4t4.org/' + chart.sparkblocks,
+        'shorturl': '//d4t4.org/' + chart.sparkblocks,
         'chart_data': chart.chart_data.replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n'),
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
     })
@@ -78,7 +78,7 @@ def embed(request, chart_id):
 
     return render(request, 'chart/embed.html', {
       'host': request.get_host(),
-      'url': 'http://' + request.get_host() + '/chart/' + chart.short_name,
+      'url': '//' + request.get_host() + '/chart/' + chart.short_name,
       'chart': chart,
       'internal': bool(request.GET.get("internal", False)),
       'funtext':['term paper', 'love letter', 'op-ed', 'manifesto']
@@ -88,7 +88,7 @@ def embed(request, chart_id):
 def embed_js(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
-    chart_url = "http://" + request.get_host() + "/chart/embed/" + str(chart.id)
+    chart_url = "https://" + request.get_host() + "/chart/embed/" + str(chart.id)
     if request.GET.get("internal", False):
         chart_url += "?internal=1"
 
