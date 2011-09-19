@@ -119,6 +119,7 @@ INSTALLED_APPS = [
 
     'vendor.amcharts',
     'vendor.highcharts',
+    'vendor.easyxdm',
 
     'common',
     'chart',
