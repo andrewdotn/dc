@@ -18,6 +18,9 @@ def index(request):
     charts = Chart.objects.all()
     return render(request, 'chart/index.html', {'charts': charts})
 
+def about(request):
+    return render(request, 'about.html')
+
 def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
     return view(request, chart=chart)

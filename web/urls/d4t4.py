@@ -12,7 +12,9 @@ urlpatterns = patterns('',
     # url(r'^$', 'd4t4.views.home', name='home'),
     # url(r'^d4t4/', include('d4t4.foo.urls')),
 
-    (r'^$', redirect_to, {'url': 'static/html/about.html'}),
+    # serve up our about page as our home page for now
+    # DJ stuffed the about page into the chart app because it was expedient.
+    (r'^$', 'chart.views.about'),
 
     (r'^chart/', include('chart.urls')),
 
