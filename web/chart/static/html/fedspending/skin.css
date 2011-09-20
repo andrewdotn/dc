@@ -684,11 +684,11 @@ div.widget_archive ul li ul li,
 	font-family: Arial, sans-serif;
 }
 .searchform input[type="submit"].searchsubmit {
-	background: url(../../images/search-button-gray-1.png) no-repeat 0 0;
+	background: url(search-button-gray-1.png) no-repeat 0 0;
 }
 * html #right-header-widgets .searchsubmit, * html #left-header-widgets .searchsubmit, * html #top-bar-right-widgets .searchsubmit, * html #top-bar-left-widgets .searchsubmit,
 * html #sidebar .searchsubmit, * html #sidebar-2 .searchsubmit, * html #sidebar-b .searchsubmit, * html #sidebar-2-b .searchsubmit, * html #horizontal-outer-widgets-1 .searchsubmit, * html #horizontal-outer-widgets-2 .searchsubmit {
-    background: url(../../images/search-button-gray-1.gif) no-repeat 0 0;
+    background: url(search-button-gray-1.gif) no-repeat 0 0;
 }
 #subnav, .hier-nav {
 	border: none;

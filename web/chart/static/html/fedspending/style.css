@@ -111,14 +111,14 @@ hr{
 	margin-bottom: 1.5em;
 }
 blockquote{
-	background: url(images/blockquote-l.png) no-repeat left top;
+	background: url(blockquote-l.png) no-repeat left top;
 	padding: 10px 15px;
 	margin: 0 3em 1em;
 	font-size: 1em;
 	text-indent: 2em;
 }
 blockquote > div {
-	background: url(images/blockquote-r.png) no-repeat right bottom;
+	background: url(blockquote-r.png) no-repeat right bottom;
 	padding-bottom: 0.1em;
 }
 abbr, acronym { cursor: help; border-bottom: 1px dotted #888; }
@@ -399,7 +399,7 @@ div.suf-widget{
 .float-ptr {
 	font-size: 130%;
 	float: right;
-	background: url(images/arrows.gif) no-repeat scroll -16px 0 transparent;
+	background: url(arrows.gif) no-repeat scroll -16px 0 transparent;
 	height: 8px;
 	width: 8px;
 	top: 45%;
@@ -409,7 +409,7 @@ div.suf-widget{
 .down-ptr {
 	font-size: 130%;
 	float: right;
-	background: url(images/arrows.gif) no-repeat scroll 0 0 transparent;
+	background: url(arrows.gif) no-repeat scroll 0 0 transparent;
 	height: 8px;
 	width: 8px;
 	top: 45%;
@@ -908,7 +908,7 @@ a.more-link {
 }
 .post-footer .category,
 .postdata .category{
-	background: url(images/icons/folder-gray-16x16.png) no-repeat left top;
+	background: url(folder-gray-16x16.png) no-repeat left top;
 	padding-left: 20px;
 	padding-right: 10px;
 	float: left;
@@ -917,13 +917,13 @@ a.more-link {
 
 .post-footer .comments,
 .postdata .comments {
-	background: url(images/comments.png) no-repeat left center;
+	background: url(comments.png) no-repeat left center;
 	padding-left: 20px;
 	padding-right: 10px;
 	float: right;
 }
 .postdata .edit{
-	background: url(images/blog_post_edit.png) no-repeat left center;
+	background: url(blog_post_edit.png) no-repeat left center;
 	padding-left: 20px;
 	padding-right: 10px;
 	float: right;
@@ -1003,13 +1003,13 @@ span.author {
 	float: left;
 	padding-left: 20px;
 	margin-left: 10px;
-	background: url(images/older-pages.png) no-repeat left center;
+	background: url(older-pages.png) no-repeat left center;
 }
 .next-entries a {
 	float: right;
 	padding-right: 20px;
 	margin-right: 10px;
-	background: url(images/newer-pages.png) no-repeat right center;
+	background: url(newer-pages.png) no-repeat right center;
 }
 
 .suf-page-nav {
@@ -1055,19 +1055,19 @@ span.author {
 .post-nav .previous a {
 	float: left;
 	padding-left: 20px;
-	background: url(images/larrow.png) no-repeat left center;
+	background: url(larrow.png) no-repeat left center;
 }
 .post-nav .next a {
 	float: right;
 	padding-right: 20px;
 	text-align: right;
-	background: url(images/rarrow.png) no-repeat right center;
+	background: url(rarrow.png) no-repeat right center;
 }
 
 /* Comments  */
 h3#comments,
 h3.comments {
-	background-image: url(images/icons/comments.png);
+	background-image: url(comments.png);
 	background-repeat: no-repeat;
 	background-position: 7px center;
 	padding: 7px 7px 7px 35px;
@@ -1075,7 +1075,7 @@ h3.comments {
 	clear: both;
 }
 h3#respond, h3.respond, #reply-title {
-	background-image: url(images/icons/comment_edit.png);
+	background-image: url(comment_edit.png);
 	background-repeat: no-repeat;
 	background-position: 7px center;
 	padding: 7px 7px 7px 35px;
@@ -1516,7 +1516,7 @@ div.widget_archive ul li,
 div.widget_archive ul li ul li,
 .widget_archive ul li,
 .widget_archive ul li ul li {
-	background-image: url(images/icons/calendar_date.png);
+	background-image: url(calendar_date.png);
 	background-repeat: no-repeat;
 	padding-bottom: 3px;
 }
@@ -1577,7 +1577,7 @@ div.widget_archive ul li ul li,
 }
 
 .widget-suf-follow-twitter ul li {
-	background-image: url(images/icons/comment.png);
+	background-image: url(comment.png);
 	background-repeat: no-repeat;
 }
 
@@ -1811,19 +1811,19 @@ img.featured-excerpt-right {
 .tabbed-sidebar div.sbtab-content-archives ul li ul li,
 .widget_archive ul li,
 .widget_archive ul li ul li {
-	background-image: url(images/icons/calendar_date.png);
+	background-image: url(calendar_date.png);
 	background-repeat: no-repeat;
 	padding-bottom: 3px;
 }
 
 #recent-comments ul li {
-	background-image: url(images/icons/comments.png);
+	background-image: url(comments.png);
 	background-repeat: no-repeat;
 	padding-bottom: 3px;
 }
 
 #recent-posts ul li {
-	background-image: url(images/icons/page_copy.png);
+	background-image: url(page_copy.png);
 	background-repeat: no-repeat;
 	padding-bottom: 3px;
 }
@@ -2231,7 +2231,7 @@ h2.suf-mag-category-title {
 	padding: 6px 1px 6px 20px;
 	border-bottom: 1px dotted #c0c0c0;
 	background-repeat: no-repeat;
-	background-image: url(images/right_arrow.png);
+	background-image: url(right_arrow.png);
 	background-position: 0 10px;
 }
 
@@ -2569,10 +2569,10 @@ div.bookentry .review {
 	float: right;
 }
 .bookdata .edit {
-	background: url(images/blog_post_edit.png) no-repeat left center;
+	background: url(blog_post_edit.png) no-repeat left center;
 }
 .bookdata .manage {
-	background: url(images/Archive-16.png) no-repeat left center;
+	background: url(Archive-16.png) no-repeat left center;
 }
 .bookdata .author {
 	padding-left: 0;
@@ -3068,7 +3068,7 @@ div.activity-comments div#message {
 }
 
 div.activity-comments form.loading {
-	background-image: url( images/ajax-loader.gif );
+	background-image: url( ajax-loader.gif );
 	background-position: 2% 95%;
 	background-repeat: no-repeat;
 }
@@ -3145,13 +3145,13 @@ p.submit, div.submit {
 #item-buttons { float: right; margin: 1em; }
 
 .ajax-loader {
-	background: url(images/ajax-loader.gif ) center left no-repeat !important;
+	background: url(ajax-loader.gif ) center left no-repeat !important;
 	padding: 8px;
 	display: none;
 }
 
 a.loading {
-	background-image: url(images/ajax-loader.gif) !important;
+	background-image: url(ajax-loader.gif) !important;
 	background-position: 95% 50% !important;
 	background-repeat: no-repeat !important;
 	padding-right: 25px !important;
@@ -3234,9 +3234,9 @@ span.search-highlight {background:#ff0; color: #000}
 .meta-right-pullout ul { margin-left: 10px; margin-right: 0; padding-left: 10px; padding-right: 0; border-left: 1px dotted #ccc; }
 .meta-pullout li { border-bottom: 1px dotted #ccc; padding: 0.4em 0; }
 .meta-pullout .tags { float: none; max-width: none; text-align: inherit; }
-.meta-pullout .category { background: url(images/icons/folder-gray-16x16.png) no-repeat left top; float: none; padding-left: 20px; }
-.meta-pullout .comments { background: url(images/comments.png) no-repeat left top; padding-left: 20px; float: none; }
-.meta-pullout .edit { background: url(images/blog_post_edit.png) no-repeat left center; padding-left: 20px; float: none; }
+.meta-pullout .category { background: url(folder-gray-16x16.png) no-repeat left top; float: none; padding-left: 20px; }
+.meta-pullout .comments { background: url(comments.png) no-repeat left top; padding-left: 20px; float: none; }
+.meta-pullout .edit { background: url(blog_post_edit.png) no-repeat left center; padding-left: 20px; float: none; }
 
 .page-template-card-php #wrapper { width: 600px; max-width: none; min-width: 0; }
 table.exif { margin: 10px 0; border-collapse: collapse; }
