@@ -11,6 +11,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'd4t4.views.home', name='home'),
     # url(r'^d4t4/', include('d4t4.foo.urls')),
 
+    (r'^$', redirect_to, {'url': 'static/html/about.html'}),
+
     (r'^chart/', include('chart.urls')),
 
     (ur'^(?P<sparkblocks>[▁▂▃▅▆▇]+)$', 'chart.views.sparklink'),

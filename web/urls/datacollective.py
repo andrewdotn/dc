@@ -11,13 +11,13 @@ urlpatterns = patterns('',
 
     (r'', include('urls.d4t4')),
 
-    (r'^$', redirect_to, {'url': 'index.html'}),
-
-    (r'^(?P<filename>[a-z-]+.html)$', 'pageset.views.byfilename',
-     {'pageset_name': 'datacollective'}),
-
-    (r'^(?P<filename>[a-z-]+.html)$', 'pageset.views.byfilename',
-     {'pageset_name': 'datacollective'}),
+# disabling pageset for now.
+#
+#    (r'^(?P<filename>[a-z-]+.html)$', 'pageset.views.byfilename',
+#     {'pageset_name': 'datacollective'}),
+#
+#    (r'^(?P<filename>[a-z-]+.html)$', 'pageset.views.byfilename',
+#     {'pageset_name': 'datacollective'}),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
