@@ -44,7 +44,7 @@ def application(environ, start_response):
         handler = django.core.handlers.wsgi.WSGIHandler()
         return handler(environ, start_response)
     except Exception, e:
-        print >> sys.sdterr, time.strftime("%Y-%m-%d %H:%M:%S %z: 500: ")
+        print >> sys.stderr, time.strftime("%Y-%m-%d %H:%M:%S %z: 500: ")
         traceback.print_exc()
 
     start_response('500 Internal server error',
