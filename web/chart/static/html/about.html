@@ -8,7 +8,6 @@
     <meta property="og:image" content="https://d4t4.org/chart/image/5">
 
     <script type="text/javascript" src="./about_files/jquery.min.js"></script>
-
     <style>
 @font-face {
     font-family: 'ChunkFiveRegular';
@@ -60,10 +59,6 @@
         padding-bottom: 0.25em;
         font-size:1.5em;
         border-radius:15px;
-      }
-      .title a:link,a:visited,a:hover,a:active {
-        color:#ffffff;
-        text-decoration:none;
       }
       .titlediv {
         margin-top: 1.5em;
@@ -129,8 +124,8 @@ Most charts on the web today are simply pictures.  For example:
 It's a neat chart, but it doesn't let the reader <b>do</b> some important things:
 <ul>
 <li> Find the exact source of the data.  BLS and NBER have thousands of data sets.  Which were used in making this chart?
-<li> Get the raw underlying data, to put into a different kind of chart
-<li> Follow the data back to its source.  Not all recessions since 1929 were depicted in the chart.  Wouldn't it be interesting to see what those other recessions look like?  Perhaps they would tell a different story.
+<li> Get the raw underlying data, in order to put into a different kind of chart
+<li> Follow the data back to its source.  For example, in the chart above, not <a target="_blank" href="http://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States">all recessions since 1929</a> were depicted.  Wouldn't it be interesting to see what those other recessions look like?  Perhaps they would tell a different story.
 <li> Combine the data underlying this chart with other interesting data.  For example, color the lines to indicate which party was in the White House.
 </ul>
 Here's our first draft of a next generation chart for the web:
@@ -181,7 +176,7 @@ Smith.  </p>
 
         <div class="titlediv">
           <div class="title" style="background-color:#2d5344; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
-            <span class="bottom_nav">About</span>
+            <span class="bottom_nav" style="color:#ffffff; text-decoration:none">About</span>
             <span class="bottom_nav">Blog</span>
             <span style="float:right">©2011 Data Collective</span>
           </div>
