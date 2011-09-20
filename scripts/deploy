@@ -1,42 +1,98 @@
-#!/bin/bash
+#!/usr/bin/env python2.7
+# coding: UTF-8
 
-set -eu
+SITES = [
+    # domain name, settings module prefix
+    ('d4t4.org', 'd4t4'),
+    ('datacollective.org', 'dc'),
+]
 
-rm -rf ~/d4t4.org.new
-mkdir ~/d4t4.org.new
-cd ~/d4t4.org.new
+##
 
-(cd ~/hg/dc && hg pull)
-(cd ~/hg/dcvendor && hg pull)
+import os
+import shutil
+import sys
 
-# Export repo code to files
-hg archive -r tip -R ~/hg/dc dc
-hg archive -r tip -R ~/hg/dcvendor dc/web/vendor
+from os.path import expanduser as x
+from os import chdir as cd
+from subprocess import check_call
 
-ln -s dc/web/public public
+##
 
-pip install -r dc/requirements.txt
+class Site(object):
+    def __init__(self, domain, settings_module_prefix):
+        self.domain = domain
+        self.settings_module_prefix = settings_module_prefix
+        self.serve_dir = x('~/%s' % self.domain)
+        self.new_serve_dir = self.serve_dir + '.new'
+        self.old_serve_dir = self.serve_dir + '.old'
 
-dc/scripts/backup-databases --deploy
+SITES = [Site(*t) for t in SITES]
 
-dc/web/manage.py --prod syncdb --noinput --migrate
+if 'd4t4' not in os.getlogin():
+    print >> sys.stderr, 'This only runs on the production server.'
+    sys.exit(1)
 
-dc/web/manage.py --prod collectstatic --noinput
+def cd(path):
+    os.chdir(os.path.expanduser(path))
 
-crontab dc/cron/crontab
+##
 
-mkdir tmp
-touch tmp/restart.txt
+check_call(['hg', 'pull'], cwd=x('~/hg/dc'))
+check_call(['hg', 'pull'], cwd=x('~/hg/dcvendor'))
 
-ln -s dc/web/common/deploy/passenger_wsgi.py .
+cd('~')
 
-cd ..
-if [ -d d4t4.org.old ]; then
-    rm -rf d4t4.org.old
-fi
-mv d4t4.org d4t4.org.old; mv d4t4.org.new d4t4.org
-ln -nfs ~/d4t4.org/dc ~/dc
+shutil.rmtree('dc')
 
-touch d4t4.org/tmp/restart.txt
+for repo, path in [('dc', 'dc'), ('dcvendor', 'dc/web/vendor')]:
+    check_call(('hg archive -r tip -R hg/%s %s' % (repo, path)).split())
 
-echo 'It’s alive!'
+check_call('pip install -r dc/requirements.txt'.split())
+
+# Set up sites in temporary directories
+for s in SITES:
+    if os.path.isdir(s.new_serve_dir):
+        shutil.rmtree(s.new_serve_dir)
+    os.makedirs(s.new_serve_dir)
+    os.chdir(s.new_serve_dir)
+
+    shutil.copytree(x('~/dc'), 'dc', symlinks=True)
+
+    os.symlink('dc/web/public', 'public')
+
+    with open('dc/web/common/deploy/passenger_wsgi.py', 'r') as wsgi:
+        with open('passenger_wsgi.py', 'w') as wsgi_out:
+            wsgi_out.write(wsgi.read().replace('@settings@',
+                    'settings.%s_prod' % s.settings_module_prefix))
+
+    os.makedirs('tmp')
+    with open('tmp/restart.txt', 'w') as f:
+        pass
+
+    cd(x('~'))
+
+# Backup and upgrade database
+check_call('dc/scripts/backup-databases --deploy'.split())
+check_call('dc/web/manage.py --prod syncdb --noinput --migrate'.split())
+
+for s in SITES:
+    cd(s.new_serve_dir)
+    # Would prefer to collect static files earlier to minimize time while
+    # code and database are inconsistent, but collectstatic fails to
+    # reset requires_model_validation.
+    check_call('dc/web/manage.py --prod collectstatic --noinput'.split())
+
+# Move sites into place
+for s in SITES:
+    if os.path.isdir(s.old_serve_dir):
+        shutil.rmtree(s.old_serve_dir)
+    shutil.move(s.serve_dir, s.old_serve_dir)
+    shutil.move(s.new_serve_dir, s.serve_dir)
+
+    with open(os.path.join(s.serve_dir, 'tmp/restart.txt'), 'w') as f:
+        pass
+
+check_call('crontab dc/cron/crontab'.split())
+
+print 'It’s alive!'
