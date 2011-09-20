@@ -11,8 +11,6 @@ if sys.version < "2.7":
   python = os.path.join(os.environ['HOME'], 'local', 'bin', 'python2.7')
   os.execl(python, python, *sys.argv)
 
-
-
 # On linux, toggle this to find out where stdout and stderr logs are going
 # before redirection. stdout is fd 1, stderr is fd 2.
 if False:
@@ -39,7 +37,7 @@ resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
 import django.core.handlers.wsgi
 sys.path.insert(0, os.path.join(os.getcwd(), 'dc/web'))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = "settings.d4t4_prod"
+os.environ['DJANGO_SETTINGS_MODULE'] = "@settings@"
 
 def application(environ, start_response):
     try:

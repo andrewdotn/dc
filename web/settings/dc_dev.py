@@ -1,2 +1,2 @@
 from development import *
-from datacollective import *
+from dc import *
