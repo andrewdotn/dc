@@ -11,6 +11,19 @@ if sys.version < "2.7":
   python = os.path.join(os.environ['HOME'], 'local', 'bin', 'python2.7')
   os.execl(python, python, *sys.argv)
 
+# On linux, toggle this to find out where stdout and stderr logs are going.
+# stdout is fd 1
+# stderr is fd 2
+if False:
+    log = open(os.path.expanduser('~/log.log'), 'w')
+    for fd in os.listdir('/proc/self/fd'):
+        try:
+            target = os.readlink('/proc/self/fd/' + fd)
+            print >> log, '%3s' % fd, target
+        except Exception:
+            print >> log, '%3s' % fd, '[gone]'
+    log.close()
+
 if hasattr(sys, 'setdefaultencoding'):
     sys.setdefaultencoding(locale.getpreferredencoding().lower())
 

@@ -19,6 +19,7 @@
       </ul>
       <li><a href="#prototype">Our latest prototype</a>
       <li><a href="#deploying">Deploying</a>
+      <li><a href="#logging">Logging</a>
       <li><a href="#updatingdata">Updating data</a>
       <li><a href="#schemamigration">Schema migration</a>
       <li><a href="#stuff">Stuff to look into</a>
@@ -143,6 +144,47 @@ sys.setdefaultencoding('UTF-8')</pre>
       If you get any errors, keep in mind that the errors are occurring on
       the server, so you’ll probably need to log in there to debug and fix
       them.
+      </p>
+
+      <a name="Logging"></a>
+      <h2>Logging</h2>
+
+      <p>
+      In production, the standard apache <tt>access.log</tt> and
+      <tt>error.log</tt> files are on the web server, in
+      <tt>~/logs/${DOMAIN}/http</tt> and <tt>~/logs/${DOMAIN}/https</tt>.
+      </p>
+
+      <p>
+      Those logs will have error code 500 if there’s a problem, but they
+      won’t tell you any details.
+      </p>
+
+      <p>
+      If there is a problem and the webapp can’t start at all, you’ll see
+      the error message “<tt>Something went wrong, we’re looking into
+        it</tt>” in the browser, and the exception and traceback will be
+      written to <tt>~/${DOMAIN}/error.log</tt>.
+      </p>
+
+      <p>
+      Once the web app starts, messages go to the webapp runner log file,
+      which is currently
+      <tt>/usr/local/dh/apache2/logs/apache2-lip/error.log.1</tt>.
+      That path may change at any time. If that file stops being updated,
+      there’s a bit of code in <tt>passenger_wsgi.py</tt> that you can
+      toggle to find out the new path.
+      </p>
+
+      <p>
+      Then <a href="https://docs.djangoproject.com/en/dev/topics/logging/"
+        >Django’s regular logging mechanism</a> takes over. However, since
+      <code>stdout</code> and <code>stderr</code> are written to a log file
+      is world-readable to everyone on the shared server and might have
+      sensitive information, the production site currently configured to
+      only log 500-status errors, and only via email. The emails should
+      contain all the exception information, but clues for nastier bugs
+      might be found in the files mentioned above.
       </p>
 
       <a name="updatingdata"></a>
