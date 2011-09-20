@@ -8,29 +8,6 @@
     <meta property="og:image" content="https://d4t4.org/chart/image/{{chart.id}}">
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-/*
-        $("#datafrom").hide();
-        $("#postedby").hide();
-*/
-        $("#datafromhead").click(function() {
-          $("#datafrom").slideToggle(400);
-          return false;
-        });
-
-        $("#postedbyhead").click(function() {
-          $("#postedby").slideToggle(400);
-          return false;
-        });
-
-        $("input.readonly").hover(function() {
-          this.focus();
-          this.select();
-        }, function() {
-        });
-      });
-    </script>
 
     <style>
 @font-face {
@@ -108,8 +85,11 @@
     <div id="container" style="width:100%; background-color:#fffafc">
       <div id="main" style="width:800px; margin:auto">
         <div class="titlediv">
-          <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective
-          {% if user.is_staff %} ADMIN MODE {% endif %} </div>
+          <div class="title" style="background-image:url('/static/images/neitsch_quilt_partial.png'); background-color:#990031; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
+<!--          <img src="/static/images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
+          <span style="position:relative; top:5px; left:5px">Data Collective</span>
+          {% if user.is_staff %} ADMIN MODE {% endif %}
+          </div>
         </div>
         <div class="titlediv" style="margin-bottom:0px">
         </div>
@@ -136,50 +116,11 @@ XLS doesnt really work yet.  Need to think about it some more.
 -->
             </div>
           </span>
-          <span style="float:right" width=100%>
-
-            <!-- AddThis Button BEGIN
-            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-              <a style="float:left"
-                title="Tweet this" target="_blank"
-                href="https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective" rel="nofollow">
-                <img src="{{STATIC_URL}}/chart/twitter-32.png">
-              </a>
-              <a style="float:left"
-                title="Share this on Facebook" target="_blank"
-                href="https://www.facebook.com/sharer.php?u={{ url }}&t={{ chart.title }}" rel="nofollow">
-                <img src="{{STATIC_URL}}/chart/fb-32.png">
-              </a>
-              <form style="float:left">
-                <input value="{{url}}" class="readonly" readonly>
-              </form>
-
-              <a class="addthis_button_compact" onmouseover="void(0);"></a>
-            </div>
-
-            <script type="text/javascript">
-              var addthis_config = {
-                services_exclude: "twitter,facebook",
-                data_track_clickback: false,
-                ui_click: true
-              };
-              var addthis_share = {
-                title: "{{ chart.title|escapejs }}",
-                url: "{{ url|escapejs }}",
-                description: "{{ chart.description|escapejs }}"
-              }
-            </script>
-            <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
-            AddThis Button END -->
-
-          </span>
         </div>
 
         <div class="titlediv">
           <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
             <span> data from {{ chart.source_title }} </span>
-            <span style="padding-left:2em"></span>
-            <span style="font-size:0.5em">▼</span>
           </div>
           <div id="datafrom" class="title" style="background-color:#E58F17; max-width:800px; margin-top:-1.0em; border-top-left-radius:0px">
             <br>
@@ -192,8 +133,6 @@ XLS doesnt really work yet.  Need to think about it some more.
         <div class="titlediv">
           <span id="postedbyhead" class="title" style="background-color:#BF5F22">
             <span>posted by {{ chart.chart_creator }}</span>
-            <span style="padding-left:2em"></span>
-            <span style="font-size:0.5em">▼</span>
           </span>
           <div id="postedby" class="title" style="background-color:#BF5F22; max-width:800px; margin-top:-0.5em; border-top-left-radius:0px">
             <div  style="float:right; margin-right:0px; margin-top:10px">
@@ -232,13 +171,13 @@ XLS doesnt really work yet.  Need to think about it some more.
         </div>
 
         <div class="titlediv">
-          <div class="title" style="background-color:#990031; color:#ffffff; width:800px; font-size:1.0em; padding-top:1em; padding-bottom:1em">
+          <div class="title" style="background-color:#33dd99; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
             <span class="bottom_nav">About</span>
             <span class="bottom_nav">Blog</span>
             <span class="bottom_nav">Contact</span>
             <span class="bottom_nav">Help</span>
             <span class="bottom_nav">Terms</span>
-            <span style="float:right">©2011 The Data Collective</span>
+            <span style="float:right">©2011 Data Collective</span>
           </div>
         </div>
       </div>
