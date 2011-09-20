@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 import subprocess
 import tempfile
 
@@ -85,6 +86,8 @@ def embed(request, chart_id):
 # is there a way to put funtext into the template where it belongs?
     })
 
+EASYXDM = pkg_resources.resource_string('vendor.easyxdm', 'static/easyxdm/easyXDM.js')
+
 def embed_js(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
@@ -93,6 +96,7 @@ def embed_js(request, chart_id):
         chart_url += "?internal=1"
 
     return render(request, 'chart/embed.js', {
+      'easyxdm': EASYXDM,
       'chart': chart,
       'chart_url': chart_url,
       'internal': bool(request.GET.get("internal", False))
