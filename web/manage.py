@@ -37,7 +37,7 @@ parser.add_argument('--toolbar', action='store_true', dest='toolbar',
 # http://stackoverflow.com/q/6488752/dont-parse-options-after-the-last-positional-argument
 parser.add_argument('command', nargs=argparse.REMAINDER)
 
-options, args = parser.parse_known_args()
+options = parser.parse_args()
 
 # The original command is something like
 #
