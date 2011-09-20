@@ -52,5 +52,3 @@ def application(environ, start_response):
     start_response('500 Internal server error',
          [('Content-type', 'text/plain; charset=UTF-8')])
     return ["Something went wrong, we’re looking into it."]
-
-raise Exception
