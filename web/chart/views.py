@@ -3,7 +3,7 @@ import pkg_resources
 import subprocess
 import tempfile
 
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
@@ -48,7 +48,7 @@ def image(request, chart_id=None, short_name=None):
         with open(utils.chart_image_path(chart.id), "rb") as f:
             image_data = f.read()
     except IOError:
-        return HttpResponseNotFound()
+            raise Http404
 
     return HttpResponse(image_data, mimetype="image/png")
 
