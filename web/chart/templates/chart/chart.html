@@ -61,6 +61,10 @@
         font-size:1.5em;
         border-radius:15px;
       }
+      .title a:link,a:visited,a:hover,a:active {
+        color:#ffffff;
+        text-decoration:none;
+      }
       .titlediv {
         margin-top: 1.5em;
         margin-bottom: 1.5em;
@@ -85,7 +89,7 @@
     <div id="container" style="width:100%; background-color:#fffafc">
       <div id="main" style="width:800px; margin:auto">
         <div class="titlediv">
-          <div class="title" style="background-image:url('/static/images/neitsch_quilt_partial.png'); background-color:#990031; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
+          <div class="title" style="background-image:url('/static/images/neitsch_quilt_partial.png'); background-color:#2d5344; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
 <!--          <img src="/static/images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
           <span style="position:relative; top:5px; left:5px">Data Collective</span>
           {% if user.is_staff %} ADMIN MODE {% endif %}
@@ -171,12 +175,9 @@ XLS doesnt really work yet.  Need to think about it some more.
         </div>
 
         <div class="titlediv">
-          <div class="title" style="background-color:#33dd99; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
-            <span class="bottom_nav">About</span>
+          <div class="title" style="background-color:#2d5344; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
+            <span class="bottom_nav"><a href="/static/html/about.html">About</a></span>
             <span class="bottom_nav">Blog</span>
-            <span class="bottom_nav">Contact</span>
-            <span class="bottom_nav">Help</span>
-            <span class="bottom_nav">Terms</span>
             <span style="float:right">©2011 Data Collective</span>
           </div>
         </div>
