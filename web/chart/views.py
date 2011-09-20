@@ -64,7 +64,7 @@ def convert(request, chart_id):
     fd.write(request.POST["svg"])
     fd.close()
 
-    status = subprocess.call(["java", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
+    status = subprocess.call(["java", "-Xmx10m", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
 
     # For debug purposes, if we were asked for svg, save the svg data as well.  Otherwise delete it.
 
