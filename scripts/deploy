@@ -13,8 +13,9 @@ import os
 import shutil
 import sys
 
-from os.path import expanduser as x
+from getpass import getuser
 from os import chdir as cd
+from os.path import expanduser as x
 from subprocess import check_call
 
 ##
@@ -29,7 +30,7 @@ class Site(object):
 
 SITES = [Site(*t) for t in SITES]
 
-if 'd4t4' not in os.getlogin():
+if 'd4t4' not in getuser():
     print >> sys.stderr, 'This only runs on the production server.'
     sys.exit(1)
 
