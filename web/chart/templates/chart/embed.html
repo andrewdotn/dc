@@ -71,9 +71,9 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/easyxdm/easyXDM.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
-{% ifequal user.username "admin" %}
+{% if user.is_staff %}
     <script type="text/javascript" src="/static/modules/exporting.js"></script>
-{% endifequal %}
+{% endif %}
 
     <script type="text/javascript">
       var addthis_config = {
@@ -120,9 +120,9 @@
             text: ""
           },
           {{ chart.chart_settings|safe }}
-{% ifequal user.username "admin" %}
+{% if user.is_staff %}
           exporting: {url: "/chart/convert/{{ chart.id|safe }}/"},
-{% endifequal %}
+{% endif %}
           series: [ {{ chart.chart_data|safe }} ]
         });
       }
