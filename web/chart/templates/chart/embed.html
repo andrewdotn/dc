@@ -251,7 +251,7 @@
           </li>
 {% if not internal %}
           <li>&nbsp</li>
-	  <li><a target="_blank" href="/chart/{{ chart.short_name|safe }}">See source data and credits at Data Collective</a></li>
+	  <li><a target="_blank" href="/chart/{{ chart.id|safe }}">See source data and credits at Data Collective</a></li>
 {% endif %}
         </ul>
       </div>
@@ -262,7 +262,7 @@
     <div id="creditsdiv" style="font-family:Georgia; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Source</b>: {{chart.source_title|safe}}.
 {% if not internal %}
-Complete source data, credits and more at <a target="_blank" href="/chart/{{ chart.short_name|safe }}">Data Collective</a>.
+Complete source data, credits and more at <a target="_blank" href="/chart/{{ chart.id|safe }}">Data Collective</a>.
 {% endif %}
     </div>
 
