@@ -21,4 +21,4 @@ class Command(NoArgsCommand):
         if connection.vendor != 'sqlite':
             abort_not_development('DB vendor is not sqlite.')
 
-        subprocess.call(["ssh", "d4t4.org", "deploy"])
+        subprocess.call(["ssh", "d4t4.org", "dc/scripts/deploy"])
