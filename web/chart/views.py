@@ -3,7 +3,7 @@ import pkg_resources
 import subprocess
 import tempfile
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
@@ -44,8 +44,11 @@ def view(request, chart_id=None, chart=None, short_name=None):
 
 def image(request, chart_id=None, short_name=None):
     chart = get_chart(chart_id, short_name)
-    image_data = open(utils.chart_image_path(chart.id), "rb").read()
-    return HttpResponse(image_data, mimetype="image/png")
+    try:
+        image_data = open(utils.chart_image_path(chart.id), "rb").read()
+        return HttpResponse(image_data, mimetype="image/png")
+    except IOError:
+        return HttpResponseNotFound()
 
 # TODO Queue conversion requests.
 # TODO Handle csrf issues when this becomes an Ajax request.
@@ -57,21 +60,34 @@ BATIK_JAR_PATH = os.path.join(VENDOR_ROOT, "batik", "batik-rasterizer.jar")
 def convert(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
+    # Output svg data.
+
     f, svg_path = tempfile.mkstemp()
     png_path = utils.chart_image_path(chart_id)
 
-    fd = os.fdopen(f, "w")
-    fd.write(request.POST["svg"])
-    fd.close()
+    try:
+        fd = os.fdopen(f, "wb")
+        fd.write(request.POST["svg"])
+        fd.close()
+    except IOError:
+        return HttpResponseServerError()
 
-    status = subprocess.call(["java", "-Xmx10m", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
+    # Convert to png.
+
+    status = subprocess.call(["java", "-Xmx10m", "-Djava.awt.headless=true", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
+
+    if status != 0:
+        return HttpResponseServerError()
 
     # For debug purposes, if we were asked for svg, save the svg data as well.  Otherwise delete it.
 
-    if request.POST["type"] == "image/svg+xml":
-        os.rename(svg_path, utils.chart_image_path(chart_id, ext="svg"))
-    else:
-        os.remove(svg_path)
+    try:
+        if request.POST["type"] == "image/svg+xml":
+            os.rename(svg_path, utils.chart_image_path(chart_id, ext="svg"))
+        else:
+            os.remove(svg_path)
+    except OSError:
+        return HttpResponseServerError()
 
     return image(request, chart_id)
 
