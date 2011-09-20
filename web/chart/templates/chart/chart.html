@@ -3,6 +3,9 @@
   <head>
     <title>{{ chart.title }}</title>
     <meta charset='UTF-8'>
+    <meta property="og:title" content="{{chart.title}}">
+    <meta property="og:description" content="{{chart.description}}">
+    <meta property="og:image" content="https://d4t4.org/chart/image/{{chart.id}}">
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -115,7 +118,6 @@
           <div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}" style="padding: 0px; margin: 0px; overflow: hidden; border-radius:15px; border:6px solid #ffde00; background-color: white; padding: 0px">
             <noscript><iframe src="/chart/embed/{{chart.id|safe}}?internal=1" width="630" height="690" frameborder="0"></iframe></noscript>
           </div>
-          <script type="text/javascript" src="/static/easyxdm/easyXDM.js"></script>
           <script type="text/javascript" src="/chart/embedjs/{{chart.id|safe}}?internal=1"></script>
           <div style="float:right; font-size:75%">
             charting software by Highcharts.com
