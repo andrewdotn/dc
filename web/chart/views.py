@@ -45,10 +45,12 @@ def view(request, chart_id=None, chart=None, short_name=None):
 def image(request, chart_id=None, short_name=None):
     chart = get_chart(chart_id, short_name)
     try:
-        image_data = open(utils.chart_image_path(chart.id), "rb").read()
-        return HttpResponse(image_data, mimetype="image/png")
+        with open(utils.chart_image_path(chart.id), "rb") as f:
+            image_data = f.read()
     except IOError:
         return HttpResponseNotFound()
+
+    return HttpResponse(image_data, mimetype="image/png")
 
 # TODO Queue conversion requests.
 # TODO Handle csrf issues when this becomes an Ajax request.
@@ -66,9 +68,8 @@ def convert(request, chart_id):
     png_path = utils.chart_image_path(chart_id)
 
     try:
-        fd = os.fdopen(f, "wb")
-        fd.write(request.POST["svg"])
-        fd.close()
+        with os.fdopen(f, "wb") as fd:
+            fd.write(request.POST["svg"])
     except IOError:
         return HttpResponseServerError()
 
