@@ -109,7 +109,7 @@
       <div id="main" style="width:800px; margin:auto">
         <div class="titlediv">
           <div class="title" style="background-color:#990031; color:#ffffff; font-size:2em; max-width:750px;">The Data Collective
-          {% ifequal user.username "admin" %} ADMIN MODE {% endifequal %} </div>
+          {% if user.is_staff %} ADMIN MODE {% endif %} </div>
         </div>
         <div class="titlediv" style="margin-bottom:0px">
         </div>

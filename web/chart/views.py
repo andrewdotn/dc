@@ -53,7 +53,7 @@ def image(request, chart_id=None, short_name=None):
 BATIK_JAR_PATH = os.path.join(VENDOR_ROOT, "batik", "batik-rasterizer.jar")
 
 @csrf_exempt
-@user_passes_test(lambda u: u.username == 'admin')
+@user_passes_test(lambda u: u.is_staff)
 def convert(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
