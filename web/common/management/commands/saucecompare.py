@@ -78,7 +78,7 @@ class HtmlWriter(object):
 class Command(BaseCommand):
     args = '<url> [results.html]'
     help = '''Generate an HTML document of browser snapshots for the given URL.
-        Output is written to saucecompare.html by default.'''
+Output is written to saucecompare.html by default.'''
 
     def handle(self, *args, **options):
         # Parse args.
