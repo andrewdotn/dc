@@ -172,12 +172,18 @@ Erase %s to try again.""" % certfile
                                 break
             if not found:
                 print >> sys.stderr, """\
-One last step: if you’re using Chrome, run
-
-    sudo sh -c 'echo "127.0.0.1 local.host" >> /etc/hosts'
-
-and access https://local.host:port/ to get a fully green lock icon.
+One last step: I’m going to add local.host as an alias for 127.0.0.1 in
+your /etc/hosts. You’ll then access the site via https://local.host:port/.
+This is necessary for a green lock icon in Chrome. So that’s what’s going
+on if you get a password prompt now.
 """
+
+                try:
+                    subprocess.check_call(['sudo', 'sh', '-c',
+                            'echo "127.0.0.1 local.host" >> /etc/hosts'])
+                except Exception:
+                    print >> sys.stderr, \
+                            "That didn’t work. Please edit /etc/hosts manually."
 
     return certfile
 
