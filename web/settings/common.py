@@ -7,6 +7,9 @@ import json
 
 # All keys in ~/.dc_secrets.json are loaded into this module. If the file
 # doesn’t exist, it’s created with sane defaults.
+#
+# Make sure the key name contains the string “SECRET” or “PASSWORD” so that
+# it will be masked out in exception reports.
 
 secret_file = os.path.expanduser('~/.dc_secrets.json')
 
