@@ -22,6 +22,7 @@
       <li><a href="#logging">Logging</a>
       <li><a href="#updatingdata">Updating data</a>
       <li><a href="#schemamigration">Schema migration</a>
+      <li><a href="#browsertesting">Browser testing</a>
       <li><a href="#stuff">Stuff to look into</a>
       </ul>
 
@@ -306,6 +307,14 @@ elif db_version == 5:
       <p>
       The details for that still need to be worked out though.
       </p>
+
+      <a name="browsertesting"></a>
+      <h2>Browser testing</h2>
+      <p>To create an html report of browser screenshots on multiple platforms for a given URL, use the 'saucecompare' management command:</p>
+      <p><pre>./manage.py saucecompare &lt;url&gt; [saucecompare.html]</pre></p>
+      <p>The output path is optional.</p>
+      <p>Prior to using the command, you'll need to add the Sauce Labs user and key to ~/.dc_secrets.json.</p>
+      <p></p>
 
       <a name="stuff"></a>
       <h2>Stuff to look into</h2>
