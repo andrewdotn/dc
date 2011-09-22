@@ -93,18 +93,25 @@ class SSLServer(TCPServer, object):
 class WSGISSLServer(SSLServer, WSGIServer):
     pass
 
-def run(addr, port, wsgi_handler, ipv6=False):
+def generate_certificate(force=False):
+    """Return the filename of a self-signed certificate for localhost,
+    generating one if one doesn’t already exist or if force is True."""
+
     from django.conf import settings
     certfile = os.path.join(settings.BASE_DIR, 'localhost.pem')
-    if not os.path.isfile(certfile):
+
+    if force or not os.path.isfile(certfile):
         subprocess.call(['openssl', 'req',
                 '-batch',
                 '-new', '-x509', '-days', '365', '-nodes',
                 '-out', certfile, '-keyout', certfile,
                 '-subj', '/CN=localhost'])
 
+    return certfile
+
+def run(addr, port, wsgi_handler, ipv6=False):
     server_address = (addr, port)
-    httpd = WSGISSLServer(certfile, server_address,
+    httpd = WSGISSLServer(generate_certificate(), server_address,
         WSGIRequestHandler, ipv6=ipv6)
     httpd.set_app(wsgi_handler)
     httpd.serve_forever()

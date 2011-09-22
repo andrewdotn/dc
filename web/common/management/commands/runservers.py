@@ -29,6 +29,9 @@ class Command(BaseCommand):
         except ValueError:
             raise CommandError('%s is not a valid port number.' % start_port)
 
+        from common.management.commands.runsslserver import generate_certificate
+        generate_certificate()
+
         try:
             processes = []
             fds = []
