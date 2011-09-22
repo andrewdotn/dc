@@ -101,11 +101,83 @@ def generate_certificate(force=False):
     certfile = os.path.join(settings.BASE_DIR, 'localhost.pem')
 
     if force or not os.path.isfile(certfile):
-        subprocess.call(['openssl', 'req',
-                '-batch',
-                '-new', '-x509', '-days', '365', '-nodes',
-                '-out', certfile, '-keyout', certfile,
-                '-subj', '/CN=localhost'])
+        print >> sys.stderr, "Generating an SSL certificate for you.\n"
+
+        try:
+            conf_file_name = 'openssl.cnf'
+            with open(conf_file_name, 'w') as conf_file:
+                conf_file.write("""\
+[ req ]
+x509_extensions        = v3_ca
+distinguished_name      = req_distinguished_name
+
+[ req_distinguished_name ]
+commonName = localhost
+
+[ v3_ca ]
+basicConstraints = critical,CA:FALSE
+nsCertType = server
+keyUsage = digitalSignature, keyEncipherment, keyCertSign
+extendedKeyUsage = critical,serverAuth
+subjectAltName = DNS:localhost,DNS:local.host""")
+
+            subprocess.check_call(['openssl', 'req', '-config', conf_file_name,
+                '-extensions', 'v3_ca', '-x509', '-new', '-days', '365',
+                '-subj', '/O=Auto-Generated Development Certificate Authority',
+                '-nodes', '-out', certfile, '-keyout', certfile])
+
+        finally:
+            os.unlink(conf_file_name)
+
+        if sys.platform == 'darwin':
+            try:
+
+                print >> sys.stderr, """
+To make debugging SSL lock icon issues easier, I’m going to have you mark
+the certificate I just created as trusted by entering your password now. If
+you don’t want to do this, just press cancel.
+"""
+
+                pem_file = certfile + '.pem'
+                der_file = certfile + '.der'
+
+                subprocess.check_call(['openssl', 'x509', '-in', certfile,
+                        '-outform', 'pem', '-out', pem_file])
+                subprocess.check_call(['openssl', 'x509', '-in', certfile,
+                        '-outform', 'der', '-out', der_file])
+
+                subprocess.check_call(['security', 'add-certificates', der_file])
+                subprocess.check_call(['security',
+                        'add-trusted-cert', '-p', 'ssl', '-p', 'basic', pem_file])
+
+            except Exception:
+                print >> sys.stderr, """
+That failed. I’m assuming you cancelled, and am carrying on.
+Erase %s to try again.""" % certfile
+
+            finally:
+                os.unlink(pem_file)
+                os.unlink(der_file)
+
+            print >> sys.stderr, """Great!\n"""
+
+            found = False
+            with open('/etc/hosts', 'r') as hosts:
+                for line in hosts:
+                    if not line.strip().startswith('#'):
+                        parts = line.split()
+                        if len(parts) >= 2:
+                            if parts[1] == 'local.host':
+                                found = True
+                                break
+            if not found:
+                print >> sys.stderr, """\
+One last step: if you’re using Chrome, run
+
+    sudo sh -c 'echo "127.0.0.1 local.host" >> /etc/hosts'
+
+and access https://local.host:port/ to get a fully green lock icon.
+"""
 
     return certfile
 
