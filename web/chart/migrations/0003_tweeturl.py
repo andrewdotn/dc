@@ -33,7 +33,9 @@ class Migration(DataMigration):
             'sparkblocks': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'tweet': ('django.db.models.fields.CharField', [], {'max_length': '140'}),
-            'xls_url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
+            'xls_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
+            'html_below_title': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'y_axis_description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'blank': 'True'})
         }
     }
 

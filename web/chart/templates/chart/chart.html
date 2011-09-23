@@ -107,6 +107,7 @@
             charting software by <a target="_blank" title="Insanely great charting software" href="http://www.highcharts.com" style="color:#000000; text-decoration:none">Highcharts.com</a>
           </div>
 
+{% if chart.csv_url %}
           <span style="float:left; width:280px">
             <div>
               <a target="_blank" href=" {{ chart.csv_url }} " title="Download the raw data behind this chart">
@@ -121,6 +122,7 @@ XLS doesnt really work yet.  Need to think about it some more.
             </div>
           </span>
         </div>
+{% endif %}
 
         <div class="titlediv">
           <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
