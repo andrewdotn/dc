@@ -100,7 +100,7 @@ def embed(request, chart_id):
 
     return render(request, 'chart/embed.html', {
       'host': request.get_host(),
-      'url': '//' + request.get_host() + '/chart/' + chart.short_name,
+      'url': 'https://' + request.get_host() + '/chart/' + chart.short_name,
       'chart': chart,
       'internal': bool(request.GET.get("internal", False)),
       'funtext':['term paper', 'love letter', 'op-ed', 'manifesto']
