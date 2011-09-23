@@ -39,6 +39,7 @@ def view(request, chart_id=None, chart=None, short_name=None):
     return render(request, 'chart/chart.html', {
         'chart': chart,
         'host': request.get_host(),
+        'fuckfonts': request.GET.get("fuckfonts", False),
         'url': '//' + request.get_host() + '/chart/' + chart.short_name,
         'shorturl': '//' + request.get_host() + '/chart/' + chart.short_name,
         'chart_data': chart.chart_data.replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n'),
@@ -101,6 +102,7 @@ def embed(request, chart_id):
     return render(request, 'chart/embed.html', {
       'host': request.get_host(),
       'url': 'https://' + request.get_host() + '/chart/' + chart.short_name,
+      'fuckfonts': request.GET.get("fuckfonts", False),
       'chart': chart,
       'internal': bool(request.GET.get("internal", False)),
       'funtext':['term paper', 'love letter', 'op-ed', 'manifesto']
@@ -112,9 +114,14 @@ EASYXDM = pkg_resources.resource_string('vendor.easyxdm', 'static/easyxdm/easyXD
 def embed_js(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
-    chart_url = "https://" + request.get_host() + "/chart/embed/" + str(chart.id)
+    chart_url = "https://" + request.get_host() + "/chart/embed/" + str(chart.id) + "?foo=bar"
+
     if request.GET.get("internal", False):
-        chart_url += "?internal=1"
+        chart_url += "&internal=1"
+
+    if request.GET.get("fuckfonts", False):
+        chart_url += "&fuckfonts=1"
+        
 
     return render(request, 'chart/embed.js', {
       'easyxdm': EASYXDM,

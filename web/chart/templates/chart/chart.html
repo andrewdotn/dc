@@ -10,6 +10,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 
     <style>
+{% if not fuckfonts %}
 @font-face {
     font-family: 'ChunkFiveRegular';
     src: url('/static/fonts/Chunkfive-webfont.eot');
@@ -42,6 +43,7 @@
     font-weight: normal;
     font-style: normal;
 }
+{% endif %}
 
       body {
         font: 100% 'OpenSansRegular', verdana, sans-serif;
@@ -102,7 +104,11 @@
           <div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}" style="padding: 0px; margin: 0px; overflow: hidden; border-radius:15px; border:6px solid #ffde00; background-color: white; padding: 0px">
             <noscript><iframe src="/chart/embed/{{chart.id|safe}}?internal=1" width="630" height="690" frameborder="0"></iframe></noscript>
           </div>
+{% if fuckfonts %}
+          <script type="text/javascript" src="/chart/embedjs/{{chart.id|safe}}?internal=1&fuckfonts=1"></script>
+{% else %}
           <script type="text/javascript" src="/chart/embedjs/{{chart.id|safe}}?internal=1"></script>
+{% endif %}
           <div style="float:right; font-size:75%">
             charting software by <a target="_blank" title="Insanely great charting software" href="http://www.highcharts.com" style="color:#000000; text-decoration:none">Highcharts.com</a>
           </div>
