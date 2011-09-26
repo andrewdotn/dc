@@ -122,6 +122,8 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'south',
     'django_bcrypt',
+    'sentry',
+    'sentry.client',
 
     'vendor.amcharts',
     'vendor.highcharts',
