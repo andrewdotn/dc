@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Data Collective</title>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="Data Collective">
+    <meta property="og:description" content="We started Data Collective because it's way too hard to get simple
+numerical facts about the world.  In sports or business, you could never understand what's going on without the basic stats.  We feel the same way about the rest of life.">
+    <meta property="og:image" content="https://datacollective.org">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <style>
+@font-face {
+    font-family: 'ChunkFiveRegular';
+    src: url('/static/fonts/Chunkfive-webfont.eot');
+    src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
+         url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
+         url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('/static/fonts/OpenSans-Regular-webfont.eot');
+    src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansBold';
+    src: url('/static/fonts/OpenSans-Bold-webfont.eot');
+    src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
+         url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+         url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+      body {
+        font: 100% 'OpenSansRegular', verdana, sans-serif;
+        margin:0;
+        padding:0;
+      }
+      h1 {
+        margin:0;
+        font: 200%/125% 'OpenSansBold', verdana, sans-serif;
+      }
+      .title {
+        background-color:#ffde00;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        padding-top: 0.25em;
+        padding-bottom: 0.25em;
+        font-size:1.5em;
+        border-radius:15px;
+      }
+      .titlediv {
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+      }
+      .bottom_nav {
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+      #disqus_wrapper {
+        padding:0.5em;
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+        max-width:800px;
+        background-color:#eeffee;
+        border-radius:15px;
+        border:2px solid #ccddcc;
+        /*  outline:#ddeedd solid medium; */
+      }
+    </style>
+    <script>
+function sorry()
+{
+  alert("You are already looking at the About page.  We hope you like it!  (If you are a UI designer, we would love your feedback about how to fix this)");
+}
+
+outputToUser="";
+
+function renderNumbers(numbers)
+{
+    var base=9601;
+    var range=6;
+    // permitted unicode decimal values go from base to base+range
+    // so there are (range+1) permitted values
+
+    var result="";
+
+    var minValue = numbers[0];
+    var maxValue = numbers[0];
+    for (i=1; i<numbers.length; i++) {
+        minValue = Math.min(minValue, numbers[i]);
+        maxValue = Math.max(maxValue, numbers[i]);
+    }
+    var valueScale = maxValue - minValue;
+
+
+    for (i=0; i<numbers.length; i++) {
+        scaledValue = (numbers[i] - minValue) / valueScale;  // scaledValue is a real value in [0,1]
+	num=Math.floor(Math.min(range, scaledValue * (range+1))); // num is now an integer value in [0, range]
+
+	// sadly, unicode 9604 and 9608 dont render properly in my browser.
+	// they are not vertically aligned the same as the other unicode block elements
+	// so it looks crap.
+	//
+	// thus we hack.
+	//
+        if (num == 3) {
+	    if (scaledValue * (range+1) < 3.5) { num = 2 } else { num = 4 }
+	    }
+	    if (num == 7) { num = 6 }
+
+	    outputToUser=outputToUser+"["+numbers[i]+":"+scaledValue+":"+num+"], ";
+        result+=String.fromCharCode(base+num);
+    }
+    return result;
+}
+
+function randomBlock()
+{
+// never return 3 or 7, they doesnt align properly
+  answer = Math.floor(6 * Math.random());
+  if (answer == 3) return randomBlock();  // we takes our chances on a stack blowout.  feel lucky?
+  return answer;
+}
+
+function randomBlocks()
+{
+    var base=9601;
+    var result="";
+    for (i=0; i<20; i++) {
+
+        result+=String.fromCharCode(base+randomBlock());
+    }
+    return result;
+}
+
+function redraw()
+{
+    // get the user input and get an array of the numbers in it
+    var userinput=document.getElementById("userinput").value;
+    var userNumbers = userinput.match(/-?\d+\.?\d*/g);
+    outputToUser = "";
+    
+    // resample the series to the desired number of characters
+    // we have X > C data points and we want to output not more than C characters.
+    //
+    // So the first character will be based on the average of the
+    // first ceil(X/C) data points.
+    var maxOutLength = document.getElementById("range").innerHTML;
+    var outputLength = Math.min(userNumbers.length, maxOutLength);
+    var outputNumbers = [outputLength];
+
+    var chunkSize = Math.ceil(userNumbers.length / outputLength);
+    var sumValues = 0;
+    var sumCount = 0;
+    var chunkNum = 0;
+    for (i=0; i<userNumbers.length; i++) {
+    sumValues += parseFloat(userNumbers[i]);
+    sumCount++;
+    if (sumCount == chunkSize || i == (userNumbers.length - 1)) {
+        outputNumbers[chunkNum] = sumValues / sumCount;
+	    chunkNum++;
+	        sumValues = 0;
+		    sumCount = 0;
+		    }
+    }
+
+
+    result = renderNumbers(outputNumbers);
+
+    // only for debugging
+    //    document.getElementById("numbers").innerHTML=outputToUser;
+
+    document.getElementById("demo").innerHTML=result;
+}
+
+function showValue(newValue)
+{
+document.getElementById("range").innerHTML=newValue;
+redraw();
+}
+
+function init() {
+document.getElementById("demo").innerHTML="Example: " + randomBlocks();
+document.getElementById("userinput").focus();
+}
+
+if(window.attachEvent) {
+    window.attachEvent('onload', init);
+} else {
+    if(window.onload) {
+        var curronload = window.onload;
+        var newonload = function() {
+            curronload();
+            init();
+        };
+        window.onload = newonload;
+    } else {
+        window.onload = init;
+    }
+}
+
+    </script>
+</head>
+  <body style="background-color:#fffafc">
+    <div id="container" style="width:100%; background-color:#fffafc">
+      <div id="main" style="width:800px; margin:auto">
+        <div class="titlediv">
+          <div class="title" style="background-image:url(&#39;/static/images/neitsch_quilt_partial.png&#39;); background-color:#2d5344; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
+<!--          <img src="/static/images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
+          <span style="position:relative; top:5px; left:5px">Data Collective</span>
+          </div>
+        </div>
+
+
+1. Paste numbers here.
+<INPUT TYPE=TEXT NAME="fahr" id="userinput" SIZE=30 ONKEYUP="redraw()">
+
+<br><br>
+2. At most, how long do you want your sparkblock to be (in characters)?
+<input type="range" min="5" max="50" value="10" step="1" onchange="showValue(this.value)" />
+<span id="range">10</span>
+
+<p>3. Copy and paste the following blocks into a tweet, email, or anyplace else. Extra points for creativity!</p>
+<br>
+<p id="demo"></p>
+<br>
+<small><small>Inspired by Alex Kerin's <a href="http://www.datadrivenconsulting.com/2010/06/twitter-sparkline-generator/">Twitter Sparkline Generator</a>
+<br>
+Feedback to dsjoerg@datacollective.org</small></small>
+
+<br><br>
+<!--
+DEBUGGING: <p id="numbers">Numbers are going to be here.</p>
+-->
+
+
+        <div class="titlediv">
+          <div class="title" style="background-color:#2d5344; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
+            <span class="bottom_nav"><a href="#" style="text-decoration:none; color:#ffffff" onclick="sorry()" title="This link should take you to the About page, but, on the other hand, you are already looking at the About page, so what happens if you click here?">About</a></span>
+            <span class="bottom_nav" title="The blog is at blog.datacollective.org but we haven't fixed the style yet to match the rest of the site.">Blog</span>
+
+            <span style="float:right">©2011 Data Collective</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</body></html>
