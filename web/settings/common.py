@@ -140,6 +140,8 @@ INSTALLED_APPS = [
 # Enabling this setting allows the testing of Sentry exception handler even if Django DEBUG is enabled.
 SENTRY_TESTING = True
 
+SEND_BROKEN_LINK_EMAILS = True
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
@@ -149,7 +151,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'mail_admins': {
-            'level': 'WARNING',
+            'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'console': {
