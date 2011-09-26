@@ -105,7 +105,11 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'sentry.client.middleware.Sentry404CatchMiddleware',
+#
+# sentry can ignore 404s for now
+#
+#    'sentry.client.middleware.Sentry404CatchMiddleware',
+#
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
