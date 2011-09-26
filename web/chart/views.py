@@ -122,3 +122,8 @@ def embed_js(request, chart_id):
       'chart_url': chart_url,
       'internal': bool(request.GET.get("internal", False))
     })
+
+def fivehundred(request):
+    return render(request, 'chart/noexist', {
+      'bah': foo
+    })

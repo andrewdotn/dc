@@ -29,4 +29,6 @@ urlpatterns = patterns('',
     url(r'^staff/admin/', include(admin.site.urls)),
 
     (r'^staff/sentry/', include('sentry.web.urls')),
+
+    (r'^staff/500/', 'chart.views.fivehundred'),
 )
