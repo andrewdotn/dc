@@ -149,7 +149,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'mail_admins': {
-            'level': 'ERROR',
+            'level': 'WARNING',
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'console': {
@@ -160,7 +160,7 @@ LOGGING = {
     'loggers': {
         'django.request': {
             'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
+            'level': 'WARNING',
             'propagate': False,
         },
         'django': {
