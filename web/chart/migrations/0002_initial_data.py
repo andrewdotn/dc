@@ -42,6 +42,7 @@ class Migration(DataMigration):
 
 CHART_DATA = [{
  "title": "US Taxes as Percentage of Personal Income",
+  "y_axis_description": "",
  "sparkblocks": "▃▃▃▅▆▆▆▆▅▇▆▅▁",
  "tweet": "US Taxes as Percentage of Percentage Income, 1929-2009: d4t4.org/▁▂▆▆▆▇▇▇▇▇▅ low 1.4% high 14.4%",
  "source_url": "http://www.bea.gov/iTable/index_nipa.cfm",
@@ -123,6 +124,7 @@ CHART_DATA = [{
 					},
 """},
 { "title": "DonorsChoose.org Project Completion Rate vs Project Size",
+  "y_axis_description": "",
  "sparkblocks": "▇▆▅▅▃▃▃▃▂▁",
  "tweet": "tweet",
  "source_url": "http://blog.datacollective.org/?page_id=61",
@@ -160,6 +162,7 @@ Interested in: how numbers explain the world, coding awesomeness, fun things, un
                                         legend: { enabled: false },
 """},
 { "title": "United States Consumer Price Index",
+  "y_axis_description": "",
  "sparkblocks": "▁▁▁▁▁▁▂▃▅▇",
  "tweet": "US Consumer Price Index 1774-2010",
  "source_url": "http://www.measuringworth.com/datasets/uscpi/",
@@ -187,6 +190,7 @@ Interested in: how numbers explain the world, coding awesomeness, fun things, un
                                         plotOptions: { line: { pointStart: 1774, marker: { enabled: false } } },
 """},
 { "title": "Spending on Medicaid as a Percentage of Gross Domestic Product, 1966-2009",
+  "y_axis_description": "",
  "sparkblocks": "▁▂▂▃▃▅▆▇▇",
  "tweet": "Medicaid spending vs GDP 1966-2009",
  "source_url": "(deprecated field)",
