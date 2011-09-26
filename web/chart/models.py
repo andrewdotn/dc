@@ -3,6 +3,12 @@
 from django.db import models
 
 class Chart(models.Model):
+    # VERSION = 0
+    # chart_data contains a Highcharts-ready JavaScript snippet.
+    VERSION = 1
+    # todo
+
+    version = models.PositiveIntegerField(default=VERSION)
     title = models.CharField(max_length=255, help_text='Chart title')
     html_below_title = models.TextField(blank=True)
     sparkblocks = models.CharField(max_length=30, unique=True)
