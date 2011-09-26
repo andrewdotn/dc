@@ -47,6 +47,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+SENTRY_ADMINS = ADMINS
+
 # The default root@localhost is blocked by mail servers
 SERVER_EMAIL = 'webmaster@datacollective.org'
 
@@ -100,6 +102,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'sentry.client.middleware.Sentry404CatchMiddleware',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -133,6 +136,9 @@ INSTALLED_APPS = [
     'chart',
     'pageset'
 ]
+
+# Enabling this setting allows the testing of Sentry exception handler even if Django DEBUG is enabled.
+SENTRY_TESTING = True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
