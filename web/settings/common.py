@@ -4,6 +4,7 @@ import os
 import os.path
 import sys
 import json
+import re
 
 # All keys in ~/.dc_secrets.json are loaded into this module. If the file
 # doesn’t exist, it’s created with sane defaults.
@@ -141,6 +142,12 @@ INSTALLED_APPS = [
 SENTRY_TESTING = True
 
 SEND_BROKEN_LINK_EMAILS = True
+
+IGNORABLE_404_URLS = (
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/robots\.txt$'),
+    re.compile(r'^.*missing.html$'),
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

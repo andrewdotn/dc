@@ -21,6 +21,9 @@ def index(request):
 def about(request):
     return render(request, 'about.html')
 
+def sparkblocks(request):
+    return render(request, 'sparkblocks.html')
+
 def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
     return view(request, chart=chart)
