@@ -42,13 +42,15 @@ BCRYPT_MIGRATE = True
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+DATA_DIR = os.path.join(BASE_DIR, "data")
+
 ADMINS = (
     ('Data Collective Webmaster', 'webmaster@datacollective.org'),
 )
 
 MANAGERS = ADMINS
 
-SENTRY_ADMINS = ADMINS
+SENTRY_ADMINS = ('webmaster@datacollective.org',)
 
 # The default root@localhost is blocked by mail servers
 SERVER_EMAIL = 'webmaster@datacollective.org'

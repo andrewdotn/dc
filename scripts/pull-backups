@@ -14,6 +14,7 @@ PATHS = [
     'd4t4.org:backups/database/nightly/',
     'd4t4.org:hg/',
     'd4t4.org:logs.archived/',
+    'd4t4.org:data/',
 ]
 
 def makedir_maybe(path):

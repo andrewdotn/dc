@@ -1,6 +1,6 @@
 import os
 
-from settings.common import BASE_DIR
+from django.conf import settings
 
 def chart_image_path(chart_id, ext="png"):
-    return os.path.join(BASE_DIR, "data", "images", "{0}.{1}".format(chart_id, ext))
+    return os.path.join(settings.DATA_DIR, "images", "{0}.{1}".format(chart_id, ext))
