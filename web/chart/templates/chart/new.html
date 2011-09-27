@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>
+      Create a chart
+    </title>
+  </head>
+
+  <body>
+    <h1>Create a chart</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <textarea name="data" rows="10" cols="80" placeholder="1. Paste here"></textarea>
+      <div><input type="submit" value="2. Click here"></div>
+    </form>
+  </body>
+</html>
