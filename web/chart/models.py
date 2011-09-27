@@ -11,7 +11,7 @@ class Chart(models.Model):
     version = models.PositiveIntegerField(default=VERSION)
     title = models.CharField(max_length=255, help_text='Chart title')
     html_below_title = models.TextField(blank=True)
-    sparkblocks = models.CharField(max_length=30, unique=True)
+    sparkblocks = models.CharField(max_length=30, blank=True)
     tweet = models.CharField(max_length=140)
     source_url = models.URLField()
     source_title = models.CharField(max_length=255)
