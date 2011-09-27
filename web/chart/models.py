@@ -1,11 +1,14 @@
 # coding: UTF-8
 
+import csv
+import json
+
 from django.db import models
 
 class Chart(models.Model):
-    # VERSION = 0
-    # chart_data contains a Highcharts-ready JavaScript snippet.
+    # TODO Versions 0 and 1 are now the same, run a migration so version == 1 for all data?
     VERSION = 1
+
     # todo
 
     version = models.PositiveIntegerField(default=VERSION)
@@ -32,3 +35,38 @@ class Chart(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def import_chart_data(self, data):
+        # Sanitize line endings and split into lines.
+
+        lines = data.replace('\r\n', '\n').split('\n')
+
+        # Use tab for delimiter if it exists in the data; otherwise assume comma.
+
+        delimiter = '\t'
+        if not delimiter in data:
+            delimiter = ','
+
+        # Load csv in the format:
+        #   name1  name2  name3
+        #       1      2      3
+        #       4      5      6
+        # Zip to get each column into its own array.
+
+        reader = csv.reader(lines, delimiter=delimiter)
+        series_list = zip(*[value for value in reader])
+
+        # Create a series dict for each column.
+
+        chart_data = []
+
+        for series in series_list:
+            dict = {
+                'name': series[0],
+                'data': [float(value.replace(',', '')) for value in series[1:]]
+            }
+            chart_data.append(dict)
+
+        # Store as json string.
+
+        self.chart_data = json.dumps(chart_data)

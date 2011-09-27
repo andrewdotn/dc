@@ -48,6 +48,19 @@ def view(request, chart_id=None, chart=None, short_name=None):
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
     })
 
+# TODO Error handling would be nice.
+
+@user_passes_test(lambda u: u.is_staff)
+def new(request):
+    if request.POST:
+        chart = Chart()
+        chart.import_chart_data(request.POST["data"])
+        chart.save()
+
+        return redirect('/chart/{0}/'.format(chart.id))
+    else:
+        return render(request, 'chart/new.html')
+
 def image(request, chart_id=None, short_name=None):
     chart = get_chart(chart_id, short_name)
     try:
