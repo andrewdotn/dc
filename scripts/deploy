@@ -88,7 +88,8 @@ for s in SITES:
 for s in SITES:
     if os.path.isdir(s.old_serve_dir):
         shutil.rmtree(s.old_serve_dir)
-    shutil.move(s.serve_dir, s.old_serve_dir)
+    if os.path.isdir(s.serve_dir):
+        shutil.move(s.serve_dir, s.old_serve_dir)
     shutil.move(s.new_serve_dir, s.serve_dir)
 
     with open(os.path.join(s.serve_dir, 'tmp/restart.txt'), 'w') as f:
