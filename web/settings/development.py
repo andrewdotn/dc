@@ -21,8 +21,11 @@ MIDDLEWARE_CLASSES.insert(0,
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'database.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+
+        'OPTIONS': {
+            'read_default_file': os.path.expanduser('~/.my.cnf'),
+        }
     }
 }
 
