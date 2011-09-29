@@ -16,8 +16,11 @@
       <ul>
         <li><a href="#prereqs">Installing prerequisites</a>
         <li><a href="#running">Running the development server</a>
+        <ul>
+          <li><a href="#unicode">Unicode errors</a>
+        </ul>
+        <li><a href="#server">Setting up a production server</a>
       </ul>
-      <li><a href="#prototype">Our latest prototype</a>
       <li><a href="#deploying">Deploying</a>
       <li><a href="#logging">Logging</a>
       <li><a href="#updatingdata">Updating data</a>
@@ -97,7 +100,8 @@ pip -q install -r requirements.txt
       enough.
       </p>
 
-      <h3>Unicode Errors</h3>
+      <a name="unicode"></a>
+      <h4>Unicode errors</h4>
 
       <p>
       If you get messages like <tt>UnicodeEncodeError: 'ascii' codec can't
@@ -119,9 +123,45 @@ pip -q install -r requirements.txt
 <pre>import sys
 sys.setdefaultencoding('UTF-8')</pre>
 
-      <a name="prototype"></a>
-      <h2>Our Latest, Greatest Prototype</h2>
-      <p>Is <a target="_blank" href="https://localhost:8001/static/html/fedspending/fedspending.html">here</a>.
+      <a name="server"></a>
+      <h3>Setting up a production server</h3>
+
+      <ol>
+        <li>Create a new UNIX user
+        <li>Follow the instruction in <a href="#prereqs">Installing
+          prerequisites</a> above
+        <li>Copy the ssh keys <tt>id_rsa</tt> and <tt>id_rsa.pub</tt> for
+        the <tt>webmaster+deployment@datacollective.org</tt> bitbucket
+        account to <tt>~/.ssh/authorized_keys</tt>
+        <li>In <tt>$HOME</tt>, run this script:
+<pre># clone main repo
+pip install mercurial
+cd hg
+hg clone -U ssh://hg@bitbucket.org/datacollective/dc
+# clone private repo for non-freely-redistributable code
+hg clone -U ssh://hg@bitbucket.org/datacollective/dcvendor dcvendor</pre>
+
+        <li>Create a database</li>
+        <li>Run the script
+<pre>touch ~/.my.cnf
+chmod 0600 ~/.my.cnf
+echo '[client]
+password="password"
+host="mysql.example.org"
+user="username"
+database="database_name"
+
+[mysqldump]
+all-databases=1' &gt; ~/.my.cnf</pre>
+        and enter the database credentials into the <tt>~/.my.cnf</tt>
+        template.
+        <li>Restore the database with <code>zcat database-dump.gz |
+          mysql</code>
+        <li><tt>rsync</tt> over the <tt>data</tt> directory
+        <li>Run the command <code>(cd ~/hg/dc &amp;&amp; hg cat -r tip
+          scripts/deploy)</code> to deploy.
+        <li>Configure the web server to serve using passenger
+      </ol>
 
       <a name="deploying"></a>
       <h2>Deploying</h2>
