@@ -2,18 +2,23 @@
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
+from django.db import connection
 from django.db import models
 
 class Migration(SchemaMigration):
 
-    def forwards(self, orm):
-        
-        # Removing unique constraint on 'Chart', fields ['sparkblocks']
-        db.delete_unique('chart_chart', ['sparkblocks'])
+    no_dry_run = True
 
+    def forwards(self, orm):
+        # Removing unique constraint on 'Chart', fields ['sparkblocks']
+        if connection.vendor != 'sqlite':
+            # Workaround because South's db.delete_unique() seems to run twice on mysql.
+            connection.cursor().execute("drop index sparkblocks on chart_chart")
+        else:
+            db.delete_unique('chart_chart', ['sparkblocks'])
 
     def backwards(self, orm):
-        
+
         # Adding unique constraint on 'Chart', fields ['sparkblocks']
         db.create_unique('chart_chart', ['sparkblocks'])
 
