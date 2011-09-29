@@ -1,6 +1,8 @@
+import json
 import os
 import pkg_resources
 import subprocess
+import sys
 import tempfile
 
 from django.http import HttpResponse, Http404, HttpResponseServerError
@@ -138,6 +140,32 @@ def embed_js(request, chart_id):
       'chart_url': chart_url,
       'internal': bool(request.GET.get("internal", False))
     })
+
+@user_passes_test(lambda u: u.is_staff)
+def edit(request, chart_id):
+    chart = get_object_or_404(Chart, id=chart_id)
+
+    return render(request, 'chart/edit.html', {
+      'host': request.get_host(),
+      'url': '//' + request.get_host() + '/chart/' + chart.short_name,
+      'chart': chart
+   })
+
+@csrf_exempt
+@user_passes_test(lambda u: u.is_staff)
+def update(request, chart_id):
+    chart = get_object_or_404(Chart, id=chart_id)
+    dict = json.loads(request.raw_post_data)
+
+    chart.title = dict['chart_title']
+    chart.html_below_title = dict['chart_html_below_title']
+    chart.y_axis_description = dict['chart_y_axis_description']
+    chart.source_title = dict['chart_source_title']
+    chart.chart_settings = json.dumps(dict['chart_settings'])
+
+    chart.save()
+
+    return HttpResponse('ok')
 
 def fivehundred(request):
     return render(request, 'chart/noexist', {

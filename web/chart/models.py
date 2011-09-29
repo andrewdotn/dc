@@ -24,7 +24,7 @@ class Chart(models.Model):
     chart_creator_detail = models.TextField()
     disqus_identifier = models.TextField(max_length=20)
     chart_data = models.TextField()
-    chart_settings = models.TextField()
+    chart_settings = models.TextField(default="{}")
     csv_url = models.URLField(blank=True)
     xls_url = models.URLField(blank=True)
     short_name = models.CharField(max_length=255)

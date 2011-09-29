@@ -111,20 +111,38 @@
       }
 
       function renderDynamicChart() {
-        var chart = new Highcharts.Chart({
-          chart: {
-            renderTo: 'chartdiv',
-            defaultSeriesType: 'line'
-          },
-          credits: {
-            text: ""
-          },
-          {{ chart.chart_settings|safe }}
+        var options = {{chart.chart_settings|safe}};
+
+        if (!options.chart) {
+          options.chart = {};
+        }
+        if (!options.chart.renderTo) {
+          options.chart.renderTo = 'chartdiv';
+        }
+        if (!options.chart.defaultSeriesType) {
+          options.chart.defaultSeriesType = 'line';
+        }
+
+        if (!options.title) {
+          options.title = {};
+        }
+        if (!options.title.text) {
+          options.title.text = "";
+        }
+
+        if (!options.credits) {
+          options.credits = {};
+        }
+        if (!options.credits.text) {
+          options.credits.text = "";
+        }
+
 {% if user.is_staff %}
-          exporting: {url: "/chart/convert/{{ chart.id|safe }}/"},
+        options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};
 {% endif %}
-          series: {{ chart.chart_data|safe }}
-        });
+        options.series = {{ chart.chart_data|safe }};
+
+        var chart = new Highcharts.Chart(options);
       }
 
       function renderStaticImage() {
@@ -172,6 +190,10 @@
 
       function hideLinkPopup() {
         $("#linkdiv").fadeOut();
+      }
+
+      function editChart() {
+        window.open("/chart/edit/{{chart.id}}/");
       }
 
       $(window).load(function() {
@@ -267,6 +289,10 @@
 Complete source data, credits and more at <a target="_blank" href="/chart/{{ chart.id|safe }}">Data Collective</a>.
 {% endif %}
     </div>
+
+{% if user.is_staff %}
+  <div style="float:right;"><input type="button" value="Edit" onclick="editChart();"></div>
+{% endif %}
 
     <div id="embeddiv" style="position:absolute; display:none; font-family:Georgia">
       Copy and paste the following code into your web page, blog post,
