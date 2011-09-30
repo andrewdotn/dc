@@ -55,9 +55,12 @@ def view(request, chart_id=None, chart=None, short_name=None):
 @user_passes_test(lambda u: u.is_staff)
 def new(request):
     if request.POST:
-        chart = Chart()
-        chart.import_chart_data(request.POST["data"])
-        chart.save()
+        try:
+            chart = Chart()
+            chart.import_chart_data(request.POST["data"])
+            chart.save()
+        except Exception:
+            return HttpResponseServerError()
 
         return redirect('/chart/{0}/'.format(chart.id))
     else:
@@ -157,15 +160,33 @@ def update(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
     dict = json.loads(request.raw_post_data)
 
-    chart.title = dict['chart_title']
-    chart.html_below_title = dict['chart_html_below_title']
-    chart.y_axis_description = dict['chart_y_axis_description']
-    chart.source_title = dict['chart_source_title']
-    chart.chart_settings = json.dumps(dict['chart_settings'])
+    if dict.has_key('chart_title'):
+        chart.title = dict['chart_title']
+    if dict.has_key('chart_html_below_title'):
+        chart.html_below_title = dict['chart_html_below_title']
+    if dict.has_key('chart_y_axis_description'):
+        chart.y_axis_description = dict['chart_y_axis_description']
+    if dict.has_key('chart_source_title'):
+        chart.source_title = dict['chart_source_title']
+    if dict.has_key('chart_settings'):
+        chart.chart_settings = json.dumps(dict['chart_settings'])
+    if dict.has_key('chart_data'):
+        chart.chart_data = json.dumps(dict['chart_data'])
 
     chart.save()
 
     return HttpResponse('ok')
+
+@csrf_exempt
+@user_passes_test(lambda u: u.is_staff)
+def convert_data(request):
+    try:
+        dict = json.loads(request.raw_post_data)
+        chart_data = utils.parse_chart_data(dict['data'])
+        json_data = json.dumps(chart_data)
+        return HttpResponse(json_data)
+    except Exception:
+        return HttpResponseServerError()
 
 def fivehundred(request):
     return render(request, 'chart/noexist', {
