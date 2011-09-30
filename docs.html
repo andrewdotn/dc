@@ -136,6 +136,7 @@ sys.setdefaultencoding('UTF-8')</pre>
         <li>In <tt>$HOME</tt>, run this script:
 <pre># clone main repo
 pip install mercurial
+mkdir hg
 cd hg
 hg clone -U ssh://hg@bitbucket.org/datacollective/dc
 # clone private repo for non-freely-redistributable code
@@ -170,7 +171,7 @@ all-databases=1' &gt; ~/.my.cnf</pre>
       </p>
 
 <pre>
-./manage.py
+./manage.py deploy
 </pre>
 
       <p>
