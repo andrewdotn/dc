@@ -137,6 +137,16 @@
           options.credits.text = "";
         }
 
+        if (!options.xAxis) {
+          options.xAxis = {};
+        }
+        if (!options.xAxis.labels) {
+          options.xAxis.labels = {};
+        }
+        if (!options.xAxis.labels.formatter) {
+          options.xAxis.labels.formatter = function() { return this.value; };
+        }
+
 {% if user.is_staff %}
         options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};
 {% endif %}
