@@ -65,6 +65,12 @@
       .activeEditorTab {
         background-color: #ddd;
       }
+
+      .chartForm .status {
+        background-color:transparent;
+        border:none;
+        width:10em;
+      }
     </style>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -587,12 +593,10 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>
-                    <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
-                    <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
-                    <input id="settingsStatus" type="text" style="background-color:transparent; border:none" readonly="readonly">
-                    <input id="resetChartSettings" type="button" value="Reset" style="float:right" onclick="settingsEditor.onReset();">
-                  </div>
+                  <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
+                  <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
+                  <input id="settingsStatus" type="text" class="status" readonly="readonly">
+                  <input id="resetChartSettings" type="button" value="Reset" style="float:right" onclick="settingsEditor.onReset();">
                 </td>
               </tr>
             </table>
@@ -608,12 +612,10 @@
             </tr>
             <tr>
               <td>
-                <div>
-                  <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
-                  <input id="saveSeries" type="button" value="Save" onclick="seriesEditor.onSave();">
-                  <input id="seriesStatus" type="text" style="background-color:transparent; border:none;" readonly="readonly">
-                  <input id="resetSeries" type="button" value="Reset" style="float:right" onclick="seriesEditor.onReset();">
-                </div>
+                <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
+                <input id="saveSeries" type="button" value="Save" onclick="seriesEditor.onSave();">
+                <input id="seriesStatus" type="text" class="status" readonly="readonly">
+                <input id="resetSeries" type="button" value="Reset" style="float:right" onclick="seriesEditor.onReset();">
               </td>
             </tr>
           </table>
