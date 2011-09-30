@@ -63,7 +63,7 @@ def new(request):
             utils.save_import_failure(request.user.username, data)
             return HttpResponseServerError()
 
-        chart = Chart()
+        chart = Chart(creator=request.user)
         chart.chart_data = chart_data
         chart.save()
 
@@ -192,7 +192,7 @@ def convert_data(request):
         return HttpResponse(json_data)
     except Exception:
         utils.save_import_failure(request.user.username, dict['data'])
-        return HttpResponseServerError()
+        raise
 
 def fivehundred(request):
     return render(request, 'chart/noexist', {

@@ -140,11 +140,11 @@ XLS doesnt really work yet.  Need to think about it some more.
 
         <div class="titlediv">
           <span id="postedbyhead" class="title" style="background-color:#BF5F22">
-            <span>posted by {{ chart.chart_creator }}</span>
+            <span>posted by {{ chart.creator_name }}</span>
           </span>
           <div id="postedby" class="title" style="background-color:#BF5F22; max-width:800px; margin-top:-0.5em; border-top-left-radius:0px">
             <div  style="float:right; margin-right:0px; margin-top:10px">
-              <img src="{{ chart.chart_creator_avatar }}" style="border-radius:5px; border:5px solid #fffafc; padding:0px">
+              <img src="{{ chart.creator_avatar }}" style="border-radius:5px; border:5px solid #fffafc; padding:0px">
             </div>
             <br>
             {% autoescape off %}
