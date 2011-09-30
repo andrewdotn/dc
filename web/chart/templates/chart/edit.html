@@ -399,7 +399,7 @@
           $("#resetSeries").attr('disabled', false);
           $("#saveSeries").attr('disabled', false);
 
-          this.setStatus("Converted.");
+          this.setStatus("Imported.");
           this.setStatus("", 3000);
 
           renderDynamicChart();
@@ -590,8 +590,8 @@
                   <div>
                     <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
                     <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
-                    <input id="resetChartSettings" type="button" value="Reset" onclick="settingsEditor.onReset();">
-                    <input id="settingsStatus" type="text" style="background-color:transparent; border:none;" readonly="readonly">
+                    <input id="settingsStatus" type="text" style="background-color:transparent; border:none" readonly="readonly">
+                    <input id="resetChartSettings" type="button" value="Reset" style="float:right" onclick="settingsEditor.onReset();">
                   </div>
                 </td>
               </tr>
@@ -611,8 +611,8 @@
                 <div>
                   <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
                   <input id="saveSeries" type="button" value="Save" onclick="seriesEditor.onSave();">
-                  <input id="resetSeries" type="button" value="Reset" onclick="seriesEditor.onReset();">
                   <input id="seriesStatus" type="text" style="background-color:transparent; border:none;" readonly="readonly">
+                  <input id="resetSeries" type="button" value="Reset" style="float:right" onclick="seriesEditor.onReset();">
                 </div>
               </td>
             </tr>
