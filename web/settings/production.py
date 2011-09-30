@@ -21,3 +21,5 @@ DATABASES = {
         }
     }
 }
+
+SENTRY_URL_PREFIX = 'https://datacollective.org/staff'
