@@ -83,7 +83,9 @@ skip-networking
 socket=$HOME/local/tmp/mysql.sock
 
 [client]
-socket=$HOME/local/tmp/mysql.sock" &gt; ~/.my.cnf
+socket=$HOME/local/tmp/mysql.sock
+
+" &gt; ~/.my.cnf
 
   mysql_install_db
   mysqld_safe &amp;
@@ -95,7 +97,8 @@ socket=$HOME/local/tmp/mysql.sock" &gt; ~/.my.cnf
   done)
   mysql -u root -e "grant all privileges on *.* to ''@'localhost' with grant option;"
   mysql -e "create database dc default character set utf8;"
-  echo 'database="dc"' &gt;&gt; ~/.my.cnf
+  echo '[mysql]
+database="dc"' &gt;&gt; ~/.my.cnf
   echo
   echo 'The server is now running.'
   echo 'Run the command "mysqladmin shutdown" to shut down the server.'
