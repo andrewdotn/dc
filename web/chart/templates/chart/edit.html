@@ -344,7 +344,7 @@
 
           $("#applyChartSettings").attr('disabled', false);
 
-          this.setStatus("Saved.");
+          this.setStatus("Saved.", 0);
           this.setStatus("", 3000);
         };
 
@@ -352,6 +352,8 @@
           $("#applyChartSettings").attr('disabled', false);
           $("#resetChartSettings").attr('disabled', false);
           $("#saveChartSettings").attr('disabled', false);
+
+          this.setStatus("", 0);
 
           alert("Chart settings could not be saved.");
         };
@@ -405,7 +407,7 @@
           $("#resetSeries").attr('disabled', false);
           $("#saveSeries").attr('disabled', false);
 
-          this.setStatus("Imported.");
+          this.setStatus("Imported.", 0);
           this.setStatus("", 3000);
 
           renderDynamicChart();
@@ -415,7 +417,7 @@
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', false);
 
-          this.setStatus("");
+          this.setStatus("", 0);
 
           alert("This data could not be imported.");
         };
@@ -454,7 +456,7 @@
 
           $("#applySeries").attr('disabled', false);
 
-          this.setStatus("Saved.");
+          this.setStatus("Saved.", 0);
           this.setStatus("", 3000);
         };
 
@@ -462,6 +464,8 @@
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', false);
           $("#saveSeries").attr('disabled', false);
+
+          this.setStatus("", 0);
 
           alert("Series could not be saved.");
         };
