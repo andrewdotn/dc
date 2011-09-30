@@ -1,3 +1,5 @@
+{% load url from future %}
+
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Data Collective</title>
@@ -95,6 +97,9 @@ function sorry()
           <span style="position:relative; top:5px; left:5px">Data Collective</span>
           </div>
         </div>
+
+          {% if user.username %} <h1> <br>HELLO {{ user.username }} !! <a style="color:#000000" href="{% url 'django.contrib.auth.views.logout' %}">logout</a><h1><br> {% endif %}
+
 
 <h1>MISSION</h1>
 

@@ -33,4 +33,9 @@ urlpatterns = patterns('',
     (r'^staff/sentry/', include('sentry.web.urls')),
 
     (r'^staff/500/', 'chart.views.fivehundred'),
+
+    (r'^accounts/login/$', 'django.contrib.auth.views.login', {'next': ''}),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
+    (r'^accounts/profile/$', redirect_to, {'url': '/', 'permanent': False}),
+    (r'^accounts/$', 'django.contrib.auth.views.login'),
 )

@@ -1,3 +1,5 @@
+{% load url from future %}
+
 <!DOCTYPE html>
 <html lang=en>
   <head>
@@ -92,9 +94,9 @@
           <div class="title" style="background-image:url('/static/images/neitsch_quilt_partial.png'); background-color:#2d5344; color:#ffffff; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
 <!--          <img src="/static/images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
           <span style="position:relative; top:5px; left:5px"><a href="/" style="color:#550000" title="Learn about Data Collective">Data Collective</a></span>
-          {% if user.is_staff %} ADMIN MODE {% endif %}
           </div>
         </div>
+          {% if user.username %} <h1> <br>HELLO {{ user.username }} !! <a style="color:#000000" href="{% url 'django.contrib.auth.views.logout' %}">logout</a><h1><br> {% endif %}
         <div class="titlediv" style="margin-bottom:0px">
         </div>
 
