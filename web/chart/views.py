@@ -55,12 +55,17 @@ def view(request, chart_id=None, chart=None, short_name=None):
 @user_passes_test(lambda u: u.is_active)
 def new(request):
     if request.POST:
+        data = request.POST["data"]
+
         try:
-            chart = Chart()
-            chart.import_chart_data(request.POST["data"])
-            chart.save()
+            chart_data = utils.import_chart_data(data)
         except Exception:
+            utils.save_import_failure(request.user.username, data)
             return HttpResponseServerError()
+
+        chart = Chart()
+        chart.chart_data = chart_data
+        chart.save()
 
         return redirect('/chart/{0}/'.format(chart.id))
     else:
@@ -182,10 +187,11 @@ def update(request, chart_id):
 def convert_data(request):
     try:
         dict = json.loads(request.raw_post_data)
-        chart_data = utils.parse_chart_data(dict['data'])
+        chart_data = utils.import_chart_data(dict['data'])
         json_data = json.dumps(chart_data)
         return HttpResponse(json_data)
     except Exception:
+        utils.save_import_failure(request.user.username, dict['data'])
         return HttpResponseServerError()
 
 def fivehundred(request):

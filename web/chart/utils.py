@@ -1,12 +1,13 @@
 import csv
 import os
+import tempfile
 
 from django.conf import settings
 
 def chart_image_path(chart_id, ext="png"):
     return os.path.join(settings.DATA_DIR, "images", "{0}.{1}".format(chart_id, ext))
 
-def parse_chart_data(data):
+def import_chart_data(data):
     # Sanitize line endings and split into lines.
 
     lines = data.strip().replace('\r\n', '\n').split('\n')
@@ -39,3 +40,10 @@ def parse_chart_data(data):
         chart_data.append(dict)
 
     return chart_data
+
+def save_import_failure(username, data):
+    dir = os.path.join(settings.DATA_DIR, "imports", "failures")
+    f, path = tempfile.mkstemp(dir=dir, prefix=(username+"-"), suffix=".txt")
+
+    with os.fdopen(f, "wb") as fd:
+        fd.write(data)

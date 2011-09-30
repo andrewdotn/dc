@@ -35,7 +35,3 @@ class Chart(models.Model):
 
     def __unicode__(self):
         return self.title
-
-    def import_chart_data(self, data):
-        chart_data = utils.parse_chart_data(data)
-        self.chart_data = json.dumps(chart_data)
