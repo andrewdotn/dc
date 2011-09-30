@@ -334,7 +334,7 @@
             type: "POST",
             data: JSON.stringify(data),
             success: function() { self.onSaveSuccess(); },
-            error: function() { self.onSaveError(); }
+            error: function(jqXHR, textStatus, errorThrown) { self.onSaveError(jqXHR, textStatus, errorThrown); }
           });
         };
 
@@ -348,14 +348,17 @@
           this.setStatus("", 3000);
         };
 
-        this.onSaveError = function() {
+        this.onSaveError = function(jqXHR, textStatus, errorThrown) {
           $("#applyChartSettings").attr('disabled', false);
           $("#resetChartSettings").attr('disabled', false);
           $("#saveChartSettings").attr('disabled', false);
 
           this.setStatus("", 0);
 
-          alert("Chart settings could not be saved.");
+          if (!errorThrown) {
+            errorThrown = "unknown";
+          }
+          alert("Chart settings could not be saved (" + errorThrown + ").");
         };
 
         this.setStatus = function(text, timeout) {
@@ -396,7 +399,7 @@
             dataType: "json",
             data: JSON.stringify(data),
             success: function(data, textStatus, jqXHR) { self.onApplySuccess(data, textStatus, jqXHR); },
-            error: function() { self.onApplyError(); }
+            error: function(jqXHR, textStatus, errorThrown) { self.onApplyError(jqXHR, textStatus, errorThrown); }
           });
         };
 
@@ -413,13 +416,16 @@
           renderDynamicChart();
         };
 
-        this.onApplyError = function() {
+        this.onApplyError = function(jqXHR, textStatus, errorThrown) {
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', false);
 
           this.setStatus("", 0);
 
-          alert("This data could not be imported.");
+          if (!errorThrown) {
+            errorThrown = "unknown";
+          }
+          alert("This data could not be imported (" + errorThrown + ").");
         };
 
         this.onReset = function() {
@@ -447,7 +453,7 @@
             type: "POST",
             data: JSON.stringify(data),
             success: function() { self.onSaveSuccess(); },
-            error: function() { self.onSaveError(); }
+            error: function(jqXHR, textStatus, errorThrown) { self.onSaveError(jqXHR, textStatus, errorThrown); }
           });
         };
 
@@ -460,14 +466,17 @@
           this.setStatus("", 3000);
         };
 
-        this.onSaveError = function() {
+        this.onSaveError = function(jqXHR, textStatus, errorThrown) {
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', false);
           $("#saveSeries").attr('disabled', false);
 
           this.setStatus("", 0);
 
-          alert("Series could not be saved.");
+          if (!errorThrown) {
+            errorThrown = "unknown";
+          }
+          alert("This series could not be saved (" + errorThrown + ").");
         };
 
         this.setStatus = function(text, timeout) {
