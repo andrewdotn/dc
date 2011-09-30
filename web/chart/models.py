@@ -18,7 +18,8 @@ class Chart(models.Model):
     # todo
 
     version = models.PositiveIntegerField(default=VERSION)
-    title = models.CharField(max_length=255, help_text='Chart title')
+    title = models.CharField(max_length=255, help_text='Chart title',
+            blank=True)
     html_below_title = models.TextField(blank=True)
     sparkblocks = models.CharField(max_length=30, blank=True)
     tweet = models.CharField(max_length=140, blank=True)
