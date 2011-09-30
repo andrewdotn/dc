@@ -1,9 +1,9 @@
 # coding: UTF-8
 
-import csv
 import json
 
 from django.db import models
+from chart import utils
 
 class Chart(models.Model):
     # TODO Versions 0 and 1 are now the same, run a migration so version == 1 for all data?
@@ -23,7 +23,7 @@ class Chart(models.Model):
     chart_creator_avatar = models.URLField()
     chart_creator_detail = models.TextField()
     disqus_identifier = models.TextField(max_length=20)
-    chart_data = models.TextField()
+    chart_data = models.TextField(default="[]")
     chart_settings = models.TextField(default="{}")
     csv_url = models.URLField(blank=True)
     xls_url = models.URLField(blank=True)
@@ -37,36 +37,5 @@ class Chart(models.Model):
         return self.title
 
     def import_chart_data(self, data):
-        # Sanitize line endings and split into lines.
-
-        lines = data.replace('\r\n', '\n').split('\n')
-
-        # Use tab for delimiter if it exists in the data; otherwise assume comma.
-
-        delimiter = '\t'
-        if not delimiter in data:
-            delimiter = ','
-
-        # Load csv in the format:
-        #   name1  name2  name3
-        #       1      2      3
-        #       4      5      6
-        # Zip to get each column into its own array.
-
-        reader = csv.reader(lines, delimiter=delimiter)
-        series_list = zip(*[value for value in reader])
-
-        # Create a series dict for each column.
-
-        chart_data = []
-
-        for series in series_list:
-            dict = {
-                'name': series[0],
-                'data': [float(value.replace(',', '')) for value in series[1:]]
-            }
-            chart_data.append(dict)
-
-        # Store as json string.
-
+        chart_data = utils.parse_chart_data(data)
         self.chart_data = json.dumps(chart_data)

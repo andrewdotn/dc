@@ -61,202 +61,407 @@
     <script type="text/javascript" src="/static/highcharts.js"></script>
 
     <script type="text/javascript">
-      chartBaseSettings = {
-        chart: {
-          renderTo: 'chartdiv',
-          defaultSeriesType: 'line',
-        },
-        title: {
-          text: ""
-        },
-        credits: {
-          text: ""
-        },
-        series: {{ chart.chart_data|safe }}
-      };
-      chartSavedCustomSettings = {{chart.chart_settings|safe}};
-      chartCustomSettings = $.extend(true, {}, chartSavedCustomSettings);
+      // -- DocumentMgr
 
-      documentSavedSettings = {};
+      function DocumentMgr() {
+        this.init = function() {
+          this.savedSettings = this.currentSettings();
+        }
 
-      function documentSettingsFromDocument() {
-        return {
-          chart_title: $("#chart_title").text(),
-          chart_html_below_title: $("#chart_html_below_title").html(),
-          chart_y_axis_description: $("#chart_y_axis_description").text(),
-          chart_source_title: $("#chart_source_title").html()
+        this.currentSettings = function() {
+          return {
+            chart_title: $("#chart_title").text(),
+            chart_html_below_title: $("#chart_html_below_title").html(),
+            chart_y_axis_description: $("#chart_y_axis_description").text(),
+            chart_source_title: $("#chart_source_title").html()
+          };
+        }
+
+        this.resetSettings = function() {
+          // No-op.
+        }
+
+        this.saveSettings = function() {
+          this.savedSettings = this.currentSettings();
+        }
+
+        this.init();
+      }
+
+      // -- SettingsMgr
+
+      function SettingsMgr() {
+        this.init = function() {
+          this.savedSettings = {{chart.chart_settings|safe}};
+
+          if (!this.savedSettings.plotOptions) {
+            this.savedSettings.plotOptions = {};
+          }
+          if (!this.savedSettings.plotOptions.line) {
+            this.savedSettings.plotOptions.line = {};
+          }
+          if (!this.savedSettings.xAxis) {
+            this.savedSettings.xAxis = {};
+          }
+          if (!this.savedSettings.xAxis.title) {
+            this.savedSettings.xAxis.title = {};
+          }
+          if (!this.savedSettings.yAxis) {
+            this.savedSettings.yAxis = {};
+          }
+          if (!this.savedSettings.yAxis.title) {
+            this.savedSettings.yAxis.title = {};
+          }
+
+          this.currentSettings = $.extend(true, {}, this.savedSettings);
+        }
+
+        this.saveSettings = function() {
+          this.savedSettings = $.extend(true, {}, this.currentSettings);
+        }
+
+        this.resetSettings = function() {
+          this.currentSettings = $.extend(true, {}, this.savedSettings);
+        }
+
+        this.allSettings = function() {
+          var settings = {};
+          $.extend(true, settings, this.baseSettings);
+          $.extend(true, settings, this.currentSettings);
+          return settings;
+        }
+
+        this.baseSettings = {
+          chart: {
+            renderTo: 'chartdiv',
+            defaultSeriesType: 'line',
+          },
+          title: { text: "" },
+          credits: { text: "" },
         };
+
+        this.init();
       }
 
-      function currentChartSettings() {
-        var chartSettings = {}
-        $.extend(true, chartSettings, chartBaseSettings);
-        $.extend(true, chartSettings, chartCustomSettings);
-        return chartSettings;
-      }
+      // -- SeriesMgr
 
-      function initChartSettingFormField(chartSettings, objName, elName) {
-        var value;
-
-        try {
-          value = eval("chartSettings." + objName);
-        } catch (err) {}
-
-        if (typeof(value) == "undefined") {
-          value = "";
+      SeriesMgr = function() {
+        this.init = function() {
+          this.savedSeries = {{chart.chart_data|safe}};
+          this.currentSeries = $.extend(true, [], this.savedSeries);
         }
 
-        $("#" + elName).val(value.toString());
-      }
-
-      function initChartSettingsForm() {
-        $("#chartTitle").val($("#chart_title").text());
-        $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
-        $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
-        $("#chartSourceTitle").val($("#chart_source_title").html());
-
-        var chartSettings = currentChartSettings();
-
-        initChartSettingFormField(chartSettings, "plotOptions.line.pointStart", "pointStart");
-        initChartSettingFormField(chartSettings, "plotOptions.line.pointInterval", "pointInterval");
-
-        initChartSettingFormField(chartSettings, "xAxis.min", "xAxisMin");
-        initChartSettingFormField(chartSettings, "xAxis.title.text", "xAxisTitle");
-
-        initChartSettingFormField(chartSettings, "yAxis.min", "yAxisMin");
-        initChartSettingFormField(chartSettings, "yAxis.title.text", "yAxisTitle");
-
-        $("#applyChartSettings").attr('disabled', false);
-        $("#resetChartSettings").attr('disabled', true);
-        $("#saveChartSettings").attr('disabled', true);
-      }
-
-      function applyChartSettingsFloatField(chartSettings, objName, elName) {
-        var value = $("#" + elName).val();
-
-        if (value.length == 0) {
-          eval("delete chartSettings." + objName);
+        this.resetSeries = function() {
+          this.currentSeries = $.extend(true, [], this.savedSeries);
         }
-        else {
-          var floatValue = parseFloat(value);
 
-          if (!isNaN(floatValue)) {
-            eval("chartSettings." + objName + " = floatValue");
+        this.saveSeries = function() {
+          this.savedSeries = $.extend(true, {}, this.currentSeries);
+        }
+
+        this.formattedSeriesData = function(series) {
+          var nSeries = series.length;
+
+          if (nSeries == 0) {
+            return "";
+          }
+
+          var result = "";
+          var nPoints = series[0].data.length;
+
+          for (iSeries = 0; iSeries < nSeries; ++iSeries) {
+            if (iSeries != 0) {
+              result += "\t";
+            }
+            result += series[iSeries].name;
+          }
+
+          result += "\n";
+
+          for (iPoint = 0; iPoint < nPoints; ++iPoint) {
+            var line = "";
+
+            for (iSeries = 0; iSeries < nSeries; ++iSeries) {
+              if (iSeries != 0) {
+                line += "\t";
+              }
+              line += series[iSeries].data[iPoint].toString();
+            }
+
+            result += line + "\n"
+          }
+
+          return result;
+        }
+
+        this.init();
+      }
+
+      // -- SettingsEditor
+
+      function SettingsEditor() {
+        this.init = function() {
+          this.documentMgr = new DocumentMgr();
+          this.settingsMgr = new SettingsMgr();
+        }
+
+        this.initForm = function() {
+          $("#chartTitle").val($("#chart_title").text());
+          $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
+          $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
+          $("#chartSourceTitle").val($("#chart_source_title").html());
+
+          var chartSettings = this.settingsMgr.allSettings();
+
+          this.initFormField(chartSettings, "plotOptions.line.pointStart", "pointStart");
+          this.initFormField(chartSettings, "plotOptions.line.pointInterval", "pointInterval");
+
+          this.initFormField(chartSettings, "xAxis.min", "xAxisMin");
+          this.initFormField(chartSettings, "xAxis.title.text", "xAxisTitle");
+
+          this.initFormField(chartSettings, "yAxis.min", "yAxisMin");
+          this.initFormField(chartSettings, "yAxis.title.text", "yAxisTitle");
+
+          $("#applyChartSettings").attr('disabled', false);
+          $("#resetChartSettings").attr('disabled', true);
+          $("#saveChartSettings").attr('disabled', true);
+        }
+
+        this.initFormField = function(chartSettings, objName, elName) {
+          var value;
+
+          try {
+            value = eval("chartSettings." + objName);
+          } catch (err) {}
+
+          if (typeof(value) == "undefined") {
+            value = "";
+          }
+
+          $("#" + elName).val(value.toString());
+        }
+
+        this.applyFloatField = function(objName, elName) {
+          var value = $("#" + elName).val();
+
+          if (value.length == 0) {
+            eval("delete this.settingsMgr.currentSettings." + objName);
+          }
+          else {
+            var floatValue = parseFloat(value);
+
+            if (!isNaN(floatValue)) {
+              eval("this.settingsMgr.currentSettings." + objName + " = floatValue");
+            }
           }
         }
+
+        this.applyStringField = function(objName, elName) {
+          var value = $("#" + elName).val();
+
+          if (value.length == 0) {
+            eval("delete this.settingsMgr.currentSettings." + objName);
+          }
+          else {
+            eval("this.settingsMgr.currentSettings." + objName + " = value");
+          }
+        }
+
+        this.onApply = function() {
+          $("#chart_title").text($("#chartTitle").val());
+          $("#chart_html_below_title").html($("#chartHtmlBelowTitle").val());
+          $("#chart_y_axis_description").text($("#chartYAxisDescription").val());
+          $("#chart_source_title").html($("#chartSourceTitle").val());
+
+          this.applyFloatField("plotOptions.line.pointStart", "pointStart");
+          this.applyFloatField("plotOptions.line.pointInterval", "pointInterval");
+
+          this.applyFloatField("xAxis.min", "xAxisMin");
+          this.applyStringField("xAxis.title.text", "xAxisTitle");
+
+          this.applyFloatField("yAxis.min", "yAxisMin");
+          this.applyStringField("yAxis.title.text", "yAxisTitle");
+
+          $("#resetChartSettings").attr('disabled', false);
+          $("#saveChartSettings").attr('disabled', false);
+
+          renderDynamicChart();
+        }
+
+        this.onReset = function() {
+          $("#chart_title").text(this.documentMgr.savedSettings.chart_title);
+          $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
+          $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
+          $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
+
+          this.settingsMgr.resetSettings();
+
+          $("#resetChartSettings").attr('disabled', true);
+          $("#saveChartSettings").attr('disabled', true);
+
+          this.initForm();
+          renderDynamicChart();
+        }
+
+        this.onSave = function() {
+          $("#applyChartSettings").attr('disabled', true);
+          $("#resetChartSettings").attr('disabled', true);
+          $("#saveChartSettings").attr('disabled', true);
+
+          this.setStatus("Saving...", 0);
+
+          var data = $.extend(true, {chart_settings: this.settingsMgr.currentSettings}, this.documentMgr.currentSettings());
+          var self = this;
+
+          $.ajax({
+            url: "/chart/update/{{chart.id|safe}}/",
+            type: "POST",
+            data: JSON.stringify(data),
+            success: function() { self.onSaveSuccess(); },
+            error: function() { self.onSaveError(); }
+          });
+        }
+
+        this.onSaveSuccess = function() {
+          this.documentMgr.saveSettings();
+          this.settingsMgr.saveSettings();
+
+          $("#applyChartSettings").attr('disabled', false);
+
+          this.setStatus("Saved.");
+          this.setStatus("", 3000);
+        }
+
+        this.onSaveError = function() {
+          $("#applyChartSettings").attr('disabled', false);
+          $("#resetChartSettings").attr('disabled', false);
+          $("#saveChartSettings").attr('disabled', false);
+
+          alert("Chart settings could not be saved.");
+        }
+
+        this.setStatus = function(text, timeout) {
+          setTimeout(function() { $("#settingsStatus").val(text); }, timeout);
+        }
+
+        this.init();
       }
 
-      function applyChartSettingsStringField(chartSettings, objName, elName) {
-        var value = $("#" + elName).val();
+      // -- SeriesEditor
 
-        if (value.length == 0) {
-          eval("delete chartSettings." + objName);
-        }
-        else {
-          eval("chartSettings." + objName + " = value");
-        }
-      }
-
-      function onApplyChartSettings() {
-        $("#chart_title").text($("#chartTitle").val());
-        $("#chart_html_below_title").html($("#chartHtmlBelowTitle").val());
-        $("#chart_y_axis_description").text($("#chartYAxisDescription").val());
-        $("#chart_source_title").html($("#chartSourceTitle").val());
-
-        if (!chartCustomSettings.plotOptions) {
-          chartCustomSettings.plotOptions = {};
-        }
-        if (!chartCustomSettings.plotOptions.line) {
-          chartCustomSettings.plotOptions.line = {};
-        }
-        if (!chartCustomSettings.xAxis) {
-          chartCustomSettings.xAxis = {};
-        }
-        if (!chartCustomSettings.xAxis.title) {
-          chartCustomSettings.xAxis.title = {};
-        }
-        if (!chartCustomSettings.yAxis) {
-          chartCustomSettings.yAxis = {};
-        }
-        if (!chartCustomSettings.yAxis.title) {
-          chartCustomSettings.yAxis.title = {};
+      function SeriesEditor() {
+        this.init = function() {
+          this.seriesMgr = new SeriesMgr();
         }
 
-        applyChartSettingsFloatField(chartCustomSettings, "plotOptions.line.pointStart", "pointStart");
-        applyChartSettingsFloatField(chartCustomSettings, "plotOptions.line.pointInterval", "pointInterval");
+        this.initForm = function() {
+          $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
 
-        applyChartSettingsFloatField(chartCustomSettings, "xAxis.min", "xAxisMin");
-        applyChartSettingsStringField(chartCustomSettings, "xAxis.title.text", "xAxisTitle");
+          $("#applySeries").attr('disabled', false);
+          $("#resetSeries").attr('disabled', true);
+          $("#saveSeries").attr('disabled', true);
+        }
 
-        applyChartSettingsFloatField(chartCustomSettings, "yAxis.min", "yAxisMin");
-        applyChartSettingsStringField(chartCustomSettings, "yAxis.title.text", "yAxisTitle");
+        this.onApply = function() {
+          $("#applySeries").attr('disabled', true);
+          $("#resetSeries").attr('disabled', true);
+          $("#saveSeries").attr('disabled', true);
 
-        $("#resetChartSettings").attr('disabled', false);
-        $("#saveChartSettings").attr('disabled', false);
+          this.setStatus("Importing...", 0);
 
-        renderDynamicChart();
-      }
+          var data = {data: $("#seriesData").val()};
+          var self = this;
 
-      function onResetChartSettings() {
-        $("#chart_title").text(documentSavedSettings.chart_title);
-        $("#chart_html_below_title").html(documentSavedSettings.chart_html_below_title);
-        $("#chart_y_axis_description").text(documentSavedSettings.chart_y_axis_description);
-        $("#chart_source_title").html(documentSavedSettings.chart_source_title);
+          $.ajax({
+            url: "/chart/convertdata/",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function(data, textStatus, jqXHR) { self.onApplySuccess(data, textStatus, jqXHR); },
+            error: function() { self.onApplyError(); }
+          });
+        }
 
-        chartCustomSettings = $.extend(true, {}, chartSavedCustomSettings);
+        this.onApplySuccess = function(data, textStatus, jqXHR) {
+          this.seriesMgr.currentSeries = data;
 
-        $("#resetChartSettings").attr('disabled', true);
-        $("#saveChartSettings").attr('disabled', true);
+          $("#applySeries").attr('disabled', false);
+          $("#resetSeries").attr('disabled', false);
+          $("#saveSeries").attr('disabled', false);
 
-        initChartSettingsForm();
-        renderDynamicChart();
-      }
+          this.setStatus("Converted.");
+          this.setStatus("", 3000);
 
-      function onSaveChartSettings() {
-        var data = $.extend(true, {chart_settings: chartCustomSettings}, documentSettingsFromDocument());
+          renderDynamicChart();
+        }
 
-        $("#applyChartSettings").attr('disabled', true);
-        $("#resetChartSettings").attr('disabled', true);
-        $("#saveChartSettings").attr('disabled', true);
-        setSaveStatus("Saving...", 0);
+        this.onApplyError = function() {
+          $("#applySeries").attr('disabled', false);
+          $("#resetSeries").attr('disabled', false);
 
-        $.ajax({
-          url: "/chart/update/{{chart.id|safe}}/",
-          type: "POST",
-          data: JSON.stringify(data),
-          success: onChartSettingsSaveSuccess,
-          error: onChartSettingsSaveError
-        });
-      }
+          this.setStatus("");
 
-      function onChartSettingsSaveSuccess() {
-        documentSavedSettings = documentSettingsFromDocument();
-        chartSavedCustomSettings = $.extend(true, {}, chartCustomSettings);
+          alert("This data could not be imported.");
+        }
 
-        $("#applyChartSettings").attr('disabled', false);
+        this.onReset = function() {
+          this.seriesMgr.resetSeries();
 
-        setSaveStatus("Saved.");
-        setSaveStatus("", 3000);
-      }
+          $("#resetSeries").attr('disabled', true);
+          $("#saveSeries").attr('disabled', true);
 
-      function onChartSettingsSaveError() {
-        $("#applyChartSettings").attr('disabled', false);
-        $("#resetChartSettings").attr('disabled', false);
-        $("#saveChartSettings").attr('disabled', false);
+          this.initForm();
+          renderDynamicChart();
+        }
 
-        alert("Chart settings could not be saved.");
-      }
+        this.onSave = function() {
+          $("#applySeries").attr('disabled', true);
+          $("#resetSeries").attr('disabled', true);
+          $("#saveSeries").attr('disabled', true);
 
-      function setSaveStatus(text, timeout) {
-        setTimeout(function() { $("#saveStatus").val(text); }, timeout);
+          this.setStatus("Saving...", 0);
+
+          var data = { "chart_data": this.seriesMgr.currentSeries };
+          var self = this;
+
+          $.ajax({
+            url: "/chart/update/{{chart.id|safe}}/",
+            type: "POST",
+            data: JSON.stringify(data),
+            success: function() { self.onSaveSuccess(); },
+            error: function() { self.onSaveError(); }
+          });
+        }
+
+        this.onSaveSuccess = function() {
+          this.seriesMgr.saveSeries();
+
+          $("#applySeries").attr('disabled', false);
+
+          this.setStatus("Saved.");
+          this.setStatus("", 3000);
+        }
+
+        this.onSaveError = function() {
+          $("#applySeries").attr('disabled', false);
+          $("#resetSeries").attr('disabled', false);
+          $("#saveSeries").attr('disabled', false);
+
+          alert("Series could not be saved.");
+        }
+
+        this.setStatus = function(text, timeout) {
+          setTimeout(function() { $("#seriesStatus").val(text); }, timeout);
+        }
+
+        this.init();
       }
 
       function renderDynamicChart() {
-        chartSettings = currentChartSettings();
+        var chartSettings = settingsEditor.settingsMgr.allSettings();
 
-        if (!chartSettings.xAxis) {
-          chartSettings.xAxis = {};
-        }
+        chartSettings.series = seriesEditor.seriesMgr.currentSeries;
+
         if (!chartSettings.xAxis.labels) {
           chartSettings.xAxis.labels = {};
         }
@@ -266,9 +471,12 @@
       }
 
       $(document).ready(function() {
-        documentSavedSettings = documentSettingsFromDocument();
+        settingsEditor = new SettingsEditor();
+        seriesEditor = new SeriesEditor();
 
-        initChartSettingsForm();
+        settingsEditor.initForm();
+        seriesEditor.initForm();
+
         renderDynamicChart();
       });
     </script>
@@ -350,10 +558,10 @@
               <tr>
                 <td colspan="2">
                   <div>
-                    <input id="applyChartSettings" type="button" value="Apply" onclick="onApplyChartSettings();">
-                    <input id="saveChartSettings" type="button" value="Save" onclick="onSaveChartSettings();">
-                    <input id="resetChartSettings" type="button" value="Reset" onclick="onResetChartSettings();">
-                    <input id="saveStatus" type="text" style="background-color:transparent; border:none;" readonly="readonly">
+                    <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
+                    <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
+                    <input id="resetChartSettings" type="button" value="Reset" onclick="settingsEditor.onReset();">
+                    <input id="settingsStatus" type="text" style="background-color:transparent; border:none;" readonly="readonly">
                   </div>
                 </td>
               </tr>
@@ -361,6 +569,28 @@
           </form>
         </div>
       </td>
+      <td>
+        <div class="chartform">
+          <table>
+            <tr>
+              <td>
+                <div>Series Data</div>
+                <div class="formfield"><textarea rows="30" cols="30" id="seriesData"></textarea></div>
+            </tr>
+            <tr>
+                <td colspan="2">
+                  <div>
+                    <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
+                    <input id="saveSeries" type="button" value="Save" onclick="seriesEditor.onSave();">
+                    <input id="resetSeries" type="button" value="Reset" onclick="seriesEditor.onReset();">
+                    <input id="seriesStatus" type="text" style="background-color:transparent; border:none;" readonly="readonly">
+                  </div>
+                </td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
     </tr></table>
   </body>
 </html>
