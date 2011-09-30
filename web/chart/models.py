@@ -21,20 +21,19 @@ class Chart(models.Model):
     title = models.CharField(max_length=255, help_text='Chart title')
     html_below_title = models.TextField(blank=True)
     sparkblocks = models.CharField(max_length=30, blank=True)
-    tweet = models.CharField(max_length=140)
-    source_url = models.URLField()
-    source_title = models.CharField(max_length=255)
-    source_detail = models.TextField()
-    chart_creator_detail = models.TextField()
+    tweet = models.CharField(max_length=140, blank=True)
+    source_title = models.CharField(max_length=255, blank=True)
+    source_detail = models.TextField(blank=True)
+    chart_creator_detail = models.TextField(blank=True)
     creator = models.ForeignKey(django.contrib.auth.models.User)
-    disqus_identifier = models.TextField(max_length=20)
+    disqus_identifier = models.TextField(max_length=20, blank=True)
     chart_data = models.TextField(default="[]")
     chart_settings = models.TextField(default="{}")
     csv_url = models.CharField(max_length=255, blank=True, default="")
-    short_name = models.CharField(max_length=255)
+    short_name = models.CharField(max_length=255, blank=True)
     description = models.TextField(default="",
         help_text='Text-only description that goes below title when sharing '
-            'on sites like Facebook')
+            'on sites like Facebook', blank=True)
     y_axis_description = models.CharField(max_length=255, blank=True)
 
     def import_chart_data(self, data):
