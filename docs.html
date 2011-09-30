@@ -58,12 +58,54 @@
         unpack and cd into it and run
         <code>python2.7 setup.py install</code>
         <li>Run <code>easy_install-2.7 pip</code>
+        <li>Download and install <a href="http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.58.tar.gz">MySQL-5.1.58.tar.gz</a>
       </ol>
 
       <a name="running"></a>
       <h3>Running the development server</h3>
 
-      Run this script:
+      <p>
+      First, set up a MySQL database. This script will create a database
+      for you and configure everything. It will be insecure in that anyone
+      on your local machine will be able to connect to the database and do
+      anything, but the database server won’t be connected to the network
+      and it will suffice for development.
+      </p>
+
+<pre>if [ -f ~/.my.cnf ]; then
+  echo 'You’ll need to configure MySQL manually, sorry.'
+else
+  touch ~/.my.cnf
+  chmod 0600 ~/.my.cnf
+  mkdir -p ~/local/tmp
+  echo "[mysqld]
+skip-networking
+socket=$HOME/local/tmp/mysql.sock
+
+[client]
+socket=$HOME/local/tmp/mysql.sock" &gt; ~/.my.cnf
+
+  mysql_install_db
+  mysqld_safe &amp;
+  (for ((n=0; n&lt;100; n=n+1)); do
+     if [ -e ~/local/tmp/mysql.sock ]; then
+       break
+     fi
+     sleep 0.1
+  done)
+  mysql -u root -e "grant all privileges on *.* to ''@'localhost' with grant option;"
+  mysql -e "create database dc default character set utf8;"
+  echo 'database="dc"' &gt;&gt; ~/.my.cnf
+  echo
+  echo 'The server is now running.'
+  echo 'Run the command "mysqladmin shutdown" to shut down the server.'
+fi
+</pre>
+
+      <p>
+      Then run this script to set up the web site and run it in development
+      mode:
+      </p>
 
       <pre>
 # clone main repo
@@ -224,21 +266,6 @@ all-databases=1' &gt; ~/.my.cnf</pre>
       there’s a bit of code in <tt>passenger_wsgi.py</tt> that you can
       toggle to find out the new path.
       </p>
-
-      <a name="updatingdata"></a>
-      <h2>
-        Updating data
-      </h2>
-      <p>
-      This is dumb but it works for now.  It blows away any
-      data/schema changes you may have in your local DB and restores
-      the tables associated with the "chart" app back to how our
-      repository wants them to be.
-<pre>
-hg fetch
-./manage.py migrate chart zero
-./manage.py migrate chart
-</pre>
 
       <a name="schemamigration"></a>
       <h2>
