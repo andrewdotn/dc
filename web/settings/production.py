@@ -12,14 +12,4 @@ INTERNAL_IPS = []
 
 DATA_DIR = os.path.expanduser("~/data")
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-
-        'OPTIONS': {
-            'read_default_file': os.path.expanduser('~/.my.cnf'),
-        }
-    }
-}
-
 SENTRY_URL_PREFIX = 'https://datacollective.org/staff'

@@ -42,6 +42,16 @@ BCRYPT_MIGRATE = True
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+
+        'OPTIONS': {
+            'read_default_file': os.path.expanduser('~/.my.cnf'),
+        }
+    }
+}
+
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 ADMINS = (
