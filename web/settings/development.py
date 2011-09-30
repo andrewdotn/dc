@@ -29,6 +29,8 @@ DATABASES = {
     }
 }
 
+# please ignore
+
 # Uncomment to log queries; add UseDebugCursorMiddleware if DEBUG is not set
 #
 # LOGGING['loggers']['django.db.backends'] = {
