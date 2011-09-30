@@ -333,12 +333,16 @@
             url: "/chart/update/{{chart.id|safe}}/",
             type: "POST",
             data: JSON.stringify(data),
-            success: function() { self.onSaveSuccess(); },
+            success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR); },
             error: function(jqXHR, textStatus, errorThrown) { self.onSaveError(jqXHR, textStatus, errorThrown); }
           });
         };
 
-        this.onSaveSuccess = function() {
+        this.onSaveSuccess = function(data, textStatus, jqXHR) {
+          if (data !== "ok") {
+            return this.onSaveError(null, null, "no status");
+          }
+
           this.documentMgr.saveSettings();
           this.settingsMgr.saveSettings();
 
@@ -452,12 +456,16 @@
             url: "/chart/update/{{chart.id|safe}}/",
             type: "POST",
             data: JSON.stringify(data),
-            success: function() { self.onSaveSuccess(); },
+            success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR); },
             error: function(jqXHR, textStatus, errorThrown) { self.onSaveError(jqXHR, textStatus, errorThrown); }
           });
         };
 
-        this.onSaveSuccess = function() {
+        this.onSaveSuccess = function(data, textStatus, jqXHR) {
+          if (data !== "ok") {
+            return this.onSaveError(null, null, "no status");
+          }
+
           this.seriesMgr.saveSeries();
 
           $("#applySeries").attr('disabled', false);
