@@ -82,7 +82,7 @@
       function DocumentMgr() {
         this.init = function() {
           this.savedSettings = this.currentSettings();
-        }
+        };
 
         this.currentSettings = function() {
           return {
@@ -91,15 +91,15 @@
             chart_y_axis_description: $("#chart_y_axis_description").text(),
             chart_source_title: $("#chart_source_title").html()
           };
-        }
+        };
 
         this.resetSettings = function() {
           // No-op.
-        }
+        };
 
         this.saveSettings = function() {
           this.savedSettings = this.currentSettings();
-        }
+        };
 
         this.init();
       }
@@ -130,30 +130,30 @@
           }
 
           this.currentSettings = $.extend(true, {}, this.savedSettings);
-        }
+        };
 
         this.saveSettings = function() {
           this.savedSettings = $.extend(true, {}, this.currentSettings);
-        }
+        };
 
         this.resetSettings = function() {
           this.currentSettings = $.extend(true, {}, this.savedSettings);
-        }
+        };
 
         this.allSettings = function() {
           var settings = {};
           $.extend(true, settings, this.baseSettings);
           $.extend(true, settings, this.currentSettings);
           return settings;
-        }
+        };
 
         this.baseSettings = {
           chart: {
             renderTo: 'chartdiv',
-            defaultSeriesType: 'line',
+            defaultSeriesType: 'line'
           },
           title: { text: "" },
-          credits: { text: "" },
+          credits: { text: "" }
         };
 
         this.init();
@@ -165,20 +165,20 @@
         this.init = function() {
           this.savedSeries = {{chart.chart_data|safe}};
           this.currentSeries = $.extend(true, [], this.savedSeries);
-        }
+        };
 
         this.resetSeries = function() {
           this.currentSeries = $.extend(true, [], this.savedSeries);
-        }
+        };
 
         this.saveSeries = function() {
           this.savedSeries = $.extend(true, {}, this.currentSeries);
-        }
+        };
 
         this.formattedSeriesData = function(series) {
           var nSeries = series.length;
 
-          if (nSeries == 0) {
+          if (nSeries === 0) {
             return "";
           }
 
@@ -186,7 +186,7 @@
           var nPoints = series[0].data.length;
 
           for (iSeries = 0; iSeries < nSeries; ++iSeries) {
-            if (iSeries != 0) {
+            if (iSeries !== 0) {
               result += "\t";
             }
             result += series[iSeries].name;
@@ -198,17 +198,17 @@
             var line = "";
 
             for (iSeries = 0; iSeries < nSeries; ++iSeries) {
-              if (iSeries != 0) {
+              if (iSeries !== 0) {
                 line += "\t";
               }
               line += series[iSeries].data[iPoint].toString();
             }
 
-            result += line + "\n"
+            result += line + "\n";
           }
 
           return result;
-        }
+        };
 
         this.init();
       }
@@ -219,7 +219,7 @@
         this.init = function() {
           this.documentMgr = new DocumentMgr();
           this.settingsMgr = new SettingsMgr();
-        }
+        };
 
         this.initForm = function() {
           $("#chartTitle").val($("#chart_title").text());
@@ -241,7 +241,7 @@
           $("#applyChartSettings").attr('disabled', false);
           $("#resetChartSettings").attr('disabled', true);
           $("#saveChartSettings").attr('disabled', true);
-        }
+        };
 
         this.initFormField = function(chartSettings, objName, elName) {
           var value;
@@ -255,12 +255,12 @@
           }
 
           $("#" + elName).val(value.toString());
-        }
+        };
 
         this.applyFloatField = function(objName, elName) {
           var value = $("#" + elName).val();
 
-          if (value.length == 0) {
+          if (value.length === 0) {
             eval("delete this.settingsMgr.currentSettings." + objName);
           }
           else {
@@ -270,18 +270,18 @@
               eval("this.settingsMgr.currentSettings." + objName + " = floatValue");
             }
           }
-        }
+        };
 
         this.applyStringField = function(objName, elName) {
           var value = $("#" + elName).val();
 
-          if (value.length == 0) {
+          if (value.length === 0) {
             eval("delete this.settingsMgr.currentSettings." + objName);
           }
           else {
             eval("this.settingsMgr.currentSettings." + objName + " = value");
           }
-        }
+        };
 
         this.onApply = function() {
           $("#chart_title").text($("#chartTitle").val());
@@ -302,7 +302,7 @@
           $("#saveChartSettings").attr('disabled', false);
 
           renderDynamicChart();
-        }
+        };
 
         this.onReset = function() {
           $("#chart_title").text(this.documentMgr.savedSettings.chart_title);
@@ -317,7 +317,7 @@
 
           this.initForm();
           renderDynamicChart();
-        }
+        };
 
         this.onSave = function() {
           $("#applyChartSettings").attr('disabled', true);
@@ -336,7 +336,7 @@
             success: function() { self.onSaveSuccess(); },
             error: function() { self.onSaveError(); }
           });
-        }
+        };
 
         this.onSaveSuccess = function() {
           this.documentMgr.saveSettings();
@@ -346,7 +346,7 @@
 
           this.setStatus("Saved.");
           this.setStatus("", 3000);
-        }
+        };
 
         this.onSaveError = function() {
           $("#applyChartSettings").attr('disabled', false);
@@ -354,11 +354,11 @@
           $("#saveChartSettings").attr('disabled', false);
 
           alert("Chart settings could not be saved.");
-        }
+        };
 
         this.setStatus = function(text, timeout) {
           setTimeout(function() { $("#settingsStatus").val(text); }, timeout);
-        }
+        };
 
         this.init();
       }
@@ -368,7 +368,7 @@
       function SeriesEditor() {
         this.init = function() {
           this.seriesMgr = new SeriesMgr();
-        }
+        };
 
         this.initForm = function() {
           $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
@@ -376,7 +376,7 @@
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', true);
           $("#saveSeries").attr('disabled', true);
-        }
+        };
 
         this.onApply = function() {
           $("#applySeries").attr('disabled', true);
@@ -396,7 +396,7 @@
             success: function(data, textStatus, jqXHR) { self.onApplySuccess(data, textStatus, jqXHR); },
             error: function() { self.onApplyError(); }
           });
-        }
+        };
 
         this.onApplySuccess = function(data, textStatus, jqXHR) {
           this.seriesMgr.currentSeries = data;
@@ -409,7 +409,7 @@
           this.setStatus("", 3000);
 
           renderDynamicChart();
-        }
+        };
 
         this.onApplyError = function() {
           $("#applySeries").attr('disabled', false);
@@ -418,7 +418,7 @@
           this.setStatus("");
 
           alert("This data could not be imported.");
-        }
+        };
 
         this.onReset = function() {
           this.seriesMgr.resetSeries();
@@ -428,7 +428,7 @@
 
           this.initForm();
           renderDynamicChart();
-        }
+        };
 
         this.onSave = function() {
           $("#applySeries").attr('disabled', true);
@@ -447,7 +447,7 @@
             success: function() { self.onSaveSuccess(); },
             error: function() { self.onSaveError(); }
           });
-        }
+        };
 
         this.onSaveSuccess = function() {
           this.seriesMgr.saveSeries();
@@ -456,7 +456,7 @@
 
           this.setStatus("Saved.");
           this.setStatus("", 3000);
-        }
+        };
 
         this.onSaveError = function() {
           $("#applySeries").attr('disabled', false);
@@ -464,11 +464,11 @@
           $("#saveSeries").attr('disabled', false);
 
           alert("Series could not be saved.");
-        }
+        };
 
         this.setStatus = function(text, timeout) {
           setTimeout(function() { $("#seriesStatus").val(text); }, timeout);
-        }
+        };
 
         this.init();
       }
