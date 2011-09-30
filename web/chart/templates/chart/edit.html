@@ -47,13 +47,21 @@
         font: 200%/125% 'ChunkFiveRegular', verdana, sans-serif;
       }
 
-      .chartform {
-        background-color: #eee;
+      .chartForm {
+        background-color: #ddd;
         padding: 10px;
       }
 
       .formfield {
         margin-bottom: 8px;
+      }
+
+      .editorTab {
+        padding: 10px;
+      }
+
+      .activeEditorTab {
+        background-color: #ddd;
       }
     </style>
 
@@ -470,6 +478,22 @@
         var chart = new Highcharts.Chart(chartSettings);
       }
 
+      function activateSettingsEditor() {
+        $("#settingsTab").addClass("activeEditorTab");
+        $("#seriesTab").removeClass("activeEditorTab");
+
+        $("#seriesForm").hide();
+        $("#settingsForm").show();
+      }
+
+      function activateSeriesEditor() {
+        $("#seriesTab").addClass("activeEditorTab");
+        $("#settingsTab").removeClass("activeEditorTab");
+
+        $("#settingsForm").hide();
+        $("#seriesForm").show();
+      }
+
       $(document).ready(function() {
         settingsEditor = new SettingsEditor();
         seriesEditor = new SeriesEditor();
@@ -498,8 +522,12 @@
           </div>
         </div>
       </td>
-      <td class="chartform" valign="top">
+      <td valign="top">
         <div>
+          <span id="settingsTab" class="editorTab activeEditorTab" onclick="activateSettingsEditor();">Settings</span>
+          <span id="seriesTab" class="editorTab" onclick="activateSeriesEditor();">Series</span>
+        </div>
+        <div id="settingsForm" class="chartForm">
           <form>
             <table>
               <tr>
@@ -568,9 +596,7 @@
             </table>
           </form>
         </div>
-      </td>
-      <td class="chartform" valign="top">
-        <div>
+        <div id="seriesForm" class="chartForm" style="display:none;">
           <table>
             <tr>
               <td>
