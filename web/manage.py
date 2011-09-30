@@ -34,6 +34,9 @@ group.add_argument('--staging', action='store_const', dest='realm',
 parser.add_argument('--toolbar', action='store_true', dest='toolbar',
         help='Enable the Django debug toolbar.')
 
+parser.add_argument('--db', action='store', dest='db',
+        help='Specify the name of the database to use.')
+
 # http://stackoverflow.com/q/6488752/dont-parse-options-after-the-last-positional-argument
 parser.add_argument('command', nargs=argparse.REMAINDER)
 
@@ -73,6 +76,9 @@ __import__(django_settings_module)
 settings = sys.modules[django_settings_module]
 
 settings.MANAGEMENT_COMMAND_ARGUMENTS = management_command_arguments
+
+if options.db is not None:
+    settings.DATABASES['default']['NAME'] = options.db
 
 if options.toolbar:
     settings.enable_toolbar()

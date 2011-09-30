@@ -142,6 +142,14 @@ pip -q install -r requirements.txt
       enough.
       </p>
 
+      <p>
+      <code>./manage.py</code> also takes a <code>--db</code> option, which
+      specifies which database to connect to. So you can restore the
+      production database with <code>zcat dump.gz | mysql</code>
+      and then run <code>./manage.py --db d4t4_web runservers</code>
+      to work with it.
+      </p>
+
       <a name="unicode"></a>
       <h4>Unicode errors</h4>
 
