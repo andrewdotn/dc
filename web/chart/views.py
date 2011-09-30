@@ -52,7 +52,7 @@ def view(request, chart_id=None, chart=None, short_name=None):
 
 # TODO Error handling would be nice.
 
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda u: u.is_active)
 def new(request):
     if request.POST:
         try:
@@ -144,7 +144,7 @@ def embed_js(request, chart_id):
       'internal': bool(request.GET.get("internal", False))
     })
 
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda u: u.is_active)
 def edit(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
