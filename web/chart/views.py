@@ -160,7 +160,7 @@ def edit(request, chart_id):
    })
 
 @csrf_exempt
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda u: u.is_active)
 def update(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
     dict = json.loads(request.raw_post_data)
@@ -183,7 +183,7 @@ def update(request, chart_id):
     return HttpResponse('ok')
 
 @csrf_exempt
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda u: u.is_active)
 def convert_data(request):
     try:
         dict = json.loads(request.raw_post_data)
