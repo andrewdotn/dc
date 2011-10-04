@@ -293,7 +293,7 @@
 
     <h1 id="showPanel"><span>Share &raquo;</span></h1>
 
-    <div id="creditsdiv" style="font-family:Georgia; margin-top:24px; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
+    <div id="creditsdiv" style="font-family:Georgia; margin-top:24px; margin-left:125px; width:{{ chart.source_width }}px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Source</b>: {{chart.source_title|safe}}.
 {% if not internal %}
 Complete source data, credits and more at <a target="_blank" href="/chart/{{ chart.id|safe }}">Data Collective</a>.
@@ -311,7 +311,7 @@ Complete source data, credits and more at <a target="_blank" href="/chart/{{ cha
       <br><br>
 <textarea readonly=readonly style="width:400px; height:3em">
 &lt;div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}"&gt;
-&lt;noscript&gt;&lt;iframe src="//{{host}}/chart/embed/{{chart.id|safe}}" width="630" height="690" frameborder="0">&lt;/iframe&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;iframe src="//{{host}}/chart/embed/{{chart.id|safe}}" width="{% if chart.chart_width %}{{chart.chart_width}}{% else %}630{% endif %}" height="690" frameborder="0">&lt;/iframe&gt;&lt;/noscript&gt;
 &lt;/div&gt;
 &lt;script type="text/javascript" src="//{{host}}/static/easyxdm/easyXDM.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="//{{host}}/chart/embedjs/{{chart.id|safe}}"&gt;&lt;/script&gt;

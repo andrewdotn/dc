@@ -100,9 +100,9 @@
         <div class="titlediv" style="margin-bottom:0px">
         </div>
 
-        <div id=chart_and_addthis_wrapper style="width:650px; margin-bottom:50px">
+        <div id=chart_and_addthis_wrapper style="width:{% if chart.chart_width %}{{chart.enclosing_width}}{% else %}650{% endif %}px; margin-bottom:50px">
           <div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}" style="padding: 0px; margin: 0px; overflow: hidden; border-radius:15px; border:6px solid #ffde00; background-color: white; padding: 0px">
-            <noscript><iframe src="/chart/embed/{{chart.id|safe}}?internal=1" width="630" height="690" frameborder="0"></iframe></noscript>
+            <noscript><iframe src="/chart/embed/{{chart.id|safe}}?internal=1" width="{% if chart.chart_width %}{{chart.chart_width}}{% else %}630{% endif %}" height="690" frameborder="0"></iframe></noscript>
           </div>
           <script type="text/javascript" src="/chart/embedjs/{{chart.id|safe}}?internal=1"></script>
           <div style="float:right; font-size:75%">

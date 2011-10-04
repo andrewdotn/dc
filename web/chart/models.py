@@ -36,6 +36,7 @@ class Chart(models.Model):
         help_text='Text-only description that goes below title when sharing '
             'on sites like Facebook', blank=True)
     y_axis_description = models.CharField(max_length=255, blank=True)
+    chart_width = models.PositiveIntegerField(null=True)
 
     def import_chart_data(self, data):
         chart_data = utils.parse_chart_data(data)
@@ -47,6 +48,18 @@ class Chart(models.Model):
     def creator_avatar(self):
         hash = hashlib.md5(self.creator.email.strip()).digest().encode('hex')
         return 'https://secure.gravatar.com/avatar/%s?d=identicon' % hash
+
+    def enclosing_width(self):
+        if self.chart_width:
+            return self.chart_width + 20
+        else:
+            return 650
+
+    def source_width(self):
+        if self.chart_width:
+            return max(100, self.chart_width - 155)
+        else:
+            return 475
 
     def __unicode__(self):
         return self.title
