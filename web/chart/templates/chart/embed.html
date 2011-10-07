@@ -151,6 +151,7 @@
         options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};
 {% endif %}
         options.series = {{ chart.chart_data|safe }};
+        options.plotOptions = { line: { marker: { enabled: false } } };
 
         var chart = new Highcharts.Chart(options);
       }
