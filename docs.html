@@ -215,6 +215,9 @@ all-databases=1' &gt; ~/.my.cnf</pre>
         <li>Run the command <code>(cd ~/hg/dc &amp;&amp; hg cat -r tip
           scripts/deploy) | python2.7</code> to deploy.
         <li>Configure the web server to serve using passenger
+        <li>Important: when adding a new domain in the web host control
+        panel, you need to go to “Site Statistics” and change the “Raw Logs
+        to Keep” entry to 30 days for all domains.
         <li>Permit the server to send mail by running the following as root: <code>sudo apt-get install bsd-mailx</code>
       </ol>
 
