@@ -300,7 +300,7 @@ Complete source data, credits and more at <a target="_blank" href="/chart/{{ cha
 {% endif %}
     </div>
 
-{% if user.is_active %}
+{% if chart.creator == user %}
   <div style="float:right;"><input type="button" value="Edit" onclick="editChart();"></div>
 {% endif %}
 
