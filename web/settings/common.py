@@ -163,6 +163,16 @@ IGNORABLE_404_URLS = (
     re.compile(r'^/apple-touch-icon.*\.png$'),
     re.compile(r'^/robots\.txt$'),
     re.compile(r'^.*missing.html$'),
+#
+# Cant figure out why were getting requests for easyxdm this rather
+# than easyXDM.
+#
+# And its a bitch to test any fixes on OS X because by default, file
+# systems on OS X are case insensitive.
+#
+# So let's just ignore the 404s.  Problem solved!
+#
+    re.compile(r'^.*easyxdm.js$'),
 )
 
 # A sample logging configuration. The only tangible logging
