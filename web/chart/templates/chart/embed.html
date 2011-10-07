@@ -158,19 +158,23 @@
 {% endif %}
         options.series = {{ chart.chart_data|safe }};
         if (!options.plotOptions) {
-          options.plotOptions = {
-                          line: {
-                                 lineWidth: 5,
-                                 marker: { enabled: false,
-                                           symbol: 'circle',
-                                           states: {
+          options.plotOptions = {};
+        }
+        if (!options.plotOptions.line) {
+          options.plotOptions.line = {};
+        }
+        if (!options.plotOptions.line.lineWidth) {
+          options.plotOptions.line.lineWidth = 5;
+        }
+        if (!options.plotOptions.line.marker) {
+          options.plotOptions.line.marker = { enabled: false,
+                                              symbol: 'circle',
+                                              states: {
                                                 hover: {
                                                    enabled: true
                                                 }
-                                           }
-                                         }
-                          },
-          };
+                                              }
+                                            };
         }
         var chart = new Highcharts.Chart(options);
       }

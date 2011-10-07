@@ -289,7 +289,8 @@
           var value = $("#" + elName).val();
 
           if (value.length === 0) {
-            eval("delete this.settingsMgr.currentSettings." + objName);
+// null instead of deleting the value so that highcharts wont display anything
+            eval("this.settingsMgr.currentSettings." + objName + " = null");
           }
           else {
             eval("this.settingsMgr.currentSettings." + objName + " = value");
