@@ -146,6 +146,12 @@
         if (!options.xAxis.labels.formatter) {
           options.xAxis.labels.formatter = function() { return this.value; };
         }
+        if (!options.yAxis) {
+          options.yAxis = {};
+        }
+        if (!options.yAxis.title) {
+          options.yAxis.title = { text: null };
+        }
 
 {% if user.is_staff %}
         options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};

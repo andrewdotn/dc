@@ -126,7 +126,7 @@
             this.savedSettings.yAxis = {};
           }
           if (!this.savedSettings.yAxis.title) {
-            this.savedSettings.yAxis.title = {};
+            this.savedSettings.yAxis.title = { text: null };
           }
 
           this.currentSettings = $.extend(true, {}, this.savedSettings);
@@ -263,7 +263,7 @@
             value = eval("chartSettings." + objName);
           } catch (err) {}
 
-          if (typeof(value) == "undefined") {
+          if (value == null || typeof(value) == "undefined") {
             value = "";
           }
 
