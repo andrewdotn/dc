@@ -151,8 +151,21 @@
         options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};
 {% endif %}
         options.series = {{ chart.chart_data|safe }};
-        options.plotOptions = { line: { marker: { enabled: false } } };
-
+        if (!options.plotOptions) {
+          options.plotOptions = {
+                          line: {
+                                 lineWidth: 5,
+                                 marker: { enabled: false,
+                                           symbol: 'circle',
+                                           states: {
+                                                hover: {
+                                                   enabled: true
+                                                }
+                                           }
+                                         }
+                          },
+          };
+        }
         var chart = new Highcharts.Chart(options);
       }
 

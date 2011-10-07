@@ -154,7 +154,19 @@
           },
           title: { text: "" },
           credits: { text: "" },
-          plotOptions: { line: { marker: { enabled: false } } },
+          plotOptions: {
+                          line: {
+                                 lineWidth: 5,
+                                 marker: { enabled: false,
+                                           symbol: 'circle',
+                                           states: {
+                                                hover: {
+                                                   enabled: true
+                                                }
+                                           }
+                                         }
+                          }
+                       },
         };
 
         this.init();
