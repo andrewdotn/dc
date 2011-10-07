@@ -62,4 +62,4 @@ class Chart(models.Model):
             return 475
 
     def __unicode__(self):
-        return self.title
+        return '(%d) %s' % (self.id, self.title)

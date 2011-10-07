@@ -11,9 +11,18 @@
     <ul>
       {% for chart in charts %}
       <li>
+      {% if chart.sparkblocks %}
       <a href="/{{ chart.sparkblocks }}">
-        {{ chart.sparkblocks }}
-      </a> {{ chart.title }}
+        {{ chart.sparkblocks }}</a><br>
+      {% endif %}
+      <a href="{{ chart.id }}">
+      {% if chart.title %}
+      {{ chart.title }}
+      {% else %}
+      Chart #{{ chart.id }}{% endif %}</a>
+      {% if chart.creator %}
+      <br>Posted by {{ chart.creator_name }}
+      {% endif %}
       </li>
       {% endfor %}
     </ul>
