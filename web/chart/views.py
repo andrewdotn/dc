@@ -17,7 +17,7 @@ from settings.common import VENDOR_ROOT
 from chart.models import Chart
 
 def index(request):
-    charts = Chart.objects.all()
+    charts = Chart.objects.all().select_related('creator')
     return render(request, 'chart/index.html', {'charts': charts})
 
 def about(request):

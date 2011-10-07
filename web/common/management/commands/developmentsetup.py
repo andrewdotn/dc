@@ -8,13 +8,13 @@ from django.core.management import call_command
 from django.core.management.base import NoArgsCommand, CommandError
 from django.db import connection
 
-from .. import check_development
+from .. import ensure_development
 
 class Command(NoArgsCommand):
     help = 'Display this installation’s settings.'
 
     def handle_noargs(self, **options):
-        check_development()
+        ensure_development()
 
         manage_command = sys.argv[0]
 
