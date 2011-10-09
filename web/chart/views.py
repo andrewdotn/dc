@@ -67,7 +67,7 @@ def new(request):
         chart.chart_data = chart_data
         chart.save()
 
-        return redirect('/chart/{0}/'.format(chart.id))
+        return redirect('/chart/edit/{0}/'.format(chart.id))
     else:
         return render(request, 'chart/new.html')
 
