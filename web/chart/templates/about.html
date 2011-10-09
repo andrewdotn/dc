@@ -96,7 +96,7 @@ function sorry()
   <body style="background-color:#fffafc">
     <div id="container" style="width:100%; background-color:#fffafc">
       <div id="main" style="width:800px; margin:auto">
-        {% if user.username %} <div id="greeting">HELLO {{ user.username }} !! <a style="color:#000000" href="{% url 'django.contrib.auth.views.logout' %}">logout</div></p> {% endif %}
+        {% if user.username %} <div id="greeting">HELLO {{ user.username }} !! <a style="color:#000000" href="{% url 'django.contrib.auth.views.logout' %}">logout</a></div></p> {% endif %}
         <div class="titlediv">
           <div class="title" style="background-image:url(&#39;/static/images/neitsch_quilt_partial.png&#39;); background-color:#2d5344; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
 <!--          <img src="/static/images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
