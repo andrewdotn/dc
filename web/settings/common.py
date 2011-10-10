@@ -159,10 +159,8 @@ SENTRY_TESTING = True
 
 SEND_BROKEN_LINK_EMAILS = True
 
-IGNORABLE_404_URLS = (
-    re.compile(r'^/apple-touch-icon.*\.png$'),
-    re.compile(r'^/robots\.txt$'),
-    re.compile(r'^.*missing.html$'),
+#
+# easyxdm is below because:
 #
 # Cant figure out why were getting requests for easyxdm this rather
 # than easyXDM.
@@ -172,6 +170,15 @@ IGNORABLE_404_URLS = (
 #
 # So let's just ignore the 404s.  Problem solved!
 #
+#
+# hypersphere because: http://www.webmasterworld.com/webmaster/4312899.htm
+#
+
+IGNORABLE_404_URLS = (
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/robots\.txt$'),
+    re.compile(r'^.*missing.html$'),
+    re.compile(r'^.*hypersphere-2010.png$'),
     re.compile(r'^.*easyxdm.js$'),
 )
 
