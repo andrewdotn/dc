@@ -48,6 +48,7 @@ def view(request, chart_id=None, chart=None, short_name=None):
         'shorturl': '//' + request.get_host() + '/chart/' + chart.short_name,
         'chart_data': chart.chart_data.replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n'),
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
+        'enclosing_width': chart.enclosing_width(request.GET.get("width", None)),
     })
 
 # TODO Error handling would be nice.
@@ -129,6 +130,7 @@ def embed(request, chart_id):
       'url': 'https://' + request.get_host() + '/chart/' + chart.short_name,
       'chart': chart,
       'internal': bool(request.GET.get("internal", False)),
+      'source_width': chart.source_width(request.GET.get("width", None)),
       'funtext':['term paper', 'love letter', 'op-ed', 'manifesto']
 # is there a way to put funtext into the template where it belongs?
     })
@@ -138,9 +140,11 @@ EASYXDM = pkg_resources.resource_string('vendor.easyxdm', 'static/easyxdm/easyXD
 def embed_js(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
-    chart_url = "https://" + request.get_host() + "/chart/embed/" + str(chart.id)
+    chart_url = "https://" + request.get_host() + "/chart/embed/" + str(chart.id) + "?foo=1"
     if request.GET.get("internal", False):
-        chart_url += "?internal=1"
+        chart_url += "&internal=1"
+    if request.GET.get("width", None):
+        chart_url += "&width=" + request.GET.get("width")
 
     return render(request, 'chart/embed.js', {
       'easyxdm': EASYXDM,

@@ -49,17 +49,19 @@ class Chart(models.Model):
         hash = hashlib.md5(self.creator.email.strip()).digest().encode('hex')
         return 'https://secure.gravatar.com/avatar/%s?d=identicon' % hash
 
-    def enclosing_width(self):
+    def computed_width(self, specified_width):
+        final_width = 630
         if self.chart_width:
-            return self.chart_width + 20
-        else:
-            return 650
+            final_width = self.chart_width
+        if specified_width:
+            final_width = specified_width
+        return final_width
 
-    def source_width(self):
-        if self.chart_width:
-            return max(100, self.chart_width - 155)
-        else:
-            return 475
+    def enclosing_width(self, specified_width):
+        return int(self.computed_width(specified_width)) + 20
+
+    def source_width(self, specified_width):
+        return max(100, int(self.computed_width(specified_width)) - 155)
 
     def __unicode__(self):
         return '(%d) %s' % (self.id, self.title)
