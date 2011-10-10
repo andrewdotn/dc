@@ -254,6 +254,7 @@
           $("#applyChartSettings").attr('disabled', false);
           $("#resetChartSettings").attr('disabled', true);
           $("#saveChartSettings").attr('disabled', true);
+          $("#saveQuitChartSettings").attr('disabled', true);
         };
 
         this.initFormField = function(chartSettings, objName, elName) {
@@ -314,6 +315,7 @@
 
           $("#resetChartSettings").attr('disabled', false);
           $("#saveChartSettings").attr('disabled', false);
+          $("#saveQuitChartSettings").attr('disabled', false);
 
           renderDynamicChart();
         };
@@ -328,6 +330,7 @@
 
           $("#resetChartSettings").attr('disabled', true);
           $("#saveChartSettings").attr('disabled', true);
+          $("#saveQuitChartSettings").attr('disabled', true);
 
           this.initForm();
           renderDynamicChart();
@@ -337,6 +340,7 @@
           $("#applyChartSettings").attr('disabled', true);
           $("#resetChartSettings").attr('disabled', true);
           $("#saveChartSettings").attr('disabled', true);
+          $("#saveQuitChartSettings").attr('disabled', true);
 
           this.setStatus("Saving...", 0);
 
@@ -370,6 +374,7 @@
           $("#applyChartSettings").attr('disabled', false);
           $("#resetChartSettings").attr('disabled', false);
           $("#saveChartSettings").attr('disabled', false);
+          $("#saveQuitChartSettings").attr('disabled', false);
 
           this.setStatus("", 0);
 
@@ -399,12 +404,14 @@
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', true);
           $("#saveSeries").attr('disabled', true);
+          $("#saveQuitSeries").attr('disabled', true);
         };
 
         this.onApply = function() {
           $("#applySeries").attr('disabled', true);
           $("#resetSeries").attr('disabled', true);
           $("#saveSeries").attr('disabled', true);
+          $("#saveQuitSeries").attr('disabled', true);
 
           this.setStatus("Importing...", 0);
 
@@ -427,6 +434,7 @@
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', false);
           $("#saveSeries").attr('disabled', false);
+          $("#saveQuitSeries").attr('disabled', false);
 
           this.setStatus("Imported.", 0);
           this.setStatus("", 3000);
@@ -451,6 +459,7 @@
 
           $("#resetSeries").attr('disabled', true);
           $("#saveSeries").attr('disabled', true);
+          $("#saveQuitSeries").attr('disabled', true);
 
           this.initForm();
           renderDynamicChart();
@@ -460,6 +469,7 @@
           $("#applySeries").attr('disabled', true);
           $("#resetSeries").attr('disabled', true);
           $("#saveSeries").attr('disabled', true);
+          $("#saveQuitSeries").attr('disabled', true);
 
           this.setStatus("Saving...", 0);
 
@@ -492,6 +502,7 @@
           $("#applySeries").attr('disabled', false);
           $("#resetSeries").attr('disabled', false);
           $("#saveSeries").attr('disabled', false);
+          $("#saveQuitSeries").attr('disabled', false);
 
           this.setStatus("", 0);
 
@@ -522,6 +533,7 @@
       }
 
       function activateSettingsEditor() {
+        seriesEditor.onApply();           
         $("#settingsTab").addClass("activeEditorTab");
         $("#seriesTab").removeClass("activeEditorTab");
 
@@ -530,6 +542,7 @@
       }
 
       function activateSeriesEditor() {
+        settingsEditor.onApply();           
         $("#seriesTab").addClass("activeEditorTab");
         $("#settingsTab").removeClass("activeEditorTab");
 
@@ -549,7 +562,16 @@
            seriesEditor.onSave();
         };
 
+
+        var saveAllAndQuit = function(event) {
+           var chartNumber = $("#chartNumber").val()
+           var url = "/chart/" + chartNumber;
+           saveAll(event);
+           window.setTimeout(function(){$(location).attr('href',url);}, 100, true);
+        };
+
         $("#saveSeries,#saveChartSettings").bind('click', saveAll);
+        $("#saveQuitSeries,#saveQuitChartSettings").bind('click', saveAllAndQuit);
 
         renderDynamicChart();
       });
@@ -579,6 +601,7 @@
         </div>
         <div id="settingsForm" class="chartForm">
           <form>
+            <input id="chartNumber" type="hidden" value={{chart.id}}>
             <table>
               <tr>
                 <td colspan="2">
@@ -637,6 +660,7 @@
                 <td colspan="2">
                   <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
                   <input id="saveChartSettings" type="button" value="Save"">
+                  <input id="saveQuitChartSettings" type="button" value="Save & Quit"">
                   <input id="settingsStatus" type="text" class="status" readonly="readonly">
                   <input id="resetChartSettings" type="button" value="Reset" style="float:right" onclick="settingsEditor.onReset();">
                 </td>
@@ -656,6 +680,7 @@
               <td>
                 <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
                 <input id="saveSeries" type="button" value="Save">
+		<input id="saveQuitSeries" type="button" value="Save & Quit">
                 <input id="seriesStatus" type="text" class="status" readonly="readonly">
                 <input id="resetSeries" type="button" value="Reset" style="float:right" onclick="seriesEditor.onReset();">
               </td>
