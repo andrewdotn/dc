@@ -146,6 +146,7 @@ def embed_js(request, chart_id):
       'easyxdm': EASYXDM,
       'chart': chart,
       'chart_url': chart_url,
+      'width': request.GET.get("width", None),
       'internal': bool(request.GET.get("internal", False))
     })
 
