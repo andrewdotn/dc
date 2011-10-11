@@ -89,7 +89,8 @@
             chart_title: $("#chart_title").text(),
             chart_html_below_title: $("#chart_html_below_title").html(),
             chart_y_axis_description: $("#chart_y_axis_description").text(),
-            chart_source_title: $("#chart_source_title").html()
+            chart_source_title: $("#chart_source_title").html(),
+            chart_user_name: $("#chartUserName").val()
           };
         };
 
@@ -602,6 +603,7 @@
         <div id="settingsForm" class="chartForm">
           <form>
             <input id="chartNumber" type="hidden" value={{chart.id}}>
+            <input id="chartUserName" type="hidden" value={{user.username}}>
             <table>
               <tr>
                 <td colspan="2">
