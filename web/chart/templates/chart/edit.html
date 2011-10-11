@@ -570,7 +570,7 @@
            window.setTimeout(function(){$(location).attr('href',url);}, 100, true);
         };
 
-        $("#saveSeries,#saveChartSettings").bind('click', saveAll);
+//        $("#saveSeries,#saveChartSettings").bind('click', saveAll);
         $("#saveQuitSeries,#saveQuitChartSettings").bind('click', saveAllAndQuit);
 
         renderDynamicChart();
@@ -659,8 +659,8 @@
               <tr>
                 <td colspan="2">
                   <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
-                  <input id="saveChartSettings" type="button" value="Save"">
-                  <input id="saveQuitChartSettings" type="button" value="Save & Quit"">
+                  <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
+                  <input id="saveQuitChartSettings" type="button" value="Save & Quit">
                   <input id="settingsStatus" type="text" class="status" readonly="readonly">
                   <input id="resetChartSettings" type="button" value="Reset" style="float:right" onclick="settingsEditor.onReset();">
                 </td>
@@ -679,7 +679,7 @@
             <tr>
               <td>
                 <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
-                <input id="saveSeries" type="button" value="Save">
+                <input id="saveSeries" type="button" value="Save" onClick="seriesEditor.onSave();">
 		<input id="saveQuitSeries" type="button" value="Save & Quit">
                 <input id="seriesStatus" type="text" class="status" readonly="readonly">
                 <input id="resetSeries" type="button" value="Reset" style="float:right" onclick="seriesEditor.onReset();">
