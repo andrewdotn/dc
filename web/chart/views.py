@@ -10,7 +10,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.models import User
 
 from chart import utils
 from settings.common import VENDOR_ROOT
@@ -183,13 +182,12 @@ def update(request, chart_id):
         chart.chart_settings = json.dumps(dict['chart_settings'])
     if dict.has_key('chart_data'):
         chart.chart_data = json.dumps(dict['chart_data'])
-    if dict.has_key('chart_user_name'):
-        chart_user_name = json.dumps(dict['chart_user_name']).strip('"')
-        chart_user = User.objects.get(username=chart_user_name)
-        if chart_user == chart.creator or chart_user.is_superuser:
-            chart.save()
-
-    return HttpResponse('ok')
+    if (request.user == chart.creator) or request.user.is_superuser:
+        chart.save()
+        return HttpResponse('ok')
+    else:
+        return None
+    
 
 @csrf_exempt
 @user_passes_test(lambda u: u.is_active)
