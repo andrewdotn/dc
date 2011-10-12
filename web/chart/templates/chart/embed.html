@@ -71,7 +71,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/easyxdm/easyXDM.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
-{% if user.is_staff %}
+{% if user.is_staff and internal %}
     <script type="text/javascript" src="/static/modules/exporting.js"></script>
 {% endif %}
 
@@ -153,7 +153,7 @@
           options.yAxis.title = { text: null };
         }
 
-{% if user.is_staff %}
+{% if user.is_staff and internal %}
         options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};
 {% endif %}
         options.series = {{ chart.chart_data|safe }};
