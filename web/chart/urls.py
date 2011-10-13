@@ -15,6 +15,6 @@ urlpatterns = patterns('chart.views',
     (r'^convertdata/$', 'convert_data'),
     (r'^new/$', 'new'),
     (r'^(?P<chart_id>\d+)/$', 'view'),
-    (r'^(?P<short_name>.+)/$', 'view'),
+    (r'^(?P<username>.+)/$', 'charts_by_user'),
     (r'^$', 'index'),
 )

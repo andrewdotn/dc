@@ -1,3 +1,5 @@
+{% load url from future %}
+
 <html>
   <head>
     <title>
@@ -6,7 +8,13 @@
   </head>
 
   <body>
-    <h1>List of all charts</h1>
+    <h1>List of all charts
+{% if user %}
+for {{ user.first_name }} {{ user.last_name }} ( {{ user.username }} )
+{% else %}
+for nobody in particular
+{% endif %}
+</h1>
 
     <ul>
       {% for chart in charts %}
@@ -15,12 +23,12 @@
       <a href="/{{ chart.sparkblocks }}">
         {{ chart.sparkblocks }}</a><br>
       {% endif %}
-      <a href="{{ chart.id }}">
+      <a href="{% url 'chart.views.view' chart.id %}">
       {% if chart.title %}
       {{ chart.title }}
       {% else %}
       Chart #{{ chart.id }}{% endif %}</a>
-      {% if chart.creator %}
+      {% if chart.creator and not user %}
       <br>Posted by {{ chart.creator_name }}
       {% endif %}
       </li>

@@ -15,10 +15,21 @@ from chart import utils
 from settings.common import VENDOR_ROOT
 
 from chart.models import Chart
+from django.contrib.auth.models import User
 
 def index(request):
     charts = Chart.objects.all().select_related('creator')
     return render(request, 'chart/index.html', {'charts': charts})
+
+def charts_by_user(request, username):
+    users = User.objects.filter(username__exact = username)
+    if len(users) == 1:
+        charts = Chart.objects.filter(creator__exact = users[0]).select_related('creator')
+        return render(request, 'chart/index.html', {'charts': charts, 'user': users[0]})
+    elif len(users) == 0:
+        return render(request, 'chart/userNotFound.html', {'username': username})
+    else:
+        return render(request, 'chart/nonUniqueUsername.html', {'username': username, 'count': len(users)})
 
 def about(request):
     return render(request, 'about.html')
