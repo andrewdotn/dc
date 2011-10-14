@@ -621,6 +621,25 @@
            }
          };
 
+        var applyLimit = {
+           pointStart: function(theVal, options) { options.plotOptions.line.pointStart = theVal },
+           pointInterval: function(theVal, options) { options.plotOptions.line.pointInterval = theVal },
+           yAxisMin: function(theVal, options) { options.yAxis.min = theVal },
+           xAxisMin: function(theVal, options) { options.xAxis.min = theVal },
+        }
+
+        var chartLimitHandler_DJ = function(event){
+           var options = chart.options;
+           options.plotOptions.line.animation = false;
+           var value = $(event.target).val();
+           var theVal = undefined;
+           if (value !== null && value != '') {
+               var theVal = parseFloat(value);
+           }
+	   applyLimit[event.target.id](theVal, options)
+           new Highcharts.Chart(options);
+         };
+
         var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartYAxisDescription");
 
         var chartLabels = $('#xAxisTitle, #yAxisTitle');
@@ -629,7 +648,7 @@
 
         changeable.bind('keyup', boxHandler);
         chartLabels.bind('keyup', chartLabelHandler);
-        chartLimits.bind('mouseout', chartLimitHandler);
+        chartLimits.bind('blur', chartLimitHandler_DJ);
       });
     </script>
   </head>
@@ -661,7 +680,7 @@
             <table>
               <tr>
                 <td colspan="2">
-                  <div>Chart Title (text)</div>
+                  <div>Chart Title</div>
                   <div class="formfield"><input id="chartTitle" style="width:100%" value=""></div>
                 </td>
               </tr>
@@ -673,7 +692,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>Y Axis Description (text)</div>
+                  <div>Y Axis Description Above Chart</div>
                   <div class="formfield"><input id="chartYAxisDescription" style="width:100%" value=""></div>
                 </td>
               </tr>
@@ -699,7 +718,7 @@
                   <div class="formfield"><input id="xAxisMin" value="" style="margin-right: 10px;"></div>
                 </td>
                 <td>
-                  <div>X Axis Title</div>
+                  <div>X Axis Label</div>
                   <div class="formfield"><input id="xAxisTitle" value=""></div>
                 </td>
               <tr>
@@ -708,7 +727,7 @@
                   <div class="formfield"><input id="yAxisMin" value="" style="margin-right: 10px;"></div>
                 </td>
                 <td>
-                  <div>Y Axis Title</div>
+                  <div>Y Axis Label</div>
                   <div class="formfield"><input id="yAxisTitle" value=""></div>
                 </td>
               </tr>
