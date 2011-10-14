@@ -179,7 +179,7 @@ IGNORABLE_404_URLS = (
     re.compile(r'^/robots\.txt$'),
     re.compile(r'^.*missing.html$'),
     re.compile(r'^.*hypersphere-2010.png$'),
-    re.compile(r'^.*easyxdm.js$'),
+    re.compile(r'^.*easyxdm.js$')
 )
 
 # A sample logging configuration. The only tangible logging
