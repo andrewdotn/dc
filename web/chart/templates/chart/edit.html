@@ -530,6 +530,8 @@
         chartSettings.xAxis.labels.formatter = function() { return this.value; };
 
         var chart = new Highcharts.Chart(chartSettings);
+
+        return chart;
       }
 
       function activateSettingsEditor() {
@@ -573,7 +575,61 @@
 //        $("#saveSeries,#saveChartSettings").bind('click', saveAll);
         $("#saveQuitSeries,#saveQuitChartSettings").bind('click', saveAllAndQuit);
 
-        renderDynamicChart();
+        var chart = renderDynamicChart();
+
+        var boxHandler = function(event){
+            var theString = $(event.target).val();
+            if (event.target.id == "chartTitle")
+                 $('#chart_title').html(theString);
+            else if (event.target.id == "chartHtmlBelowTitle")
+                 $('#chart_html_below_title').html(theString);
+            else if (event.target.id == "chartYAxisDescription")
+                 $('#chart_y_axis_description').html(theString);
+            else if (event.target.id == "chartSourceTitle")
+                 $('#chart_source_title').html(theString);
+        };
+
+
+        var chartLabelHandler = function(event){
+           var options = chart.options;
+           options.plotOptions.line.animation = false;
+           var theString = $(event.target).val();
+           if (event.target.id == "xAxisTitle")
+               options.xAxis.title.text = theString;
+           else if (event.target.id == "yAxisTitle")
+               options.yAxis.title.text = theString;
+           new Highcharts.Chart(options);
+         };
+
+        var chartLimitHandler = function(event){
+           var options = chart.options;
+           options.plotOptions.line.animation = false;
+           var value = $(event.target).val();
+           if (value !== null && value != '') {
+               var theVal = parseFloat($(event.target).val());
+               if (event.target.id == "pointStart")
+                   options.plotOptions.line.pointStart = theVal;
+               else if (event.target.id == "pointInterval")
+                   options.plotOptions.line.pointInterval = theVal;
+               else if (event.target.id == "pointInterval")
+                   options.yAxis.title.text = theVal;
+               else if (event.target.id == "xAxisMin")
+                   options.xAxis.min = theVal;
+               else if (event.target.id == "yAxisMin")
+                   options.yAxis.min = theVal;
+               new Highcharts.Chart(options);
+           }
+         };
+
+        var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartYAxisDescription");
+
+        var chartLabels = $('#xAxisTitle, #yAxisTitle');
+
+        var chartLimits = $('#pointStart, #pointInterval, #xAxisMin, #yAxisMin');
+
+        changeable.bind('keyup', boxHandler);
+        chartLabels.bind('keyup', chartLabelHandler);
+        chartLimits.bind('mouseout', chartLimitHandler);
       });
     </script>
   </head>
