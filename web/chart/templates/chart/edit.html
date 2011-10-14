@@ -601,25 +601,19 @@
            new Highcharts.Chart(options);
          };
 
-        var chartLimitHandler = function(event){
-           var options = chart.options;
-           options.plotOptions.line.animation = false;
-           var value = $(event.target).val();
-           if (value !== null && value != '') {
-               var theVal = parseFloat($(event.target).val());
-               if (event.target.id == "pointStart")
-                   options.plotOptions.line.pointStart = theVal;
-               else if (event.target.id == "pointInterval")
-                   options.plotOptions.line.pointInterval = theVal;
-               else if (event.target.id == "pointInterval")
-                   options.yAxis.title.text = theVal;
-               else if (event.target.id == "xAxisMin")
-                   options.xAxis.min = theVal;
-               else if (event.target.id == "yAxisMin")
-                   options.yAxis.min = theVal;
-               new Highcharts.Chart(options);
+
+        var t = null;
+        var timeoutSet = 0;
+        var chartTimeoutHandler = function(event){
+           if (timeoutSet) {
+               clearTimeout(t);
+               timeoutSet = 0;
+           } else {
+               timeoutSet = 1
+               t =setTimeout(function(){chartLimitHandler(event); timeoutSet = 0;}, 1999);
            }
-         };
+        };
+
 
         var applyLimit = {
            pointStart: function(theVal, options) { options.plotOptions.line.pointStart = theVal },
@@ -628,7 +622,7 @@
            xAxisMin: function(theVal, options) { options.xAxis.min = theVal },
         }
 
-        var chartLimitHandler_DJ = function(event){
+        var chartLimitHandler = function(event){
            var options = chart.options;
            options.plotOptions.line.animation = false;
            var value = $(event.target).val();
@@ -648,7 +642,8 @@
 
         changeable.bind('keyup', boxHandler);
         chartLabels.bind('keyup', chartLabelHandler);
-        chartLimits.bind('blur', chartLimitHandler_DJ);
+        chartLimits.bind('mouseout', chartLimitHandler);
+        chartLimits.bind('keyup', chartTimeoutHandler);
       });
     </script>
   </head>
@@ -680,7 +675,7 @@
             <table>
               <tr>
                 <td colspan="2">
-                  <div>Chart Title</div>
+                  <div>Chart Title (text)</div>
                   <div class="formfield"><input id="chartTitle" style="width:100%" value=""></div>
                 </td>
               </tr>
@@ -692,7 +687,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>Y Axis Description Above Chart</div>
+                  <div>Y Axis Description (text)</div>
                   <div class="formfield"><input id="chartYAxisDescription" style="width:100%" value=""></div>
                 </td>
               </tr>
@@ -718,7 +713,7 @@
                   <div class="formfield"><input id="xAxisMin" value="" style="margin-right: 10px;"></div>
                 </td>
                 <td>
-                  <div>X Axis Label</div>
+                  <div>X Axis Title</div>
                   <div class="formfield"><input id="xAxisTitle" value=""></div>
                 </td>
               <tr>
@@ -727,7 +722,7 @@
                   <div class="formfield"><input id="yAxisMin" value="" style="margin-right: 10px;"></div>
                 </td>
                 <td>
-                  <div>Y Axis Label</div>
+                  <div>Y Axis Title</div>
                   <div class="formfield"><input id="yAxisTitle" value=""></div>
                 </td>
               </tr>
