@@ -198,7 +198,6 @@ def update(request, chart_id):
         return HttpResponse('ok')
     else:
         return None
-    
 
 @csrf_exempt
 @user_passes_test(lambda u: u.is_active)
