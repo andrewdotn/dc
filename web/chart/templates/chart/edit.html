@@ -73,6 +73,7 @@
       }
     </style>
 
+    <script src="https://www.google.com/jsapi?key=ABQIAAAAkWq49XHvu8X8iulRFnhxzhQ3Gsq7pFPFeBuJN0rzxVAMBkA73hR2TPEi2ydIp26PuFwdURBB2igsNg" type="text/javascript"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
 
@@ -251,10 +252,7 @@
           this.initFormField(chartSettings, "yAxis.min", "yAxisMin");
           this.initFormField(chartSettings, "yAxis.title.text", "yAxisTitle");
 
-          $("#applyChartSettings").attr('disabled', false);
-          $("#resetChartSettings").attr('disabled', true);
-          $("#saveChartSettings").attr('disabled', true);
-          $("#saveQuitChartSettings").attr('disabled', true);
+	  this.setButtonsEnabled(false);
         };
 
         this.initFormField = function(chartSettings, objName, elName) {
@@ -298,28 +296,6 @@
           }
         };
 
-        this.onApply = function() {
-          $("#chart_title").text($("#chartTitle").val());
-          $("#chart_html_below_title").html($("#chartHtmlBelowTitle").val());
-          $("#chart_y_axis_description").text($("#chartYAxisDescription").val());
-          $("#chart_source_title").html($("#chartSourceTitle").val());
-
-          this.applyFloatField("plotOptions.line.pointStart", "pointStart");
-          this.applyFloatField("plotOptions.line.pointInterval", "pointInterval");
-
-          this.applyFloatField("xAxis.min", "xAxisMin");
-          this.applyStringField("xAxis.title.text", "xAxisTitle");
-
-          this.applyFloatField("yAxis.min", "yAxisMin");
-          this.applyStringField("yAxis.title.text", "yAxisTitle");
-
-          $("#resetChartSettings").attr('disabled', false);
-          $("#saveChartSettings").attr('disabled', false);
-          $("#saveQuitChartSettings").attr('disabled', false);
-
-          renderDynamicChart();
-        };
-
         this.onReset = function() {
           $("#chart_title").text(this.documentMgr.savedSettings.chart_title);
           $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
@@ -328,19 +304,14 @@
 
           this.settingsMgr.resetSettings();
 
-          $("#resetChartSettings").attr('disabled', true);
-          $("#saveChartSettings").attr('disabled', true);
-          $("#saveQuitChartSettings").attr('disabled', true);
+	  this.setButtonsEnabled(false);
 
           this.initForm();
           renderDynamicChart();
         };
 
         this.onSave = function() {
-          $("#applyChartSettings").attr('disabled', true);
-          $("#resetChartSettings").attr('disabled', true);
-          $("#saveChartSettings").attr('disabled', true);
-          $("#saveQuitChartSettings").attr('disabled', true);
+	  this.setButtonsEnabled(false);
 
           this.setStatus("Saving...", 0);
 
@@ -371,10 +342,7 @@
         };
 
         this.onSaveError = function(jqXHR, textStatus, errorThrown) {
-          $("#applyChartSettings").attr('disabled', false);
-          $("#resetChartSettings").attr('disabled', false);
-          $("#saveChartSettings").attr('disabled', false);
-          $("#saveQuitChartSettings").attr('disabled', false);
+	  this.setButtonsEnabled(true);
 
           this.setStatus("", 0);
 
@@ -387,6 +355,12 @@
         this.setStatus = function(text, timeout) {
           setTimeout(function() { $("#settingsStatus").val(text); }, timeout);
         };
+
+        this.setButtonsEnabled = function(enabled) {
+          $("#resetChartSettings").attr('disabled', !enabled);
+          $("#saveChartSettings").attr('disabled', !enabled);
+          $("#saveQuitChartSettings").attr('disabled', !enabled);
+        }
 
         this.init();
       }
@@ -587,6 +561,8 @@
                  $('#chart_y_axis_description').html(theString);
             else if (event.target.id == "chartSourceTitle")
                  $('#chart_source_title').html(theString);
+
+            settingsEditor.setButtonsEnabled(true);
         };
 
 
@@ -599,40 +575,58 @@
            else if (event.target.id == "yAxisTitle")
                options.yAxis.title.text = theString;
            new Highcharts.Chart(options);
+
+           settingsEditor.setButtonsEnabled(true);
          };
 
-
-        var t = null;
-        var timeoutSet = 0;
-        var chartTimeoutHandler = function(event){
-           if (timeoutSet) {
-               clearTimeout(t);
-               timeoutSet = 0;
-           } else {
-               timeoutSet = 1
-               t =setTimeout(function(){chartLimitHandler(event); timeoutSet = 0;}, 1999);
-           }
-        };
-
-
-        var applyLimit = {
-           pointStart: function(theVal, options) { options.plotOptions.line.pointStart = theVal },
-           pointInterval: function(theVal, options) { options.plotOptions.line.pointInterval = theVal },
-           yAxisMin: function(theVal, options) { options.yAxis.min = theVal },
-           xAxisMin: function(theVal, options) { options.xAxis.min = theVal },
+        var limitBindings = {
+           pointStart: "plotOptions.line.pointStart",
+           pointInterval: "plotOptions.line.pointInterval",
+           yAxisMin: "yAxis.min",
+           xAxisMin: "xAxis.min",
         }
 
         var chartLimitHandler = function(event){
            var options = chart.options;
            options.plotOptions.line.animation = false;
+
            var value = $(event.target).val();
-           var theVal = undefined;
+           var objName = limitBindings[event.target.id];
+
            if (value !== null && value != '') {
                var theVal = parseFloat(value);
+	       eval("options." + objName + "= theVal");
+               eval("settingsEditor.settingsMgr.currentSettings." + objName + " = theVal");
+           } else {
+	       eval("delete options." + objName);
+               eval("delete settingsEditor.settingsMgr.currentSettings." + objName);
            }
-	   applyLimit[event.target.id](theVal, options)
+
            new Highcharts.Chart(options);
+
+           settingsEditor.setButtonsEnabled(true);
+
+           options.plotOptions.line.animation = true;
          };
+
+        // When the user types a keystroke into certain fields,
+        // if they stop typing for 2 seconds, then we'll apply
+        // their change so they can see it.
+        var USER_EDITING_PATIENCE = 2 * 1000;
+        var userDoneEditingTimeout = null;
+
+        var chartTimeoutHandler = function(event){
+           if (userDoneEditingTimeout) {
+               clearTimeout(userDoneEditingTimeout);
+           }
+           userDoneEditingTimeout = setTimeout(
+             function() {
+               chartLimitHandler(event);
+               userDoneEditingTimeout = null;
+             }, 
+             2000);
+        };
+
 
         var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartYAxisDescription");
 
@@ -642,7 +636,7 @@
 
         changeable.bind('keyup', boxHandler);
         chartLabels.bind('keyup', chartLabelHandler);
-        chartLimits.bind('mouseout', chartLimitHandler);
+        chartLimits.bind('blur', chartLimitHandler);
         chartLimits.bind('keyup', chartTimeoutHandler);
       });
     </script>
@@ -728,11 +722,10 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <input id="applyChartSettings" type="button" value="Apply" onclick="settingsEditor.onApply();">
                   <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
                   <input id="saveQuitChartSettings" type="button" value="Save & Quit">
                   <input id="settingsStatus" type="text" class="status" readonly="readonly">
-                  <input id="resetChartSettings" type="button" value="Reset" style="float:right" onclick="settingsEditor.onReset();">
+                  <input id="resetChartSettings" type="button" value="Revert to Saved" onclick="settingsEditor.onReset();">
                 </td>
               </tr>
             </table>
