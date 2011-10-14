@@ -21,6 +21,7 @@
         </ul>
         <li><a href="#server">Setting up a production server</a>
       </ul>
+      <li><a href="#updating">Updating development environments</a>
       <li><a href="#deploying">Deploying</a>
       <li><a href="#logging">Logging</a>
       <li><a href="#updatingdata">Updating data</a>
@@ -217,6 +218,13 @@ all-databases=1' &gt; ~/.my.cnf</pre>
         to Keep” entry to 30 days for all domains.
         <li>Permit the server to send mail by running the following as root: <code>sudo apt-get install bsd-mailx</code>
       </ol>
+
+      <a name="updating"></a>
+      <h2>Updating development environments</h2>
+      <p>
+      Run <tt>./manage.py update</tt> to get newly checked-in source,
+      upgrade required libraries, and apply new data migrations.
+      </p>
 
       <a name="deploying"></a>
       <h2>Deploying</h2>
