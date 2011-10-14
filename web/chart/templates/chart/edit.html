@@ -1,3 +1,5 @@
+{% load url from future %}
+
 <html style="overflow-x:hidden; overflow-y:hidden">
   <head>
     <style type="text/css">
@@ -70,6 +72,10 @@
         background-color:transparent;
         border:none;
         width:10em;
+      }
+
+      #saveChartSettings, #saveQuitChartSettings {
+        width:8em;
       }
     </style>
 
@@ -252,7 +258,7 @@
           this.initFormField(chartSettings, "yAxis.min", "yAxisMin");
           this.initFormField(chartSettings, "yAxis.title.text", "yAxisTitle");
 
-	  this.setButtonsEnabled(false);
+	  this.setDocDirty(false);
         };
 
         this.initFormField = function(chartSettings, objName, elName) {
@@ -304,14 +310,14 @@
 
           this.settingsMgr.resetSettings();
 
-	  this.setButtonsEnabled(false);
+	  this.setDocDirty(false);
 
           this.initForm();
           renderDynamicChart();
         };
 
         this.onSave = function() {
-	  this.setButtonsEnabled(false);
+	  this.setDocDirty(false);
 
           this.setStatus("Saving...", 0);
 
@@ -342,7 +348,7 @@
         };
 
         this.onSaveError = function(jqXHR, textStatus, errorThrown) {
-	  this.setButtonsEnabled(true);
+	  this.setDocDirty(true);
 
           this.setStatus("", 0);
 
@@ -356,10 +362,12 @@
           setTimeout(function() { $("#settingsStatus").val(text); }, timeout);
         };
 
-        this.setButtonsEnabled = function(enabled) {
-          $("#resetChartSettings").attr('disabled', !enabled);
-          $("#saveChartSettings").attr('disabled', !enabled);
-          $("#saveQuitChartSettings").attr('disabled', !enabled);
+        this.setDocDirty = function(dirty) {
+          $("#saveQuitChartSettings").val(dirty ? "Save & Quit" : "Quit");
+
+          $("#resetChartSettings").attr('disabled', !dirty);
+          $("#saveChartSettings").attr('disabled', !dirty);
+          $("#saveQuitChartSettings").attr('disabled', false);
         }
 
         this.init();
@@ -518,7 +526,6 @@
       }
 
       function activateSeriesEditor() {
-        settingsEditor.onApply();           
         $("#seriesTab").addClass("activeEditorTab");
         $("#settingsTab").removeClass("activeEditorTab");
 
@@ -533,21 +540,36 @@
         settingsEditor.initForm();
         seriesEditor.initForm();
 
-        var saveAll = function(event) {
+//
+// race condition on server
+//
+//        var saveAll = function(event) {
+//           settingsEditor.onSave();
+//           seriesEditor.onSave();
+//        };
+//
+//        var saveAllAndQuit = function(event) {
+//           var url = "{% url 'chart.views.view' chart.id %}";
+//           saveAll(event);
+//           window.setTimeout(function(){$(location).attr('href',url);}, 100, true);
+//        };
+//
+//        $("#saveSeries,#saveChartSettings").bind('click', saveAll);
+//        $("#saveQuitSeries,#saveQuitChartSettings").bind('click', saveAllAndQuit);
+//
+
+        saveSettingsAndQuit = function(event) {
+           var url = "{% url 'chart.views.view' chart.id %}";
            settingsEditor.onSave();
-           seriesEditor.onSave();
-        };
-
-
-        var saveAllAndQuit = function(event) {
-           var chartNumber = $("#chartNumber").val()
-           var url = "/chart/" + chartNumber;
-           saveAll(event);
            window.setTimeout(function(){$(location).attr('href',url);}, 100, true);
         };
 
-//        $("#saveSeries,#saveChartSettings").bind('click', saveAll);
-        $("#saveQuitSeries,#saveQuitChartSettings").bind('click', saveAllAndQuit);
+        saveSeriesAndQuit = function(event) {
+           var url = "{% url 'chart.views.view' chart.id %}";
+           seriesEditor.onSave();
+           window.setTimeout(function(){$(location).attr('href',url);}, 100, true);
+        };
+
 
         var chart = renderDynamicChart();
 
@@ -562,7 +584,7 @@
             else if (event.target.id == "chartSourceTitle")
                  $('#chart_source_title').html(theString);
 
-            settingsEditor.setButtonsEnabled(true);
+            settingsEditor.setDocDirty(true);
         };
 
 
@@ -576,7 +598,7 @@
                options.yAxis.title.text = theString;
            new Highcharts.Chart(options);
 
-           settingsEditor.setButtonsEnabled(true);
+           settingsEditor.setDocDirty(true);
          };
 
         var limitBindings = {
@@ -604,7 +626,7 @@
 
            new Highcharts.Chart(options);
 
-           settingsEditor.setButtonsEnabled(true);
+           settingsEditor.setDocDirty(true);
 
            options.plotOptions.line.animation = true;
          };
@@ -723,7 +745,7 @@
               <tr>
                 <td colspan="2">
                   <input id="saveChartSettings" type="button" value="Save" onclick="settingsEditor.onSave();">
-                  <input id="saveQuitChartSettings" type="button" value="Save & Quit">
+                  <input id="saveQuitChartSettings" type="button" value="Save & Quit" onclick="saveSettingsAndQuit();">
                   <input id="settingsStatus" type="text" class="status" readonly="readonly">
                   <input id="resetChartSettings" type="button" value="Revert to Saved" onclick="settingsEditor.onReset();">
                 </td>
@@ -743,9 +765,9 @@
               <td>
                 <input id="applySeries" type="button" value="Apply" onclick="seriesEditor.onApply();">
                 <input id="saveSeries" type="button" value="Save" onClick="seriesEditor.onSave();">
-		<input id="saveQuitSeries" type="button" value="Save & Quit">
+		<input id="saveQuitSeries" type="button" value="Save & Quit" onClick="saveSeriesAndQuit();">
                 <input id="seriesStatus" type="text" class="status" readonly="readonly">
-                <input id="resetSeries" type="button" value="Reset" style="float:right" onclick="seriesEditor.onReset();">
+                <input id="resetSeries" type="button" value="Revert to Saved" onclick="seriesEditor.onReset();">
               </td>
             </tr>
           </table>

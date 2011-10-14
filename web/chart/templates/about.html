@@ -99,7 +99,7 @@ function sorry()
         {% if user.username %}
           <div id="greeting">HELLO {{ user.username }} !!
           &nbsp;
-          <a style="color:#000000" href="{% url 'chart.views.charts_by_user' user.username %}">your charts</a>
+          <a style="color:#000000" href="{% url 'chart.views.charts_by_user' user.username %}">my charts</a>
           &nbsp;
           <a style="color:#000000" href="{% url 'chart.views.new' %}">new chart</a>
           &nbsp;
