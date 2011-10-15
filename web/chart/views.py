@@ -193,6 +193,8 @@ def update(request, chart_id):
         chart.chart_settings = json.dumps(dict['chart_settings'])
     if dict.has_key('chart_data'):
         chart.chart_data = json.dumps(dict['chart_data'])
+    if dict.has_key('chart_width'):
+        chart.chart_width = json.dumps(dict['chart_width'])
     if (request.user == chart.creator) or request.user.is_superuser:
         chart.save()
         return HttpResponse('ok')
