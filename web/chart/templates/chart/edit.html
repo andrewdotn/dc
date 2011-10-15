@@ -293,7 +293,7 @@
           renderDynamicChart();
         };
 
-        this.onSave = function() {
+        this.onSave = function(callback) {
 	  this.setDocDirty(false);
 
           this.setStatus("Saving...", 0);
@@ -306,7 +306,7 @@
             url: "/chart/update/{{chart.id|safe}}/",
             type: "POST",
             data: JSON.stringify(data),
-            success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR); },
+            success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR); callback(); },
             error: function(jqXHR, textStatus, errorThrown) { self.onSaveError(jqXHR, textStatus, errorThrown); }
           });
         };
@@ -426,8 +426,7 @@
 
         saveAndQuit = function(event) {
            var url = "{% url 'chart.views.view' chart.id %}";
-           editor.onSave();
-           window.setTimeout(function(){$(location).attr('href',url);}, 100, true);
+           editor.onSave( function(){ document.location.href = url } );
         };
 
         var chart = renderDynamicChart();
