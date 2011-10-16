@@ -4,6 +4,7 @@ import hashlib
 import json
 
 from django.db import models
+from django.template.defaultfilters import slugify
 import django.contrib.auth.models
 
 from chart import utils
@@ -22,7 +23,6 @@ class Chart(models.Model):
             blank=True)
     html_below_title = models.TextField(blank=True)
     sparkblocks = models.CharField(max_length=30, blank=True)
-    tweet = models.CharField(max_length=140, blank=True)
     source_title = models.CharField(max_length=255, blank=True)
     source_detail = models.TextField(blank=True)
     chart_creator_detail = models.TextField(blank=True)
@@ -31,7 +31,6 @@ class Chart(models.Model):
     chart_data = models.TextField(default="[]")
     chart_settings = models.TextField(default="{}")
     csv_url = models.CharField(max_length=255, blank=True, default="")
-    short_name = models.CharField(max_length=255, blank=True)
     description = models.TextField(default="",
         help_text='Text-only description that goes below title when sharing '
             'on sites like Facebook', blank=True)
@@ -62,6 +61,12 @@ class Chart(models.Model):
 
     def source_width(self, specified_width):
         return max(100, int(self.computed_width(specified_width)) - 155)
+
+    def slug_title(self):
+      return slugify(self.title)[:80]
+
+    def get_absolute_url(self):
+        return '/chart/%d/%s' % (self.id, self.slug_title())
 
     def __unicode__(self):
         return '(%d) %s' % (self.id, self.title)

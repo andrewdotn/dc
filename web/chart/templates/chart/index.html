@@ -9,10 +9,8 @@
 
   <body>
     <h1>List of all charts
-{% if user %}
-for {{ user.first_name }} {{ user.last_name }} ( {{ user.username }} )
-{% else %}
-for nobody in particular
+{% if for_user %}
+for {{ for_user.first_name }} {{ for_user.last_name }} ({{ for_user.username }})
 {% endif %}
 </h1>
 
@@ -23,12 +21,12 @@ for nobody in particular
       <a href="/{{ chart.sparkblocks }}">
         {{ chart.sparkblocks }}</a><br>
       {% endif %}
-      <a href="{% url 'chart.views.view' chart.id %}">
+      <a href="{{ chart.get_absolute_url }}">
       {% if chart.title %}
       {{ chart.title }}
       {% else %}
       Chart #{{ chart.id }}{% endif %}</a>
-      {% if chart.creator and not user %}
+      {% if chart.creator and not for_user %}
       <br>Posted by {{ chart.creator_name }}
       {% endif %}
       </li>

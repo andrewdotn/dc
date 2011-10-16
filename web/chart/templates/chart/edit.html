@@ -98,7 +98,7 @@
             chart_html_below_title: $("#chart_html_below_title").html(),
             chart_y_axis_description: $("#chart_y_axis_description").text(),
             chart_source_title: $("#chart_source_title").html(),
-            chart_width: $("#datacollective-chart-{{chart.id|safe}}").width()
+            chart_width: $("#datacollective-chart-{{chart.id}}").width()
           };
         };
 
@@ -249,7 +249,7 @@
           $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
           $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
           $("#chartSourceTitle").val($("#chart_source_title").html());
-          $("#chartWidth").val($("#datacollective-chart-{{chart.id|safe}}").width());
+          $("#chartWidth").val($("#datacollective-chart-{{chart.id}}").width());
           $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
 
           var chartSettings = this.settingsMgr.allSettings();
@@ -285,7 +285,7 @@
           $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
           $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
           $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
-	  $("#datacollective-chart-{{chart.id|safe}}").width(this.documentMgr.savedSettings.chart_width);
+	  $("#datacollective-chart-{{chart.id}}").width(this.documentMgr.savedSettings.chart_width);
 
           this.settingsMgr.resetSettings();
           this.seriesMgr.resetSeries();
@@ -306,7 +306,7 @@
           var self = this;
 
           $.ajax({
-            url: "/chart/update/{{chart.id|safe}}/",
+            url: "{% url 'chart.views.update' chart.id %}",
             type: "POST",
             data: JSON.stringify(data),
             success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR); callback(); },
@@ -347,7 +347,7 @@
           var self = this;
 
           $.ajax({
-            url: "/chart/convertdata/",
+            url: "{% url 'chart.views.convert_data' %}",
             type: "POST",
             dataType: "json",
             data: JSON.stringify(data),
@@ -534,7 +534,7 @@
             var options = chart.options;
             options.plotOptions.line.animation = false;
             var theString = $(event.target).val();
-            $("#datacollective-chart-{{chart.id|safe}}").width(theString);
+            $("#datacollective-chart-{{chart.id}}").width(theString);
             new Highcharts.Chart(options);
             options.plotOptions.line.animation = true;
             editor.setDocDirty(true);
@@ -567,7 +567,7 @@
     <table><tr>
       <td valign="top">
         <div>
-          <div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}" style="width: {{chart.chart_width}}" margin="auto">
+          <div class="datacollective-chart" id="datacollective-chart-{{chart.id}}" style="width: {{chart.chart_width}}" margin="auto">
           <h1 id="chart_title" align="left">{{chart.title}}</h1>
           <p id="chart_html_below_title" align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; font-family:Georgia'>{{chart.html_below_title|safe}}</p>
           <p id="chart_y_axis_description" align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; color:#888888; font-family:ChunkFiveRegular; font-size:75%'>{{chart.y_axis_description|safe}}</p>

@@ -7,7 +7,7 @@
     <meta charset='UTF-8'>
     <meta property="og:title" content="{{chart.title}}">
     <meta property="og:description" content="{{chart.description}}">
-    <meta property="og:image" content="https://d4t4.org/chart/image/{{chart.id}}">
+    <meta property="og:image" content="https://datacollective.org/chart/image/{{chart.id}}">
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 
@@ -131,12 +131,6 @@
               <a target="_blank" href=" {{ chart.csv_url }} " title="Download the raw data behind this chart">
                 <img src="/static/images/csv_32x32.png" style="position:relative; left:20px">
               </a>
-<!--
-XLS doesnt really work yet.  Need to think about it some more.
-              <a target="_blank" href=" {{ chart.xls_url }} ">
-                <img src="/static/images/xls_32x32.png" style="position:relative; left:20px">
-              </a>
--->
             </div>
           </span>
         </div>
@@ -177,7 +171,7 @@ XLS doesnt really work yet.  Need to think about it some more.
 
             // The following are highly recommended additional parameters. Remove the slashes in front to use.
             var disqus_identifier = '{{ chart.disqus_identifier }}';
-            var disqus_url = 'https://{{ host }}/chart/{{ chart.short_name }}';
+            var disqus_url = 'https://{{ host }}/{{ chart.get_abolute_url }}';
 
             {% if debug %}
             var disqus_developer = 1;

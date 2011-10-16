@@ -6,6 +6,12 @@ from common import *
 
 DEBUG = True
 
+## Uncomment to enable toolbar debugging of non-debug servers
+#DEBUG_TOOLBAR_CONFIG = {
+#    'SHOW_TOOLBAR_CALLBACK':
+#        lambda r: r.META.get('REMOTE_ADDR', None) == '127.0.0.1'
+#}
+
 TEMPLATE_DEBUG = DEBUG
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

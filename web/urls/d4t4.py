@@ -3,39 +3,10 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import redirect_to
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
-
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'd4t4.views.home', name='home'),
-    # url(r'^d4t4/', include('d4t4.foo.urls')),
+    # Some day this will be a general-purpose URL shortener
 
-    (r'^index.html', redirect_to, {'url': '/', 'permanent': False}),
-
-    (r'^sparkblocks.html', 'chart.views.sparkblocks'),
-
-    # serve up our about page as our home page for now
-    # DJ stuffed the about page into the chart app because it was expedient.
-    (r'^$', 'chart.views.about'),
-
-    (r'^chart/', include('chart.urls')),
-
-    (ur'^(?P<sparkblocks>[▁▂▃▅▆▇]+)$', 'chart.views.sparklink'),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    url(r'^staff/admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    url(r'^staff/admin/', include(admin.site.urls)),
-
-    (r'^staff/sentry/', include('sentry.web.urls')),
-
-    (r'^staff/500/', 'chart.views.fivehundred'),
-
-    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page' : '../..'}),
-    (r'^accounts/profile/$', redirect_to, {'url': '/', 'permanent': False}),
-    (r'^accounts/$', 'django.contrib.auth.views.login'),
+    (ur'^$', redirect_to, {
+        'url': 'https://datacollective.org/sparkblocks.html',
+        'permanent': False}),
 )

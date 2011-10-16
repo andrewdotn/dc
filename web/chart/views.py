@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 import json
 import os
 import pkg_resources
@@ -5,58 +7,45 @@ import subprocess
 import sys
 import tempfile
 
-from django.http import HttpResponse, Http404, HttpResponseServerError
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import (HttpResponse, Http404, HttpResponseServerError,
+    HttpResponseForbidden)
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import user_passes_test
 
 from chart import utils
-from settings.common import VENDOR_ROOT
-
 from chart.models import Chart
-from django.contrib.auth.models import User
+from settings.common import VENDOR_ROOT
 
 def index(request):
     charts = Chart.objects.all().select_related('creator')
     return render(request, 'chart/index.html', {'charts': charts})
 
 def charts_by_user(request, username):
-    users = User.objects.filter(username__exact = username)
-    if len(users) == 1:
-        charts = Chart.objects.filter(creator__exact = users[0]).select_related('creator')
-        return render(request, 'chart/index.html', {'charts': charts, 'user': users[0]})
-    elif len(users) == 0:
-        return render(request, 'chart/userNotFound.html', {'username': username})
-    else:
-        return render(request, 'chart/nonUniqueUsername.html', {'username': username, 'count': len(users)})
-
-def about(request):
-    return render(request, 'about.html')
-
-def sparkblocks(request):
-    return render(request, 'sparkblocks.html')
+    try:
+      user = get_object_or_404(User, username = username)
+    except Http404:
+      raise Http404('The user ‘%s’ does not exist.' % username)
+    charts = Chart.objects.filter(creator__exact = user).select_related(
+            'creator')
+    return render(request, 'chart/index.html',
+        {'charts': charts, 'for_user': user})
 
 def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
     return view(request, chart=chart)
 
-def get_chart(chart_id=None, short_name=None):
-    if chart_id is not None:
-        chart = get_object_or_404(Chart, id=chart_id)
-    elif short_name is not None:
-        chart = get_object_or_404(Chart, short_name=short_name)
-    return chart
-
-# XXX admin needs this
-def view(request, chart_id=None, chart=None, short_name=None):
-    if chart is None:
-        chart = get_chart(chart_id, short_name)
+def view(request, chart_id, title=None):
+    chart = get_object_or_404(Chart, id=chart_id)
+    if title != chart.slug_title():
+        return redirect(chart.get_absolute_url())
     return render(request, 'chart/chart.html', {
         'chart': chart,
         'host': request.get_host(),
-        'url': '//' + request.get_host() + '/chart/' + chart.short_name,
-        'shorturl': '//' + request.get_host() + '/chart/' + chart.short_name,
         'chart_data': chart.chart_data.replace('\r\n', '\\n').replace('\n', '\\n').replace('\r', '\\n'),
         'chart_settings': mark_safe(chart.chart_settings.replace('\n', ' ').replace('\r', ' ')),
         'enclosing_width': chart.enclosing_width(request.GET.get("width", None)),
@@ -71,25 +60,25 @@ def new(request):
 
         try:
             chart_data = utils.import_chart_data(data)
-        except Exception:
+        except Exception, e:
             utils.save_import_failure(request.user.username, data)
-            return HttpResponseServerError()
+            return HttpResponseServerError('Parse error: ' + e.message)
 
         chart = Chart(creator=request.user)
         chart.chart_data = chart_data
         chart.save()
 
-        return redirect('/chart/edit/{0}/'.format(chart.id))
+        return redirect(reverse('chart.views.edit', args=[chart.id]))
     else:
         return render(request, 'chart/new.html')
 
-def image(request, chart_id=None, short_name=None):
-    chart = get_chart(chart_id, short_name)
+def image(request, chart_id=None):
+    chart = get_object_or_404(Chart, id=chart_id)
     try:
         with open(utils.chart_image_path(chart.id), "rb") as f:
             image_data = f.read()
     except IOError:
-            raise Http404
+        raise Http404
 
     return HttpResponse(image_data, mimetype="image/png")
 
@@ -108,28 +97,21 @@ def convert(request, chart_id):
     f, svg_path = tempfile.mkstemp()
     png_path = utils.chart_image_path(chart_id)
 
-    try:
-        with os.fdopen(f, "wb") as fd:
-            fd.write(request.POST["svg"])
-    except IOError:
-        return HttpResponseServerError()
+    with os.fdopen(f, "wb") as fd:
+        fd.write(request.POST["svg"])
 
     # Convert to png.
 
-    status = subprocess.call(["java", "-Xmx10m", "-Djava.awt.headless=true", "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
-
-    if status != 0:
-        return HttpResponseServerError()
+    status = subprocess.check_call(
+        ["java", "-Xmx10m", "-Djava.awt.headless=true",
+        "-jar", BATIK_JAR_PATH, "-d", png_path, svg_path])
 
     # For debug purposes, if we were asked for svg, save the svg data as well.  Otherwise delete it.
 
-    try:
-        if request.POST["type"] == "image/svg+xml":
-            os.rename(svg_path, utils.chart_image_path(chart_id, ext="svg"))
-        else:
-            os.remove(svg_path)
-    except OSError:
-        return HttpResponseServerError()
+    if request.POST["type"] == "image/svg+xml":
+        os.rename(svg_path, utils.chart_image_path(chart_id, ext="svg"))
+    else:
+        os.remove(svg_path)
 
     return image(request, chart_id)
 
@@ -138,7 +120,9 @@ def embed(request, chart_id):
 
     return render(request, 'chart/embed.html', {
       'host': request.get_host(),
-      'url': 'https://' + request.get_host() + '/chart/' + chart.short_name,
+      'url': 'https://%s%s' % (request.get_host(), chart.get_absolute_url()),
+      'shorturl': 'https://%s%s' % (request.get_host(),
+            reverse('chart.views.view', args=[chart.id])),
       'chart': chart,
       'internal': bool(request.GET.get("internal", False)),
       'source_width': chart.source_width(request.GET.get("width", None)),
@@ -151,29 +135,30 @@ EASYXDM = pkg_resources.resource_string('vendor.easyxdm', 'static/easyxdm/easyXD
 def embed_js(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
 
-    chart_url = "https://" + request.get_host() + "/chart/embed/" + str(chart.id) + "?foo=1"
-    if request.GET.get("internal", False):
-        chart_url += "&internal=1"
-    if request.GET.get("width", None):
-        chart_url += "&width=" + request.GET.get("width")
+
+    params = {}
+    internal = request.GET.get('internal', False)
+    if internal:
+        params['internal'] = '1'
+    width = request.GET.get('width', None)
+    if width:
+        params['width'] = width
+
+    chart_url = "https://%s/%s?%s" % (request.get_host(),
+            reverse('chart.views.embed', args=[chart.id]), urlencode(params))
 
     return render(request, 'chart/embed.js', {
       'easyxdm': EASYXDM,
       'chart': chart,
       'chart_url': chart_url,
-      'width': request.GET.get("width", None),
-      'internal': bool(request.GET.get("internal", False))
+      'internal': internal,
+      'width': width,
     })
 
 @user_passes_test(lambda u: u.is_active)
 def edit(request, chart_id):
     chart = get_object_or_404(Chart, id=chart_id)
-
-    return render(request, 'chart/edit.html', {
-      'host': request.get_host(),
-      'url': '//' + request.get_host() + '/chart/' + chart.short_name,
-      'chart': chart
-   })
+    return render(request, 'chart/edit.html', {'chart': chart})
 
 @csrf_exempt
 @user_passes_test(lambda u: u.is_active)
@@ -199,7 +184,7 @@ def update(request, chart_id):
         chart.save()
         return HttpResponse('ok')
     else:
-        return None
+        return HttpResponseForbidden('Permission denied.')
 
 @csrf_exempt
 @user_passes_test(lambda u: u.is_active)
@@ -213,6 +198,7 @@ def convert_data(request):
         utils.save_import_failure(request.user.username, dict['data'])
         raise
 
+@user_passes_test(lambda u: u.is_staff)
 def fivehundred(request):
     return render(request, 'chart/noexist', {
       'bah': foo

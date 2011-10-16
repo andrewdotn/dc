@@ -1,3 +1,4 @@
+{% load url from future %}
 <html style="overflow-x:hidden; overflow-y:hidden">
   <head>
     <style type="text/css">
@@ -87,7 +88,7 @@
         description: "{{ chart.description|escapejs }}"
       }
     </script>
-    <script type="text/javascript" src="//s6.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4db065a4597e8114"></script>
 
     <script type="text/javascript">
       //
@@ -154,7 +155,7 @@
         }
 
 {% if user.is_staff and internal %}
-        options.exporting = {url: "/chart/convert/{{ chart.id|safe }}/"};
+options.exporting = {url: "{% url 'chart.views.convert' chart.id %}"};
 {% endif %}
         options.series = {{ chart.chart_data|safe }};
         if (!options.plotOptions) {
@@ -180,7 +181,7 @@
       }
 
       function renderStaticImage() {
-        $("#chartdiv").append('<a href="/chart/{{ chart.id|safe }}" target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>');
+        $("#chartdiv").append('<a href="/chart/{{ chart.id }}" target="_blank"><img src="/chart/image/{{ chart.id }}" alt="{{ chart.title }}"/></a>');
       }
 
       function showPanel() {
@@ -257,12 +258,12 @@
         });
 
         $("#facebook").click(function() {
-          window.open("https://www.facebook.com/sharer.php?u={https://datacollective.org/chart/{{ chart.short_name }}&t={{ chart.title }}");
+          window.open("https://www.facebook.com/sharer.php?u={{url}}&t={{ chart.title }}");
           hidePanel();
         });
 
         $("#twitter").click(function() {
-          window.open("https://twitter.com/share?url=&text={{ chart.tweet }}&via=_datacollective&related=_datacollective");
+          window.open("https://twitter.com/share?url={{shorturl}}&text={{ chart.title }}&via=_datacollective&related=_datacollective");
           hidePanel();
         });
 
@@ -290,7 +291,7 @@
 
     <div id="chartdiv">
       <noscript>
-        <a href="/chart/{{ chart.id|safe }} "target="_blank"><img src="/chart/image/{{ chart.id|safe }}" alt="{{ chart.title|safe }}"/></a>
+        <a href="/chart/{{ chart.id }} "target="_blank"><img src="/chart/image/{{ chart.id }}" alt="{{ chart.title|safe }}"/></a>
       </noscript>
     </div>
 
@@ -309,7 +310,7 @@
           </li>
 {% if not internal %}
           <li>&nbsp</li>
-	  <li><a target="_blank" href="/chart/{{ chart.id|safe }}">See source data and credits at Data Collective</a></li>
+	  <li><a target="_blank" href="/chart/{{ chart.id }}">See source data and credits at Data Collective</a></li>
 {% endif %}
         </ul>
       </div>
@@ -320,7 +321,7 @@
     <div id="creditsdiv" style="font-family:Georgia; margin-top:24px; margin-left:125px; width:{{ source_width }}px; font-size: 85%; color:#888888; text-align:left; float:left">
       <b>Source</b>: {{chart.source_title|safe}}.
 {% if not internal %}
-Complete source data, credits and more at <a target="_blank" href="/chart/{{ chart.id|safe }}">Data Collective</a>.
+Complete source data, credits and more at <a target="_blank" href="/chart/{{ chart.id }}">Data Collective</a>.
 {% endif %}
     </div>
 
@@ -335,11 +336,11 @@ Complete source data, credits and more at <a target="_blank" href="/chart/{{ cha
 {{ funtext|random }}
       or anywhere else!
       <br><br>
-<textarea readonly=readonly style="width:400px; height:3em">
-&lt;div class="datacollective-chart" id="datacollective-chart-{{chart.id|safe}}"&gt;
-&lt;noscript&gt;&lt;iframe src="//{{host}}/chart/embed/{{chart.id|safe}}" width="{% if chart.chart_width %}{{chart.chart_width}}{% else %}630{% endif %}" height="690" frameborder="0">&lt;/iframe&gt;&lt;/noscript&gt;
+<textarea readonly=readonly style="width:400px; height:8em">
+&lt;div class="datacollective-chart" id="datacollective-chart-{{chart.id}}"&gt;
+&lt;noscript&gt;&lt;iframe src="https://{{host}}/chart/embed/{{chart.id}}" width="{% if chart.chart_width %}{{chart.chart_width}}{% else %}630{% endif %}" height="690" frameborder="0">&lt;/iframe&gt;&lt;/noscript&gt;
 &lt;/div&gt;
-&lt;script type="text/javascript" src="//{{host}}/chart/embedjs/{{chart.id|safe}}"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="https://{{host}}/chart/embedjs/{{chart.id}}"&gt;&lt;/script&gt;
 </textarea>
       <br>
       <div>
