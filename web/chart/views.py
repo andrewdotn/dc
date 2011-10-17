@@ -29,16 +29,11 @@ def charts_by_user(request, username):
     try:
       user = get_object_or_404(User, username = username)
     except Http404:
-      raise Http404("The user '%s' does not exist." % username)
+      raise Http404(u'The user ‘%s’ does not exist.' % username)
     charts = Chart.objects.filter(creator__exact = user).select_related(
             'creator')
     return render(request, 'chart/index.html',
         {'charts': charts, 'for_user': user})
-
-def unicode_problem_debug(request, s):
-    if s:
-        raise Http404("‘hi’")
-    raise Http404(u"‘uhi’")
 
 def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
