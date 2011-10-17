@@ -1,0 +1,58 @@
+{% load url from future %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{% block title %} {% endblock %} - Data Collective</title>
+    {% block head_extra %}
+    {% endblock %}
+    <link REL="stylesheet" type="text/css" href="{{ STATIC_URL }}base.css">
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script>
+function sorry()
+{
+  alert("You are already looking at the About page.  We hope you like it!  (If you are a UI designer, we would love your feedback about how to fix this)");
+}
+    </script>
+</head>
+  <body style="background-color:#fffafc">
+    <div id="container" style="width:100%; background-color:#fffafc">
+      <div id="main" style="width:800px; margin:auto">
+        {% if user.username %}
+          <div id="greeting">HELLO {{ user.username }} !!
+          &nbsp;
+          <a style="color:#000000" href="{% url 'chart.views.charts_by_user' user.username %}">my charts</a>
+          &nbsp;
+          <a style="color:#000000" href="{% url 'chart.views.new' %}">new chart</a>
+          &nbsp;
+          <a style="color:#000000" href="{% url 'django.contrib.auth.views.logout' %}">logout</a>
+          </div>
+        {% else %}
+          <div id="greeting"><a style="color:#000000" href="{% url 'django.contrib.auth.views.login' %}">login</a></div>
+        {% endif %}
+        <div class="titlediv">
+          <div class="title" style="background-image:url(&#39;{{ STATIC_URL }}images/neitsch_quilt_partial.png&#39;); background-color:#2d5344; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
+<!--          <img src="{{ STATIC_URL }}images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
+          <span style="position:relative; top:5px; left:5px">Data Collective</span>
+          </div>
+        </div>
+
+{% block content %}
+{% endblock content %}
+
+
+
+        <div class="titlediv">
+          <div class="title" style="background-color:#2d5344; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
+            <span class="bottom_nav"><a href="#" style="text-decoration:none; color:#ffffff" onclick="sorry()" title="This link should take you to the About page, but, on the other hand, you are already looking at the About page, so what happens if you click here?">About</a></span>
+            <span class="bottom_nav" title="The blog is at blog.datacollective.org but we haven't fixed the style yet to match the rest of the site.">Blog</span>
+
+            <span style="float:right">©2011 Data Collective</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</body></html>

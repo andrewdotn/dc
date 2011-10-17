@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block head_extra %}
+    <meta property="og:title" content="Data Collective">
+    <meta property="og:description" content="We started Data Collective because it's way too hard to get simple
+numerical facts about the world.  In sports or business, you could never understand what's going on without the basic stats.  We feel the same way about the rest of life.">
+    <meta property="og:image" content="https://datacollective.org">
+{% endblock %}
+
+{% block content %}
+<h1>MISSION</h1>
+
+<p>
+We started Data Collective because it's way too hard to get simple
+numerical facts about the world.  In sports or business, you could
+never understand what's going on without the basic stats.  We feel the
+same way about the rest of life.
+</p>
+
+<p>
+Our secret mission is to promote the use of reputable, verifiable data in public discussion by finding and widely sharing such data, and making it easier for others to do the same.
+</p>
+
+<p>
+We are non-profit and strive to be non-partisan and unbiased.
+</p>
+
+<br>
+<h1>CHARTS</h1>
+
+<p>
+Our first project is a next-generation Chart for the web.
+</p>
+
+<p>
+Most charts on the web today are simply pictures.  For example, here's a chart on a topic we're very interested in, the economy:
+</p>
+<img src="{{ STATIC_URL }}images/jobloss.gif">
+
+<p>
+It's a neat chart, but it doesn't let the reader <b>do</b> some important things:
+<ul>
+<li> Find the exact source of the data.  BLS and NBER have thousands of data sets.  Which were used in making this chart?
+<li> Get the raw underlying data, in order to put into a different kind of chart
+<li> Explore the source data.  For example, in the chart above, not <a target="_blank" href="http://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States">all recessions since 1929</a> were depicted.  Wouldn't it be interesting to see what those other recessions look like?  Perhaps they would tell a different story.
+<li> Combine the data underlying this chart with other interesting data.  For example, color the lines to indicate which party was in the White House.
+</ul>
+Here's our first draft of a next generation chart for the web.  It's interactive, instantly shareable, and linked to its underlying data:
+<br>
+<br>
+<!-- why do a div AND an iframe AND javascript for embedded charts?  dynamically sizing embedded content was fun.  email us and well tell you all about it  :) -->
+<div class="datacollective-chart" id="datacollective-chart-5" style="border:2px solid #3e679f; display:inline-block">
+<noscript><iframe src="/chart/embed/5" width="630" height="690" frameborder="0"></iframe></noscript>
+</div>
+<script type="text/javascript" src="/chart/embedjs/5"></script>
+</p>
+
+<p>
+You can click on the link in the Source section to go to the chart's home page, where you can:
+<ul>
+<li> get the raw data
+<li> find out exactly where the data comes from
+<li> see who created the chart
+<li> discuss the chart with other data nerds
+<li> and, in the future, do other cool things like:
+    <ul>
+    <li> see other charts on the same topic
+    <li> export the chart into a wikipedia article
+    </ul>
+</ul>
+
+Also, we give the author of the chart <b>Sharing Reports</b> so they can see how many people shared it, and how many pageviews it got in each place it was shared.  We hope this is useful for authors and publishers.
+</p>
+
+<br>
+<h1>WHAT YOU CAN DO</h1>
+<p>
+Follow us by email.  We won't overshare!</p>
+<p>Just an update now and then with the latest and greatest.
+<form style="display:inline" action="//tinyletter.com/datacollective" method="post" target="popupwindow" onsubmit="window.open('//tinyletter.com/datacollective', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"><input type="text" style="width:280px; display:inline" name="emailaddress"/><input type="hidden" value="1" name="embed"/><input type="submit" value="Subscribe" /></form>
+</p>
+
+<p>
+Email us at dsjoerg at datacollective dot org to:
+<ul>
+<li> Make charts!  We are currently in closed alpha.  We would love to work with you to make great charts for your website, blog or newspaper.  (After a while we'll have a spiffy web page where you can make your own charts).
+<li> Join us! We are looking for engineers, writers, data enthusiasts and every kind of smart cool person to join us.
+<li> Let us know what you think!
+</ul>
+</p>
+
+<br>
+<h1>WHO WE ARE</h1>
+
+<!-- in alphabetical order by first name -->
+<p>The Data Collective team is Andrew Neitsch, <a target="_blank" href="http://about.me/dsjoerg">David Joerg</a> and Mark Smith.</p>
+<br>
+{% endblock %}
