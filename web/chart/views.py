@@ -29,7 +29,7 @@ def charts_by_user(request, username):
     try:
       user = get_object_or_404(User, username = username)
     except Http404:
-      raise Http404('The user '%s' does not exist.' % username)
+      raise Http404("The user '%s' does not exist." % username)
     charts = Chart.objects.filter(creator__exact = user).select_related(
             'creator')
     return render(request, 'chart/index.html',
