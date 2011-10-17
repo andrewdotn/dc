@@ -35,6 +35,11 @@ def charts_by_user(request, username):
     return render(request, 'chart/index.html',
         {'charts': charts, 'for_user': user})
 
+def unicode_problem_debug(request, s):
+    if s:
+        raise Http404("‘hi’")
+    raise Http404(u"‘uhi’")
+
 def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
     return view(request, chart=chart)
