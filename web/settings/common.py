@@ -163,28 +163,21 @@ SENTRY_TESTING = True
 
 SEND_BROKEN_LINK_EMAILS = True
 
-#
 # easyxdm is below because:
 #
 # Cant figure out why were getting requests for easyxdm this rather
 # than easyXDM.
 #
-# And its a bitch to test any fixes on OS X because by default, file
-# systems on OS X are case insensitive.
+# To test on OS X: in Disk Utility, choose File -> New -> Blank Disk Image,
+# create a case-sensitive partition, mount it and check out the code there.
 #
 # So let's just ignore the 404s.  Problem solved!
 #
-#
 # hypersphere because: http://www.webmasterworld.com/webmaster/4312899.htm
-#
 
-IGNORABLE_404_URLS = (
-    re.compile(r'^/apple-touch-icon.*\.png$'),
-    re.compile(r'^/robots\.txt$'),
-    re.compile(r'^.*missing.html$'),
-    re.compile(r'^.*hypersphere-2010.png$'),
-    re.compile(r'^.*easyxdm.js$')
-)
+IGNORABLE_404_ENDS = ('/robots.txt', '/hypersphere-2010.png', '/easyxdm.js')
+
+IGNORABLE_404_STARTS = ('/apple-touch-icon.',)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
