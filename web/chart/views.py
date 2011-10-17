@@ -41,7 +41,7 @@ def sparklink(request, sparkblocks):
 
 def view(request, chart_id, title=None):
     chart = get_object_or_404(Chart, id=chart_id)
-    if title != chart.slug_title():
+    if chart.slug_title() and title != chart.slug_title():
         return redirect(chart.get_absolute_url())
     return render(request, 'chart/chart.html', {
         'chart': chart,

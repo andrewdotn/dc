@@ -29,3 +29,13 @@ class ServePublicInDevelopmentMiddleware(object):
                 document_root=os.path.join(settings.BASE_DIR, 'public'))
         except Http404:
             return None
+
+class RedirectLoopException(Exception):
+    pass
+
+class CatchRedirectLoopMiddleware(object):
+    def process_response(self, request, response):
+        if response.status_code in (301, 302):
+            if request.get_full_path() == response['Location']:
+                raise RedirectLoopException(request.get_full_path())
+        return response
