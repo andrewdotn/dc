@@ -2,8 +2,8 @@
 # coding: UTF-8
 
 """
-This is a wrapper around %(prog)s that allows changing some options, such
-as which site to operate on.
+A wrapper around %(prog)s that allows changing some options, such as which
+site to operate on.
 """
 
 import argparse
@@ -20,10 +20,15 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 PROG = os.path.basename(__file__)
 
-parser = argparse.ArgumentParser(description=__doc__, epilog=' ')
+parser = argparse.ArgumentParser(description=__doc__, epilog="""
+
+  exec PYTHON_FILE [ARGS...]    Execute a python program in the Django
+                                environment, à la ./manage.py shell
+ 
+""", formatter_class=argparse.RawDescriptionHelpFormatter)
 group = parser.add_mutually_exclusive_group()
-group.add_argument('--d4t4', action='store_const', dest='site', const='d4t4')
 group.add_argument('--dc', action='store_const', dest='site', const='dc')
+group.add_argument('--d4t4', action='store_const', dest='site', const='d4t4')
 
 group = parser.add_mutually_exclusive_group()
 group.add_argument('--dev', action='store_const', dest='realm', const='dev')
@@ -64,7 +69,7 @@ if options.command[:1] == ['help']:
     parser.print_help()
 
 if options.site is None:
-    options.site = 'd4t4'
+    options.site = 'dc'
 
 if options.realm is None:
     options.realm = 'dev'
@@ -89,5 +94,16 @@ if options.db is not None:
 if options.toolbar:
     settings.enable_toolbar()
 
-utility = ManagementUtility([sys.argv[0]] + options.command)
-utility.execute()
+# configuration is now done
+
+# this looks like a no-op, but django.conf.settings.configured() won’t be
+# true until a setting value is requested
+from django.conf import settings
+settings.DEBUG
+
+if options.command[0] == 'exec':
+    sys.argv = options.command[1:]
+    execfile(options.command[1])
+else:
+    utility = ManagementUtility([sys.argv[0]] + options.command)
+    utility.execute()
