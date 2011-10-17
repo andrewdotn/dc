@@ -126,8 +126,6 @@ def embed(request, chart_id):
       'chart': chart,
       'internal': bool(request.GET.get("internal", False)),
       'source_width': chart.source_width(request.GET.get("width", None)),
-      'funtext':['term paper', 'love letter', 'op-ed', 'manifesto']
-# is there a way to put funtext into the template where it belongs?
     })
 
 EASYXDM = pkg_resources.resource_string('vendor.easyxdm', 'static/easyxdm/easyXDM.js')

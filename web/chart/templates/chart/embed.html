@@ -1,4 +1,5 @@
 {% load url from future %}
+{% load common_tags %}
 <html style="overflow-x:hidden; overflow-y:hidden">
   <head>
     <style type="text/css">
@@ -333,7 +334,7 @@ Complete source data, credits and more at <a target="_blank" href="/chart/{{ cha
        
     <div id="embeddiv" style="position:absolute; display:none; font-family:Georgia">
       Copy and paste the following code into your web page, blog post,
-{{ funtext|random }}
+      {{ 'term paper, love letter, op-ed, manifesto'|split:', '|random }}
       or anywhere else!
       <br><br>
 <textarea readonly=readonly style="width:400px; height:8em">
