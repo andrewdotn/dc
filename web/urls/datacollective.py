@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
     (r'^chart/', include('chart.urls')),
     # https://docs.djangoproject.com/en/dev/topics/auth/#django.contrib.auth.models.User
-    (r'^users/(?P<username>[a-zA-Z0-9@+.-]+)/$', 'chart.views.charts_by_user'),
+    (r'^users/(?P<username>[a-zA-Z0-9_@+.-]+)/$', 'chart.views.charts_by_user'),
 
     (r'^login/$', 'django.contrib.auth.views.login'),
     (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page' : '/'}),
