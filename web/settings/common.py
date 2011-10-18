@@ -167,6 +167,7 @@ INSTALLED_APPS = [
 
 # After ten years, the activation email is no longer valid. Deal with it.
 ACCOUNT_ACTIVATION_DAYS = 3650
+DEFAULT_FROM_EMAIL = 'webmaster@datacollective.org'
 
 # Enabling this setting allows the testing of Sentry exception handler even if Django DEBUG is enabled.
 SENTRY_TESTING = True
