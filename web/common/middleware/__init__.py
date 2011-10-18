@@ -35,7 +35,8 @@ class RedirectLoopException(Exception):
 
 class CatchRedirectLoopMiddleware(object):
     def process_response(self, request, response):
-        if response.status_code in (301, 302):
-            if request.get_full_path() == response['Location']:
-                raise RedirectLoopException(request.get_full_path())
+        if (response.status_code in (301, 302)
+                and request.method == 'GET'
+                and request.get_full_path() == response['Location']):
+            raise RedirectLoopException(request.get_full_path())
         return response
