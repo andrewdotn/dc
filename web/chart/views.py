@@ -195,9 +195,3 @@ def convert_data(request):
     except Exception:
         utils.save_import_failure(request.user.username, dict['data'])
         raise
-
-@user_passes_test(lambda u: u.is_staff)
-def fivehundred(request):
-    return render(request, 'chart/noexist', {
-      'bah': foo
-    })

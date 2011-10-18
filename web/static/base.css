@@ -57,6 +57,10 @@
         padding-left: 1em;
         padding-right: 1em;
       }
+      .bottom_nav a {
+        text-decoration: none;
+        color: #FFFFFF;
+      }
       #disqus_wrapper {
         padding:0.5em;
         margin-top: 1.5em;

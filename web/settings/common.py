@@ -65,6 +65,8 @@ SENTRY_ADMINS = ('webmaster@datacollective.org',)
 # The default root@localhost is blocked by mail servers
 SERVER_EMAIL = 'webmaster@datacollective.org'
 
+ANALYTICS_KEY = 'UA-26195907-1'
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 # Python timezone handling is problematic, just use UTC
@@ -135,7 +137,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
-    'django.contrib.messages.context_processors.messages'
+    'django.contrib.messages.context_processors.messages',
+    'common.context_processors.analytics',
 )
 
 INSTALLED_APPS = [
