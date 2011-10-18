@@ -60,7 +60,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-SENTRY_ADMINS = ('Sentry <webmaster@datacollective.org>',)
+SENTRY_ADMINS = ('webmaster@datacollective.org',)
+
+SENTRY_SERVER_EMAIL = 'Sentry <webmaster@datacollective.org>'
 
 # The default root@localhost is blocked by mail servers
 SERVER_EMAIL = 'webmaster@datacollective.org'
