@@ -60,7 +60,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-SENTRY_ADMINS = ('webmaster@datacollective.org',)
+SENTRY_ADMINS = ('Sentry <webmaster@datacollective.org>',)
 
 # The default root@localhost is blocked by mail servers
 SERVER_EMAIL = 'webmaster@datacollective.org'
@@ -162,12 +162,14 @@ INSTALLED_APPS = [
 
     'common',
     'chart',
-    'pageset'
+    'dc',
+    'pageset',
 ]
 
 # After ten years, the activation email is no longer valid. Deal with it.
 ACCOUNT_ACTIVATION_DAYS = 3650
-DEFAULT_FROM_EMAIL = 'hugbot@datacollective.org'
+
+DEFAULT_FROM_EMAIL = 'Data Collective <help@datacollective.org>'
 
 # Enabling this setting allows the testing of Sentry exception handler even if Django DEBUG is enabled.
 SENTRY_TESTING = True

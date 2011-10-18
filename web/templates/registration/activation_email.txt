@@ -1,8 +1,8 @@
-
+{% load url from future %}
 This is it!  Please click on this link to confirm your Data Collective
 account:
 
-https://datacollective.org/activate/{{ activation_key }}
+https://datacollective.org{% url 'registration.views.activate' activation_key %}
 
 Thanks for participating in the secret alpha test of our Chart tool.
 We'd love any feedback, requests or suggestions you can share.

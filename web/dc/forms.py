@@ -1,18 +1,28 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from registration.forms import RegistrationForm
+from registration.forms import RegistrationFormUniqueEmail
 
-# I put this on all required fields, because it's easier to pick up
-# on them with CSS or JavaScript if they have a class of "required"
-# in the HTML. Your mileage may vary. If/when Django ticket #3515
-# lands in trunk, this will no longer be necessary.
-attrs_dict = { 'class': 'required' }
+from common.utils import update_sorted_dict_order
 
-
-class DCRegistrationForm(RegistrationForm):
+class DCRegistrationForm(RegistrationFormUniqueEmail):
     """
     Why not let people specify a first and last name
     """
+
+    def __init__(self, *args, **kwargs):
+        super(DCRegistrationForm, self).__init__(*args, **kwargs)
+
+        # override super -- incorrect error message
+        self.fields['username'].error_messages['invalid'] = (
+                'This value must contain only letters, '
+                'numbers, _, ., @, +, or -.')
+
+        # XXX Default is to display fields in the order they were defined,
+        # which is a pain for inheritance.
+        update_sorted_dict_order(self.fields,
+            ['firstname', 'lastname', 'username',
+                    'email', 'password1', 'password2'])
+
     firstname = forms.RegexField(regex=r'^\w*$',
                                 max_length=30,
                                 widget=forms.TextInput(),
@@ -23,7 +33,7 @@ class DCRegistrationForm(RegistrationForm):
                                 widget=forms.TextInput(),
                                 required=False,
                                 label=_(u'last name'))
-    
+
     def save(self, profile_callback=None):
         """
         Do a regular save, and then put the name in the DB too

@@ -14,6 +14,7 @@ def is_development_environment():
         ensure_development()
     except:
         return False
+    return True
 
 def ensure_development():
     "Raise an exception if not in a development environment."
