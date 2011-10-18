@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Register for a Data Collective account{% endblock %}
+{% block content %}
+<br>
+<p>Hi, welcome to Data Collective!</p>
+<p>We are in a secret alpha test of our Chart tool.</p>
+<p>It's all raw and unfinished but it does actually work.  You can make interactive charts and put them in your blog or web page.</p>
+<p>When you get the hang of it, you can go from data to blog in under 60 seconds.  We like it, and we'd be delighted to hear what you think.</p>
+
+<br>
+<form action="/register/" method="post">{% csrf_token %}
+<p>
+            {{ form.username.label_tag }}
+            {{ form.username }}
+</p>
+<p>
+            {{ form.email.label_tag }}
+            {{ form.email }}
+</p>
+            {{ form.firstname.label_tag }}
+            {{ form.firstname }}
+<p>
+            {{ form.lastname.label_tag }}
+            {{ form.lastname }}
+</p>
+<p>
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+</p>
+<p>
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+</p>
+<br>
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}

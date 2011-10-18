@@ -6,3 +6,4 @@ django-debug-toolbar==0.8.5
 selenium==2.6.0
 hg+http://bitbucket.org/dwaiter/django-bcrypt#egg=django-bcrypt
 django-sentry>=1.11.3
+django-registration>=0.7

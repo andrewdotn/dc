@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}
+{% if account %}
+Account confirmed
+{% else %}
+Problem activating account
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if account %}
+  <p>
+  Hooray!  Your account {{ account }} has been activated.
+  Now <a style="color:#000000" href="{% url 'django.contrib.auth.views.login' %}">login</a> and start making some awesome charts!
+  </p>
+  <p>
+  And please let us know if you have any problems, requests or suggestions.
+  </p>
+{% else %}
+  <p>Sorry, your account is already active, or some horrible error has occurred.</p>
+  <p>Step away from your computer <i>slowly</i> and contact us from another computer to request a new activation email.</p>
+{% endif %}
+{% endblock %}

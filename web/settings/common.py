@@ -154,6 +154,7 @@ INSTALLED_APPS = [
     'django_bcrypt',
     'sentry',
     'sentry.client',
+    'registration',
 
     'vendor.amcharts',
     'vendor.highcharts',
@@ -163,6 +164,9 @@ INSTALLED_APPS = [
     'chart',
     'pageset'
 ]
+
+# After ten years, the activation email is no longer valid. Deal with it.
+ACCOUNT_ACTIVATION_DAYS = 3650
 
 # Enabling this setting allows the testing of Sentry exception handler even if Django DEBUG is enabled.
 SENTRY_TESTING = True

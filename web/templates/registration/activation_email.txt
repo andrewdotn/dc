@@ -1,0 +1,17 @@
+
+This is it!  Please click on this link to confirm your Data Collective
+account:
+
+https://datacollective.org/activate/{{ activation_key }}
+
+Thanks for participating in the secret alpha test of our Chart tool.
+We'd love any feedback, requests or suggestions you can share.
+
+Have fun making charts!
+
+
+Regards,
+
+--David Joerg
+Founder, Data Collective
+dsjoerg@datacollective.org
