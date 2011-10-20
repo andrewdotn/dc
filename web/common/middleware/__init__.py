@@ -8,6 +8,8 @@ from django.db import connection
 from django.http import Http404
 from django.views import static
 
+from ..management import ensure_development
+
 class UseDebugCursorMiddleware(object):
     def __init__(self):
         connection.use_debug_cursor = True
@@ -20,8 +22,7 @@ class ServePublicInDevelopmentMiddleware(object):
     on disk, and serve it if so."""
 
     def __init__(self):
-        if not settings.DEBUG:
-            raise MiddlewareNotUsed()
+        ensure_development()
 
     def process_request(self, request):
         try:
