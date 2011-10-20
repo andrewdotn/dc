@@ -31,16 +31,11 @@
           <a style="color:#000000" href="{% url 'registration.views.register' %}">register</a>
           </div>
         {% endif %}
-
-        {% block header_link_home %}
-        <a class='header_link_home' href="https://datacollective.org">
-        {% endblock %}
         <div class="titlediv">
           <div class="title" style="background-image:url(&#39;{{ STATIC_URL }}images/neitsch_quilt_partial.png&#39;); background-color:#2d5344; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
           <span style="position:relative; top:5px; left:5px">Data Collective</span>
           </div>
         </div>
-        {% block header_link_home_closing %}</a>{% endblock %}
 
 {% block content %}
 {% endblock content %}
