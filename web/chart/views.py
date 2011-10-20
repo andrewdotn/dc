@@ -9,6 +9,7 @@ import tempfile
 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.core.signals import got_request_exception
 from django.core.urlresolvers import reverse
 from django.http import (HttpResponse, Http404, HttpResponseServerError,
@@ -162,8 +163,9 @@ def edit(request, chart_id):
     return render(request, 'chart/edit.html', {'chart': chart})
 
 @csrf_exempt
-@user_passes_test(lambda u: u.is_active)
 def update(request, chart_id):
+    if not request.user.is_active:
+        raise PermissionDenied()
     chart = get_object_or_404(Chart, id=chart_id)
     dict = json.loads(request.raw_post_data)
 
@@ -188,8 +190,9 @@ def update(request, chart_id):
         return HttpResponseForbidden('Permission denied.')
 
 @csrf_exempt
-@user_passes_test(lambda u: u.is_active)
 def convert_data(request):
+    if not request.user.is_active:
+        raise PermissionDenied()
     try:
         dict = json.loads(request.raw_post_data)
         chart_data = utils.import_chart_data(dict['data'])
