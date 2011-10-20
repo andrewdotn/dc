@@ -1,90 +1,10 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Data Collective</title>
-    <meta charset="UTF-8">
-    <meta property="og:title" content="Data Collective">
-    <meta property="og:description" content="We started Data Collective because it's way too hard to get simple
-numerical facts about the world.  In sports or business, you could never understand what's going on without the basic stats.  We feel the same way about the rest of life.">
-    <meta property="og:image" content="https://datacollective.org">
+{% extends "base.html" %}
+{% load url from future %}
 
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <style>
-@font-face {
-    font-family: 'ChunkFiveRegular';
-    src: url('/static/fonts/Chunkfive-webfont.eot');
-    src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
-         url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
-         url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+{% block title %}Sparkblocks{% endblock %}
 
-@font-face {
-    font-family: 'OpenSansRegular';
-    src: url('/static/fonts/OpenSans-Regular-webfont.eot');
-    src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
-         url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
-         url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'OpenSansBold';
-    src: url('/static/fonts/OpenSans-Bold-webfont.eot');
-    src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
-         url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
-         url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-      body {
-        font: 100% 'OpenSansRegular', verdana, sans-serif;
-        margin:0;
-        padding:0;
-      }
-      h1 {
-        margin:0;
-        font: 200%/125% 'OpenSansBold', verdana, sans-serif;
-      }
-      .title {
-        background-color:#ffde00;
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-        padding-top: 0.25em;
-        padding-bottom: 0.25em;
-        font-size:1.5em;
-        border-radius:15px;
-      }
-      .titlediv {
-        margin-top: 1.5em;
-        margin-bottom: 1.5em;
-      }
-      .bottom_nav {
-        padding-left: 1em;
-        padding-right: 1em;
-      }
-      #disqus_wrapper {
-        padding:0.5em;
-        margin-top: 1.5em;
-        margin-bottom: 1.5em;
-        max-width:800px;
-        background-color:#eeffee;
-        border-radius:15px;
-        border:2px solid #ccddcc;
-        /*  outline:#ddeedd solid medium; */
-      }
-    </style>
-    <script>
-function sorry()
-{
-  alert("You are already looking at the About page.  We hope you like it!  (If you are a UI designer, we would love your feedback about how to fix this)");
-}
-
+{% block head_extra %}
+<script>
 outputToUser="";
 
 function renderNumbers(numbers)
@@ -210,20 +130,13 @@ if(window.attachEvent) {
         window.onload = init;
     }
 }
+</script>
+{% endblock %}
 
-    </script>
-</head>
-  <body style="background-color:#fffafc">
-    <div id="container" style="width:100%; background-color:#fffafc">
-      <div id="main" style="width:800px; margin:auto">
-        <div class="titlediv">
-          <div class="title" style="background-image:url(&#39;/static/images/neitsch_quilt_partial.png&#39;); background-color:#2d5344; color:#550000; font-family:ChunkFiveRegular; font-size:3em; max-width:750px">
-<!--          <img src="/static/images/neitsch_quilt_48x48.png" style="vertical-align:middle; display:inline"> -->
-          <span style="position:relative; top:5px; left:5px">Data Collective</span>
-          </div>
-        </div>
+{% block content %}
+<h1>Sparkblocks</h1>
 
-
+<p>
 1. Paste numbers here.
 <INPUT TYPE=TEXT NAME="fahr" id="userinput" SIZE=30 ONKEYUP="redraw()">
 
@@ -240,22 +153,4 @@ if(window.attachEvent) {
 <br>
 Feedback to dsjoerg@datacollective.org</small></small>
 
-<br><br>
-<!--
-DEBUGGING: <p id="numbers">Numbers are going to be here.</p>
--->
-
-
-        <div class="titlediv">
-          <div class="title" style="background-color:#2d5344; color:#ffffff; width:800px; font-size:1.0em; font-family:ChunkFiveRegular; padding-top:1em; padding-bottom:1em">
-            <span class="bottom_nav"><a href="#" style="text-decoration:none; color:#ffffff" onclick="sorry()" title="This link should take you to the About page, but, on the other hand, you are already looking at the About page, so what happens if you click here?">About</a></span>
-            <span class="bottom_nav" title="The blog is at blog.datacollective.org but we haven't fixed the style yet to match the rest of the site.">Blog</span>
-
-            <span style="float:right">©2011 Data Collective</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-</body></html>
+{% endblock %}
