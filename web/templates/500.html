@@ -1,10 +1,24 @@
-<html>
-  <head>
-    <title>500 Internal Server Error</title>
-  </head>
-  <body>
-    <h1>Internal Server Error</h1>
-    <p>The server encountered a problem while trying to fulfill your
-    request. Please try again later.</p>
-  </body>
-</html>
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}500 Server Error{% endblock %}
+
+{% block content %}
+
+<h1>Server Error</h1>
+
+<p>
+Sorry, but because of a problem with the server,
+<tt>{{ request_path }}</tt> can not be
+displayed.
+</p>
+
+<p>
+The people responsible for this have been notified.
+</p>
+
+<p>
+Please try again later.
+</p>
+
+{% endblock %}

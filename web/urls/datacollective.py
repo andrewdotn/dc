@@ -8,7 +8,7 @@ from django.views.generic.simple import direct_to_template, redirect_to
 
 import django.contrib.auth.views as auth_views
 
-from common.urls import handler404
+from common.urls import handler404, handler500
 
 from dc.forms import DCRegistrationForm
 

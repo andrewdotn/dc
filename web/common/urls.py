@@ -16,3 +16,10 @@ def handler404(request):
     if t == Http404:
         d['exception'] = e
     return render(request, '404.html', d, status=404)
+
+@requires_csrf_token
+def handler500(request):
+    d = {
+        'request_path': request.path
+    }
+    return render(request, '500.html', d, status=500)
