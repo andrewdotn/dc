@@ -7,10 +7,8 @@ from django.db import models
 from django.template.defaultfilters import slugify
 import django.contrib.auth.models
 
+from common.templatetags.common_tags import user_display_name
 from chart import utils
-
-# Haven’t figured this out properly yet
-# https://docs.djangoproject.com/en/dev/topics/db/models/#model-inheritance
 
 class Chart(models.Model):
     # TODO Versions 0 and 1 are now the same, run a migration so version == 1 for all data?
@@ -42,7 +40,7 @@ class Chart(models.Model):
         self.chart_data = json.dumps(chart_data)
 
     def creator_name(self):
-        return '%s %s' % (self.creator.first_name, self.creator.last_name)
+        return user_display_name(self.creator)
 
     def creator_avatar(self):
         hash = hashlib.md5(self.creator.email.strip()).digest().encode('hex')

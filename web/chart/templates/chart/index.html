@@ -1,36 +1,35 @@
+{% extends "base.html" %}
 {% load url from future %}
+{% load common_tags %}
 
-<html>
-  <head>
-    <title>
-      List of all charts
-    </title>
-  </head>
+{% block title %}
+{% if for_user %}{{ user|user_display_name }}’s {% else %}All{% endif %}
+Charts
+{% endblock %}
 
-  <body>
-    <h1>List of all charts
-{% if for_user %}
-for {{ for_user.first_name }} {{ for_user.last_name }} ({{ for_user.username }})
-{% endif %}
+{% block content %}
+<h1>
+  {% if for_user %}{{ user|user_display_name }}’s {% else %}All{% endif %}
+  Charts
 </h1>
 
-    <ul>
-      {% for chart in charts %}
-      <li>
-      {% if chart.sparkblocks %}
-      <a href="/{{ chart.sparkblocks }}">
-        {{ chart.sparkblocks }}</a><br>
-      {% endif %}
-      <a href="{{ chart.get_absolute_url }}">
-      {% if chart.title %}
-      {{ chart.title }}
-      {% else %}
-      Chart #{{ chart.id }}{% endif %}</a>
-      {% if chart.creator and not for_user %}
-      <br>Posted by {{ chart.creator_name }}
-      {% endif %}
-      </li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+<ul>
+  {% for chart in charts %}
+  <li>
+  {% if chart.sparkblocks %}
+  <a href="/{{ chart.sparkblocks }}">
+    {{ chart.sparkblocks }}</a><br>
+  {% endif %}
+  <a href="{{ chart.get_absolute_url }}">
+    {% if chart.title %}
+    {{ chart.title }}
+    {% else %}
+    Chart #{{ chart.id }}{% endif %}</a>
+  {% if chart.creator and not for_user %}
+  <br>Posted by {{ chart.creator_name }}
+  {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

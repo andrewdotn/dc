@@ -26,6 +26,9 @@ urlpatterns = patterns('',
     (r'^sparkblocks.html', redirect_to, {'url': '/sparkblocks/'}),
 
     (r'^chart/', include('chart.urls')),
+
+    (ur'^(?P<sparkblocks>[▁▂▃▅▆▇]+)$', 'chart.views.sparklink'),
+
     # https://docs.djangoproject.com/en/dev/topics/auth/#django.contrib.auth.models.User
     url(r'^users/(?P<username>[\w@+.-]+)/$', 'chart.views.charts_by_user'),
     url(r'^login/$', auth_views.login),

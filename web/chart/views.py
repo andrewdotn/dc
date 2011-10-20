@@ -18,7 +18,7 @@ from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 
 from chart import utils
-from chart.models import Chart
+from chart.models import Chart, user_display_name
 from settings.common import VENDOR_ROOT
 
 def index(request):
@@ -37,11 +37,12 @@ def charts_by_user(request, username):
 
 def sparklink(request, sparkblocks):
     chart = get_object_or_404(Chart, sparkblocks=sparkblocks)
-    return view(request, chart=chart)
+    return view(request, chart.id, redirect_to_canonical=False)
 
-def view(request, chart_id, title=None):
+def view(request, chart_id, title=None, redirect_to_canonical=True):
     chart = get_object_or_404(Chart, id=chart_id)
-    if chart.slug_title() and title != chart.slug_title():
+    if (redirect_to_canonical
+          and chart.slug_title() and title != chart.slug_title()):
         return redirect(chart.get_absolute_url())
     return render(request, 'chart/chart.html', {
         'chart': chart,
