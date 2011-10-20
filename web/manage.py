@@ -45,6 +45,9 @@ parser.add_argument('--db', action='store', dest='db',
 parser.add_argument('--nodebug', action='store_true', dest='nodebug',
         help='Force DEBUG flag off.')
 
+parser.add_argument('--noemail', action='store_true', dest='noemail',
+        help='Silently drop all emails. Don’t even print on the console.')
+
 # http://stackoverflow.com/q/6488752/dont-parse-options-after-the-last-positional-argument
 parser.add_argument('command', nargs=argparse.REMAINDER)
 
@@ -87,6 +90,9 @@ settings.MANAGEMENT_COMMAND_ARGUMENTS = management_command_arguments
 
 if options.nodebug:
     settings.DEBUG = False
+
+if options.noemail:
+    settings.EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 if options.db is not None:
     settings.DATABASES['default']['NAME'] = options.db
