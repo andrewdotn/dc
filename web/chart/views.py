@@ -9,6 +9,7 @@ import tempfile
 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
+from django.core.signals import got_request_exception
 from django.core.urlresolvers import reverse
 from django.http import (HttpResponse, Http404, HttpResponseServerError,
     HttpResponseForbidden)
@@ -27,9 +28,9 @@ def index(request):
 
 def charts_by_user(request, username):
     try:
-      user = get_object_or_404(User, username = username)
+        user = get_object_or_404(User, username = username)
     except Http404:
-      raise Http404(u'The user ‘%s’ does not exist.' % username)
+        raise Http404(u'The user ‘%s’ does not exist.' % username)
     charts = Chart.objects.filter(creator__exact = user).select_related(
             'creator')
     return render(request, 'chart/index.html',
@@ -63,6 +64,7 @@ def new(request):
             chart_data = utils.import_chart_data(data)
         except Exception, e:
             utils.save_import_failure(request.user.username, data)
+            got_request_exception.send(sender=None, request=request)
             return HttpResponseServerError('Parse error: ' + e.message)
 
         chart = Chart(creator=request.user)

@@ -1,16 +1,51 @@
-<html>
-  <head>
-    <title>
-      Create a chart
-    </title>
-  </head>
+{% extends "base.html" %}
 
-  <body>
-    <h1>Create a chart</h1>
-    <form method="POST">
-      {% csrf_token %}
-      <textarea name="data" rows="10" cols="80" placeholder="1. Paste here"></textarea>
-      <div><input type="submit" value="2. Click here"></div>
-    </form>
-  </body>
-</html>
+{% block title %}Create a chart{% endblock %}
+
+{% block content %}
+<h1>Create a chart</h1>
+<form method="POST">
+  {% csrf_token %}
+  <textarea name="data" rows="10" cols="80" placeholder="1. Paste here"></textarea>
+  <div><input type="submit" value="2. Click here"></div>
+</form>
+
+<p>
+Currently, we only support tab- or comma-separated series like
+<a href="/chart/1">this</a>:
+</p>
+
+<pre>
+Federal,  State,  Total
+  1.2,     0.8,    2.1
+  1.6,     0.7,    2.4
+  3.4,     0.5,    3.9
+ 10.5,     0.5,   11.0
+ 10.1,     0.4,   10.6
+ 10.8,     0.4,   11.3
+  9.1,     0.5,    9.6
+  9.8,     0.5,   10.3
+  8.6,     0.5,    9.1
+  7.4,     0.6,    8.1
+  7.6,     0.6,    8.2
+</pre>
+
+<p>
+Try coping and pasting it! Then, since this particular bit of data starts
+in the year 1940, enter “1940” in the “X Value of First Data Point” field
+and then click “Save and Quit” to get your chart. You’re done!
+</p>
+
+<p>
+If you get an error message, it’s probably because of non-numbers like “Q2”
+or “%.” But your currently-unsupported data will be logged and we’ll email
+you when we do support it!
+</p>
+
+<p>
+We know this is a bit clumsy and confusing right now—thank you for your
+patience. We’re working on making it completely painless. If you’re stuck
+or have suggestions, email us at us at help@datacollective.org.
+</p>
+
+{% endblock %}
