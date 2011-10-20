@@ -9,7 +9,7 @@ def analytics(request):
   _gaq.push(['_setAccount', '%(key)s']);
   _gaq.push(['_setDomainName', 'none']);
   _gaq.push(['_anonymizeIp']);
-  _gaq.push(['_setVisitorCookieTimeout', 1814400000]); // 3 weeks
+  _gaq.push(['_setVisitorCookieTimeout', 21*24*60*60*1000 ]); // 3 weeks in ms
   _gaq.push(['_trackPageLoadTime']);
   _gaq.push(['_trackPageview']);
 
