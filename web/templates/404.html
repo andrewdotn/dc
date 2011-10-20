@@ -1,15 +1,29 @@
-<html>
-  <head>
-    <title>404 Not Found</title>
-  </head>
-  <body>
-    <h1>Not Found</h1>
-    <p>
-    The requested URL <tt>{{ request_path }}</tt> was not found on this server.
-    </p>
+{% extends "base.html" %}
+{% load url from future %}
 
-    {% if exception %}
-    {{ exception.message }}
-    {% endif %}
-  </body>
-</html>
+{% block title %}404 Not Found{% endblock %}
+
+{% block content %}
+
+<h1>Not Found</h1>
+
+<p>
+Sorry, but the requested URL <tt>{{ request_path }}</tt> was not found.
+</p>
+
+{% if exception %}
+<p>
+In an attempt to be helpful, the web server included the error message:
+</p>
+<span class='error_message'>
+  {{ exception.message }}
+</span>
+{% endif %}
+
+{% if referer %}
+<p>
+The site managers have been notified of this problem.
+</p.
+{% endif %}
+
+{% endblock %}
