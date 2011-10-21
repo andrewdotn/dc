@@ -377,8 +377,8 @@
         };
 
         this.setDocDirty = function(dirty) {
-          $("#saveQuitChartSettings").val(dirty ? "Save & Quit" : "Quit");
-          $("#saveQuitSeries").val(dirty ? "Save & Quit" : "Quit");
+          $("#saveQuitChartSettings").val(dirty ? "Save & Done" : "Done");
+          $("#saveQuitSeries").val(dirty ? "Save & Done" : "Done");
 
           $("#resetChartSettings").attr('disabled', !dirty);
           $("#saveChartSettings").attr('disabled', !dirty);
@@ -647,7 +647,7 @@
               <tr>
                 <td colspan="2">
                   <input id="saveChartSettings" type="button" value="Save" onclick="editor.onSave();">
-                  <input id="saveQuitChartSettings" type="button" value="Save & Quit" onclick="saveAndQuit();">
+                  <input id="saveQuitChartSettings" type="button" value="Save & Done" onclick="saveAndQuit();">
                   <input id="settingsStatus" type="text" class="status" readonly="readonly">
                   <input id="resetChartSettings" type="button" value="Revert to Saved" onclick="editor.onRevert();">
                 </td>
@@ -666,7 +666,7 @@
             <tr>
               <td>
                 <input id="saveSeries" type="button" value="Save" onClick="editor.onSave();">
-		<input id="saveQuitSeries" type="button" value="Save & Quit" onClick="saveAndQuit();">
+		<input id="saveQuitSeries" type="button" value="Save & Done" onClick="saveAndQuit();">
                 <input id="seriesStatus" type="text" class="status" readonly="readonly">
                 <input id="resetSeries" type="button" value="Revert to Saved" onclick="editor.onRevert();">
               </td>
