@@ -17,3 +17,4 @@ MAILTO="webmaster@datacollective.org"
 #						command, must escape % character
 	0	3	*	*	*	dc/scripts/archivelogs
         0       0       *       *       *       dc/scripts/backup-databases --nightly
+        0       2       *       *       *       dc/scripts/summarize-charts-on-web
