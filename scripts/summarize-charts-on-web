@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd
+cd logs/datacollective.org/https
+cat access.log access.log.????-??-?? | grep "GET /chart/embed" | gawk '{print $11}' | tr -d '"' | egrep -ve '^http(s)?://(blog\.)?datacollective.org.*$' | sort | uniq -c | sort -nr | mail -s "DC Charts on the Web today" dsjoerg@datacollective.org
