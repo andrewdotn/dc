@@ -97,9 +97,9 @@
         this.currentSettings = function() {
           return {
             chart_title: $("#chart_title").text(),
-            chart_html_below_title: $("#chartHtmlBelowTitle").val(),
+            chart_html_below_title: $("#chart_html_below_title").html(),
             chart_y_axis_description: $("#chart_y_axis_description").text(),
-            chart_source_title: $("#chartSourceTitle").val(),
+            chart_source_title: $("#chart_source_title").html(),
             chart_width: $("#datacollective-chart-{{chart.id}}").width()
           };
         };
@@ -248,9 +248,9 @@
 
         this.initForm = function() {
           $("#chartTitle").val($("#chart_title").text());
-          $("#chartHtmlBelowTitle").val("{{chart.html_below_title}}");
+          $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
           $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
-          $("#chartSourceTitle").val("{{chart.source_title}}");
+          $("#chartSourceTitle").val($("#chart_source_title").html());
           $("#chartWidth").val($("#datacollective-chart-{{chart.id}}").width());
           $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
 
@@ -285,9 +285,9 @@
         this.onRevert = function() {
           var converter = new Markdown.Converter();
           $("#chart_title").text(this.documentMgr.savedSettings.chart_title);
-          $("#chart_html_below_title").html(converter.makeHtml(this.documentMgr.savedSettings.chart_html_below_title));
+          $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
           $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
-          $("#chart_source_title").html(converter.makeHtml(this.documentMgr.savedSettings.chart_source_title));
+          $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
 	  $("#datacollective-chart-{{chart.id}}").width(this.documentMgr.savedSettings.chart_width);
 
           this.settingsMgr.resetSettings();
@@ -445,11 +445,11 @@
             if (event.target.id == "chartTitle")
                  $('#chart_title').html(theString);
             else if (event.target.id == "chartHtmlBelowTitle")
-                 $('#chart_html_below_title').html(converter.makeHtml(theString));
+                 $('#chart_html_below_title').html(theString);
             else if (event.target.id == "chartYAxisDescription")
                  $('#chart_y_axis_description').html(theString);
             else if (event.target.id == "chartSourceTitle")
-                 $('#chart_source_title').html(converter.makeHtml(theString));
+                 $('#chart_source_title').html(theString);
 
             editor.setDocDirty(true);
         };
@@ -565,9 +565,6 @@
         $('#seriesData').bind('blur', seriesConvertHandler );
         $('#seriesData').bind('keyup', seriesConvertHandler );
 
-//Initial display of converted markdown/markup       
-        $('#chart_html_below_title').html(converter.makeHtml($("#chartHtmlBelowTitle").val()));
-        $('#chart_source_title').html(converter.makeHtml($("#chartSourceTitle").val()));
       });
     </script>
     {{ ANALYTICS }}
@@ -606,7 +603,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>Chart Description (<a href="http://daringfireball.net/projects/markdown" target="_blank">Markdown</a>)</div>
+                  <div>Chart Description (html)</div>
                   <div class="formfield"><textarea id="chartHtmlBelowTitle" style="width:100%"></textarea></div>
                 </td>
               </tr>
@@ -618,7 +615,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>Source (<a href="http://daringfireball.net/projects/markdown" target="_blank">Markdown</a>)</div>
+                  <div>Source (html)</div>
                   <div class="formfield"><textarea id="chartSourceTitle" style="width:100%"></textarea></div>
                 </td>
               </tr>

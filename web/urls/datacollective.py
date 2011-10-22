@@ -21,6 +21,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', render, {'template_name': 'about.html'}, 'about'),
+    (r'^speed$', render, {'template_name': 'about_speed.html'}, 'about'),
     (r'^index.html', redirect_to, {'url': '/', 'permanent': False}),
     (r'^sparkblocks/', render, {'template_name': 'sparkblocks.html'}),
     (r'^sparkblocks.html', redirect_to, {'url': '/sparkblocks/'}),

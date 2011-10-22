@@ -1,12 +1,11 @@
 {% load url from future %}
-{% autoescape on %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{% block title %} {% endblock %} - Data Collective</title>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}base.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}base_speed.css">
     {% block head_extra %}
     {% endblock %}
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -58,4 +57,3 @@
       </div>
     </div>
 </body></html>
-{% endautoescape %}
