@@ -1,4 +1,5 @@
 {% load url from future %}
+{% load markup %}
 
 <html style="overflow-x:hidden; overflow-y:hidden">
   <head>
@@ -83,6 +84,7 @@
     <script src="https://www.google.com/jsapi?key=ABQIAAAAkWq49XHvu8X8iulRFnhxzhQ3Gsq7pFPFeBuJN0rzxVAMBkA73hR2TPEi2ydIp26PuFwdURBB2igsNg" type="text/javascript"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/highcharts.js"></script>
+    <script type="text/javascript" src="/static/js/Markdown.Converter.js"></script>
 
     <script type="text/javascript">
       // -- DocumentMgr
@@ -95,9 +97,9 @@
         this.currentSettings = function() {
           return {
             chart_title: $("#chart_title").text(),
-            chart_html_below_title: $("#chart_html_below_title").html(),
+            chart_html_below_title: $("#chartHtmlBelowTitle").val(),
             chart_y_axis_description: $("#chart_y_axis_description").text(),
-            chart_source_title: $("#chart_source_title").html(),
+            chart_source_title: $("#chartSourceTitle").val(),
             chart_width: $("#datacollective-chart-{{chart.id}}").width()
           };
         };
@@ -246,9 +248,9 @@
 
         this.initForm = function() {
           $("#chartTitle").val($("#chart_title").text());
-          $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
+          $("#chartHtmlBelowTitle").val("{{chart.html_below_title}}");
           $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
-          $("#chartSourceTitle").val($("#chart_source_title").html());
+          $("#chartSourceTitle").val("{{chart.source_title}}");
           $("#chartWidth").val($("#datacollective-chart-{{chart.id}}").width());
           $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
 
@@ -281,10 +283,11 @@
         };
 
         this.onRevert = function() {
+          var converter = new Markdown.Converter();
           $("#chart_title").text(this.documentMgr.savedSettings.chart_title);
-          $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
+          $("#chart_html_below_title").html(converter.makeHtml(this.documentMgr.savedSettings.chart_html_below_title));
           $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
-          $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
+          $("#chart_source_title").html(converter.makeHtml(this.documentMgr.savedSettings.chart_source_title));
 	  $("#datacollective-chart-{{chart.id}}").width(this.documentMgr.savedSettings.chart_width);
 
           this.settingsMgr.resetSettings();
@@ -309,7 +312,7 @@
             url: "{% url 'chart.views.update' chart.id %}",
             type: "POST",
             data: JSON.stringify(data),
-            success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR); callback(); },
+            success: function(data, textStatus, jqXHR) { self.onSaveSuccess(data, textStatus, jqXHR);callback(); },
             error: function(jqXHR, textStatus, errorThrown) { self.onSaveError(jqXHR, textStatus, errorThrown); }
           });
         };
@@ -424,6 +427,8 @@
       }
 
       $(document).ready(function() {
+        var converter = new Markdown.Converter();
+
         editor = new Editor();
 
         editor.initForm();
@@ -440,11 +445,11 @@
             if (event.target.id == "chartTitle")
                  $('#chart_title').html(theString);
             else if (event.target.id == "chartHtmlBelowTitle")
-                 $('#chart_html_below_title').html(theString);
+                 $('#chart_html_below_title').html(converter.makeHtml(theString));
             else if (event.target.id == "chartYAxisDescription")
                  $('#chart_y_axis_description').html(theString);
             else if (event.target.id == "chartSourceTitle")
-                 $('#chart_source_title').html(theString);
+                 $('#chart_source_title').html(converter.makeHtml(theString));
 
             editor.setDocDirty(true);
         };
@@ -559,6 +564,10 @@
 
         $('#seriesData').bind('blur', seriesConvertHandler );
         $('#seriesData').bind('keyup', seriesConvertHandler );
+
+//Initial display of converted markdown/markup       
+        $('#chart_html_below_title').html(converter.makeHtml($("#chartHtmlBelowTitle").val()));
+        $('#chart_source_title').html(converter.makeHtml($("#chartSourceTitle").val()));
       });
     </script>
     {{ ANALYTICS }}
@@ -597,7 +606,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>Chart Description (html)</div>
+                  <div>Chart Description (<a href="http://daringfireball.net/projects/markdown" target="_blank">Markdown</a>)</div>
                   <div class="formfield"><textarea id="chartHtmlBelowTitle" style="width:100%"></textarea></div>
                 </td>
               </tr>
@@ -609,7 +618,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <div>Source (html)</div>
+                  <div>Source (<a href="http://daringfireball.net/projects/markdown" target="_blank">Markdown</a>)</div>
                   <div class="formfield"><textarea id="chartSourceTitle" style="width:100%"></textarea></div>
                 </td>
               </tr>
