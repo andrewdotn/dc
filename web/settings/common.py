@@ -103,7 +103,6 @@ SITE_ID = 1
 STATIC_ROOT = os.path.join(BASE_DIR, '..', '..', 'public', 'static')
 
 STATIC_URL = '/static/'
-CDN_URL = 'cdn.datacollective.org/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
