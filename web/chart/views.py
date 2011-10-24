@@ -3,6 +3,7 @@
 import json
 import os
 import pkg_resources
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -113,7 +114,7 @@ def convert(request, chart_id):
     # For debug purposes, if we were asked for svg, save the svg data as well.  Otherwise delete it.
 
     if request.POST["type"] == "image/svg+xml":
-        os.rename(svg_path, utils.chart_image_path(chart_id, ext="svg"))
+        shutil.move(svg_path, utils.chart_image_path(chart_id, ext="svg"))
     else:
         os.remove(svg_path)
 
