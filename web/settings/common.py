@@ -103,6 +103,7 @@ SITE_ID = 1
 STATIC_ROOT = os.path.join(BASE_DIR, '..', '..', 'public', 'static')
 
 STATIC_URL = '/static/'
+CDN_URL = 'https://d9zwdpgl8r5wd.cloudfront.net/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
