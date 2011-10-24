@@ -12,7 +12,7 @@ INTERNAL_IPS = []
 
 DATA_DIR = os.path.expanduser("~/data")
 
-SENTRY_URL_PREFIX = 'https://datacollective.org/staff'
+SENTRY_URL_PREFIX = 'https://datacollective.org/'
 
 # Cache compiled templates. Requires all template tags to be thread-safe.
 # https://docs.djangoproject.com/en/1.3/howto/custom-template-tags/#template-tag-thread-safety
