@@ -22,3 +22,12 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.app_directories.Loader',
     )),
 )
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': 'localhost:11211',
+        'TIMEOUT': 300,
+        'BINARY': False
+    }
+}

@@ -31,3 +31,9 @@ MIDDLEWARE_CLASSES.insert(0,
 #     'handlers': ['console'],
 #     'level': 'DEBUG',
 # }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
