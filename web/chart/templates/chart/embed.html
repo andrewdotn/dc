@@ -7,33 +7,33 @@
     <style type="text/css">
       @font-face {
           font-family: 'ChunkFiveRegular';
-          src: url('/static/fonts/Chunkfive-webfont.eot');
-          src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
-               url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
-               url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
-               url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
+          src: url('{{ STATIC_URL }}fonts/Chunkfive-webfont.eot');
+          src: url('{{ STATIC_URL }}fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+               url('{{ STATIC_URL }}fonts/Chunkfive-webfont.woff') format('woff'),
+               url('{{ STATIC_URL }}fonts/Chunkfive-webfont.ttf') format('truetype'),
+               url('{{ STATIC_URL }}fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
           font-weight: normal;
           font-style: normal;
       }
 
       @font-face {
           font-family: 'OpenSansRegular';
-          src: url('/static/fonts/OpenSans-Regular-webfont.eot');
-          src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-               url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
-               url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
-               url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+          src: url('{{ STATIC_URL }}fonts/OpenSans-Regular-webfont.eot');
+          src: url('{{ STATIC_URL }}fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+               url('{{ STATIC_URL }}fonts/OpenSans-Regular-webfont.woff') format('woff'),
+               url('{{ STATIC_URL }}fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+               url('{{ STATIC_URL }}fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
           font-weight: normal;
           font-style: normal;
       }
 
       @font-face {
           font-family: 'OpenSansBold';
-          src: url('/static/fonts/OpenSans-Bold-webfont.eot');
-          src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-               url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
-               url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
-               url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
+          src: url('{{ STATIC_URL }}fonts/OpenSans-Bold-webfont.eot');
+          src: url('{{ STATIC_URL }}fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+               url('{{ STATIC_URL }}fonts/OpenSans-Bold-webfont.woff') format('woff'),
+               url('{{ STATIC_URL }}fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
+               url('{{ STATIC_URL }}fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
           font-weight: normal;
           font-style: normal;
       }
@@ -73,10 +73,10 @@
     </style>
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/easyxdm/easyXDM.js"></script>
-    <script type="text/javascript" src="/static/highcharts.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}easyxdm/easyXDM.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}highcharts.js"></script>
 {% if user.is_staff and internal %}
-    <script type="text/javascript" src="/static/modules/exporting.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}modules/exporting.js"></script>
 {% endif %}
 
     <script type="text/javascript">
@@ -303,13 +303,13 @@ options.exporting = {url: "{% url 'chart.views.convert' chart.id %}"};
       <div id="panel">
         <h1 id="title">&laquo; Share this chart!</h1>
         <ul>
-          <li id="embed"><img src="/static/chart/embed.png"><a href="#">in your own webpage</a></li>
-          <li id="facebook"><img src="/static/chart/fb-16.png"><a href="#">on facebook</a></li>
-          <li id="twitter"><img src="/static/chart/twitter-16.png"><a href="#">to twitter</a></li>
+          <li id="embed"><img src="{{ STATIC_URL }}chart/embed.png"><a href="#">in your own webpage</a></li>
+          <li id="facebook"><img src="{{ STATIC_URL }}chart/fb-16.png"><a href="#">on facebook</a></li>
+          <li id="twitter"><img src="{{ STATIC_URL }}chart/twitter-16.png"><a href="#">to twitter</a></li>
           <li id="addthis">
           <a href="http://www.addthis.com/bookmark.php"
             class="addthis_button">
-            <img src="/static/chart/addthis-16.png">everywhere else
+            <img src="{{ STATIC_URL }}chart/addthis-16.png">everywhere else
           </a>
           </li>
 {% if not internal %}
