@@ -120,12 +120,14 @@ VENDOR_ROOT = os.path.join(BASE_DIR, 'vendor')
 
 MIDDLEWARE_CLASSES = [
     #'common.middleware.UseDebugCursorMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'common.middleware.CatchRedirectLoopMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 #
 # sentry can ignore 404s for now
 #
@@ -225,3 +227,15 @@ LOGGING = {
         },
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': 'localhost:11211',
+        'TIMEOUT': 300,
+        'BINARY': False
+    }
+}
+
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
+CACHE_MIDDLEWARE_SECONDS = 60
