@@ -55,4 +55,5 @@ urlpatterns = patterns('',
     (r'^staff/500/', staff_render, {'template_name': 'NOTEXIST'}),
     (r'^staff/redirectloop/', staff_redirect, {'url': '/staff/redirectloop/',
             'permanent': False}),
+    (r'^mu-bbd3c42d-2d34fcd2-aafe5261-4cf8b34f$', render, {'template_name': '42.html'}),
 )
