@@ -48,6 +48,9 @@ parser.add_argument('--nodebug', action='store_true', dest='nodebug',
 parser.add_argument('--noemail', action='store_true', dest='noemail',
         help='Silently drop all emails. Don’t even print on the console.')
 
+parser.add_argument('--cdn', action='store_true', dest='cdn',
+        help='Use the CDN in development mode.')
+
 # http://stackoverflow.com/q/6488752/dont-parse-options-after-the-last-positional-argument
 parser.add_argument('command', nargs=argparse.REMAINDER)
 
@@ -99,6 +102,10 @@ if options.db is not None:
 
 if options.toolbar:
     settings.enable_toolbar()
+
+if options.cdn:
+    import settings.production as prod_settings
+    settings.STATIC_URL = prod_settings.STATIC_URL
 
 # configuration is now done
 
