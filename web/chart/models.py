@@ -25,6 +25,8 @@ class Chart(models.Model):
     source_detail = models.TextField(blank=True)
     chart_creator_detail = models.TextField(blank=True)
     creator = models.ForeignKey(django.contrib.auth.models.User)
+    # TODO: remove disqus_identifier after migrating any threads to
+    # id-based identifiers
     disqus_identifier = models.TextField(max_length=20, blank=True)
     chart_data = models.TextField(default="[]")
     chart_settings = models.TextField(default="{}")
@@ -65,6 +67,11 @@ class Chart(models.Model):
 
     def get_absolute_url(self):
         return '/chart/%d/%s' % (self.id, self.slug_title())
+
+    def get_disqus_identifier(self):
+        if self.disqus_identifier:
+            return self.disqus_identifier
+        return 'chart%d' % self.id
 
     def __unicode__(self):
         return '(%d) %s' % (self.id, self.title)

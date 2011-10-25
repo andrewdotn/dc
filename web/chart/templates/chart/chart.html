@@ -70,8 +70,8 @@
             var disqus_shortname = 'd4t4'; // required: replace example with your forum shortname
 
             // The following are highly recommended additional parameters. Remove the slashes in front to use.
-            var disqus_identifier = '{{ chart.disqus_identifier }}';
-            var disqus_url = 'https://{{ host }}/{{ chart.get_abolute_url }}';
+            var disqus_identifier = '{{ chart.get_disqus_identifier }}';
+            var disqus_url = 'https://{{ host }}/{{ chart.get_absolute_url }}';
 
             {% if debug %}
             var disqus_developer = 1;
