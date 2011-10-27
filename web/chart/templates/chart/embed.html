@@ -285,7 +285,9 @@ options.exporting = {url: "{% url 'chart.views.convert' chart.id %}"};
   </head>
 
   <body>
+{% if internal or chart.show_title_externally %}
     <h1 align="left">{{ chart.title }}</h1>
+{% endif %}
 {% if chart.html_below_title %}
     <p align="left" style='margin-top:8px; margin-left:8px; margin-right:8px; font-family:Georgia'>{{ chart.html_below_title|safe }}</p>
 {% endif %}

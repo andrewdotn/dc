@@ -37,6 +37,10 @@ class Chart(models.Model):
     y_axis_description = models.CharField(max_length=255, blank=True)
     chart_width = models.PositiveIntegerField(null=True)
 
+    ## this field controls whether the chart title is displayed when
+    ## the chart is shown outside of the chart home page
+    show_title_externally = models.BooleanField(default=True)
+
     def import_chart_data(self, data):
         chart_data = utils.parse_chart_data(data)
         self.chart_data = json.dumps(chart_data)
