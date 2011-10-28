@@ -3,6 +3,8 @@
 import csv
 import os
 import tempfile
+import re
+import json
 
 from django.conf import settings
 
@@ -30,16 +32,25 @@ def import_chart_data(data):
 
     series_list = zip(*[value for value in reader])
 
-    # Create a series dict for each column.
-
+    x_series = series_list[0]
+    series_list = series_list[1:]
     chart_data = []
-
+        
     for series in series_list:
+        series_name = series[0]
+
+        the_data = []
+        for index in range(1, len(series)):
+            the_y_value = float(series[index].replace(',', ''))
+            the_x_value = int(x_series[index])
+            the_data.append([the_x_value,the_y_value])
+
         dict = {
-            'name': series[0],
-            'data': [float(value.replace(',', '')) for value in series[1:]]
+            'name': series_name,
+            'data': the_data
         }
         chart_data.append(dict)
+
 
     return chart_data
 

@@ -200,35 +200,30 @@
         };
 
         this.formattedSeriesData = function(series) {
+          var delim = ",";
           var nSeries = series.length;
 
           if (nSeries === 0) {
             return "";
           }
 
-          var result = "";
+          var result = "XAxis";
           var nPoints = series[0].data.length;
 
           for (iSeries = 0; iSeries < nSeries; ++iSeries) {
-            if (iSeries !== 0) {
-              result += "\t";
-            }
+            result += delim;
             result += series[iSeries].name;
           }
-
           result += "\n";
 
           for (iPoint = 0; iPoint < nPoints; ++iPoint) {
-            var line = "";
+            result += series[0].data[iPoint][0];
 
             for (iSeries = 0; iSeries < nSeries; ++iSeries) {
-              if (iSeries !== 0) {
-                line += "\t";
-              }
-              line += series[iSeries].data[iPoint].toString();
+              result += delim;
+              result += series[iSeries].data[iPoint][1].toString();
             }
-
-            result += line + "\n";
+            result += "\n";
           }
 
           return result;
@@ -636,12 +631,6 @@
                 <td>
                   <div>Y Axis Label</div>
                   <div class="formfield"><input id="yAxisTitle" value=""></div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div>X Value of First Data Point</div>
-                  <div class="formfield"><input id="pointStart" value="" style="margin-right: 10px;"></div>
                 </td>
               </tr>
               <tr>
