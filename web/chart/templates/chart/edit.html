@@ -1,7 +1,7 @@
 {% load url from future %}
 {% load markup %}
 
-<html style="overflow-x:hidden; overflow-y:hidden">
+<html style="overflow-x:hidden;">
   <head>
     <style type="text/css">
       @font-face {
@@ -79,6 +79,24 @@
       #saveSeries, #saveQuitSeries {
         width:8em;
       }
+
+      div.titlediv {
+        clear: both;
+      }
+
+    #datafromhead {
+      padding: 1em 1em 0 1em;
+      font-size: 18px;
+      border-radius: 10px 10px 0 0; (top-left, top-right, bot-right, bot-left);
+    }
+
+    #datafrom {
+      font-size: 14px;
+      padding: 0 2em 2em 2em;
+      border-radius: 0 0 10px 10px;
+    }
+
+
     </style>
 
     <script src="https://www.google.com/jsapi?key=ABQIAAAAkWq49XHvu8X8iulRFnhxzhQ3Gsq7pFPFeBuJN0rzxVAMBkA73hR2TPEi2ydIp26PuFwdURBB2igsNg" type="text/javascript"></script>
@@ -100,6 +118,7 @@
             chart_html_below_title: $("#chart_html_below_title").html(),
             chart_y_axis_description: $("#chart_y_axis_description").text(),
             chart_source_title: $("#chart_source_title").html(),
+            chart_source_detail: $("#chart_source_detail").html(),
             chart_width: $("#datacollective-chart-{{chart.id}}").width()
           };
         };
@@ -246,6 +265,7 @@
           $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
           $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
           $("#chartSourceTitle").val($("#chart_source_title").html());
+          $("#chartSourceDetail").val($("#chart_source_detail").html());
           $("#chartWidth").val($("#datacollective-chart-{{chart.id}}").width());
           $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
 
@@ -283,6 +303,7 @@
           $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
           $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
           $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
+          $("#chart_source_detail").html(this.documentMgr.savedSettings.chart_source_detail);
 	  $("#datacollective-chart-{{chart.id}}").width(this.documentMgr.savedSettings.chart_width);
 
           this.settingsMgr.resetSettings();
@@ -445,6 +466,9 @@
                  $('#chart_y_axis_description').html(theString);
             else if (event.target.id == "chartSourceTitle")
                  $('#chart_source_title').html(theString);
+            else if (event.target.id == "chartSourceDetail")
+                 $('#chart_source_detail').html(theString);
+
 
             editor.setDocDirty(true);
         };
@@ -544,7 +568,7 @@
           editor.onConvert();
         }
 
-        var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartYAxisDescription");
+        var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartSourceDetail, #chartYAxisDescription");
 
         var chartLabels = $('#xAxisTitle, #yAxisTitle');
 
@@ -576,10 +600,27 @@
 
           <div id="chartdiv"></div>
 
-          <div id="creditsdiv" style="font-family:Georgia; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
+          <div id="creditsdiv" style="font-family:Georgia; margin-left:125px; margin-bottom: 30px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
             <b>Source</b>: <span id="chart_source_title">{{chart.source_title|safe}}</span>.
           </div>
         </div>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>	  
+        <div class="titlediv">
+          <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
+            <span> data from {{ chart.source_title|safe }} </span>
+          </div>
+          <div id="datafrom"" class="title" style="background-color:#E58F17; max-width:800px; margin-top:-1.0em; border-top-left-radius:0px">
+            <br>
+            {% autoescape off %}
+            <span id="chart_source_detail">{{ chart.source_detail }}</span>
+            {% endautoescape %}
+          </div>
+        </div>
+<!------------------------------------------------------------------------------------------------------------------------------------>	  
+
+
+
       </td>
       <td valign="top">
         <div>
@@ -614,6 +655,13 @@
                   <div class="formfield"><textarea id="chartSourceTitle" style="width:100%"></textarea></div>
                 </td>
               </tr>
+              <tr>
+                <td colspan="2">
+                  <div>Source Detail(html)</div>
+                  <div class="formfield"><textarea id="chartSourceDetail" style="width:100%"></textarea></div>
+                </td>
+              </tr>
+
               <tr>
                 <td>
                   <div>X Axis Minimum</div>
