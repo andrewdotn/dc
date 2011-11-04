@@ -429,6 +429,12 @@
         chartSettings.xAxis.labels.formatter = function() { return this.value; };
 	chartSettings.plotOptions.line.animation = false;
 
+        var testVal = chartSettings.series[0].data[0][0];
+        if (isNaN(parseInt(testVal))) {
+          var xAxisLabels = $.map(chartSettings.series[0].data, function(x){return x[0];});
+          chartSettings.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
+       }
+
         var chart = new Highcharts.Chart(chartSettings);
 
         return chart;
