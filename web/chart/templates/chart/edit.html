@@ -468,10 +468,14 @@
             else
                $('#datafromhead' ).hide();
 
-            if ($('#chart_source_detail').html().length)
+            if ($('#chart_source_detail').html().length) {
                $('#datafrom').show()
-            else
+               $('#chart_source_title_2,#df').css('position','static');
+            } else {
                $('#datafrom').hide()
+               $('#chart_source_title_2,#df').css('position','relative');
+               $('#chart_source_title_2,#df').css('top','-.5em');
+           }
       }
 
 
@@ -643,7 +647,7 @@
 <!------------------------------------------------------------------------------------------------------------------------------------>	  
         <div class="titlediv">
           <div id="datafromhead" class="title datasource">
-               data from:<span id="chart_source_title_2"> {{ chart.source_title|safe }} </span>
+               <span id="df">data from: </span><span id="chart_source_title_2"> {{ chart.source_title|safe }} </span>
           </div>
           <div id="datafrom"" class="title datasource" >
             <br>
