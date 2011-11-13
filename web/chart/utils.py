@@ -42,10 +42,7 @@ def import_chart_data(data):
         the_data = []
         for index in range(1, len(series)):
             the_y_value = float(series[index].replace(',', ''))
-            try:
-                the_x_value = int(x_series[index])
-            except:
-                the_x_value = x_series[index]
+            the_x_value = int(x_series[index])
             the_data.append([the_x_value,the_y_value])
 
         dict = {
