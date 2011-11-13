@@ -84,22 +84,18 @@
         clear: both;
       }
 
-    .datasource {
-      border-radius: 10px;
-      background-color:#E58F17;
-      max-width:600px
-    }
-
     #datafromhead {
       padding: 1em 1em 0 1em;
       font-size: 18px;
+      border-radius: 10px 10px 0 0; (top-left, top-right, bot-right, bot-left);
     }
 
     #datafrom {
       font-size: 14px;
       padding: 0 2em 2em 2em;
-      margin-top:-1.0em;
+      border-radius: 0 0 10px 10px;
     }
+
 
     </style>
 
@@ -285,8 +281,6 @@
           this.initFormField(chartSettings, "yAxis.title.text", "yAxisTitle");
 
 	  this.setDocDirty(false);
-
-          hideShowSource();
         };
 
         this.initFormField = function(chartSettings, objName, elName) {
@@ -309,7 +303,6 @@
           $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
           $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
           $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
-          $("#chart_source_title_2").html(this.documentMgr.savedSettings.chart_source_title);
           $("#chart_source_detail").html(this.documentMgr.savedSettings.chart_source_detail);
 	  $("#datacollective-chart-{{chart.id}}").width(this.documentMgr.savedSettings.chart_width);
 
@@ -319,7 +312,6 @@
 	  this.setDocDirty(false);
 
           this.initForm();
-          hideShowSource();
           renderDynamicChart();
         };
 
@@ -450,20 +442,6 @@
         $("#seriesForm").show();
       }
 
-
-      function hideShowSource() {
-            if ($('#chart_source_title').html().length)
-               $('#datafromhead' ).show();
-            else
-               $('#datafromhead' ).hide();
-
-            if ($('#chart_source_detail').html().length)
-               $('#datafrom').show()
-            else
-               $('#datafrom').hide()
-      }
-
-
       $(document).ready(function() {
         var converter = new Markdown.Converter();
 
@@ -486,13 +464,11 @@
                  $('#chart_html_below_title').html(theString);
             else if (event.target.id == "chartYAxisDescription")
                  $('#chart_y_axis_description').html(theString);
-            else if (event.target.id == "chartSourceTitle") {
+            else if (event.target.id == "chartSourceTitle")
                  $('#chart_source_title').html(theString);
-                 $('#chart_source_title_2').html(theString);
-            } else if (event.target.id == "chartSourceDetail")
+            else if (event.target.id == "chartSourceDetail")
                  $('#chart_source_detail').html(theString);
 
-            hideShowSource();
 
             editor.setDocDirty(true);
         };
@@ -631,10 +607,10 @@
 
 <!------------------------------------------------------------------------------------------------------------------------------------>	  
         <div class="titlediv">
-          <div id="datafromhead" class="title datasource">
-               data from:<span id="chart_source_title_2"> {{ chart.source_title|safe }} </span>
+          <div id="datafromhead" class="title" style="background-color:#E58F17; max-width:600px">
+            <span> data from {{ chart.source_title|safe }} </span>
           </div>
-          <div id="datafrom"" class="title datasource" >
+          <div id="datafrom"" class="title" style="background-color:#E58F17; max-width:800px; margin-top:-1.0em; border-top-left-radius:0px">
             <br>
             {% autoescape off %}
             <span id="chart_source_detail">{{ chart.source_detail }}</span>
