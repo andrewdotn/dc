@@ -165,14 +165,13 @@
 options.exporting = {url: "{% url 'chart.views.convert' chart.id %}"};
 {% endif %}
 
-        if (! options.xAxis.labels.style) {
-            var theData = {{ chart.chart_data|safe }};
-            var testVal = theData[0].data[0][0];
-            if (isNaN(parseInt(testVal))) {
-              var xAxisLabels = $.map(theData[0].data, function(x){return x[0];});
-              options.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
-            }
+        var theData = {{ chart.chart_data|safe }};
+        var testVal = theData[0].data[0][0];
+        if (isNaN(parseInt(testVal))) {
+          var xAxisLabels = $.map(theData[0].data, function(x){return x[0];});
+          options.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
        }
+
 
         options.series = {{ chart.chart_data|safe }};
         if (!options.plotOptions) {
