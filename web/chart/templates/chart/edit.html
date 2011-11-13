@@ -188,7 +188,6 @@
           },
           title: { text: "" },
           credits: { text: "" },
-          legend: {enabled: true},
           plotOptions: {
                           line: {
                                  lineWidth: 5,
@@ -424,7 +423,6 @@
 
         chartSettings.series = editor.seriesMgr.currentSeries;
 
-
         if (!chartSettings.xAxis.labels) {
           chartSettings.xAxis.labels = {};
         }
@@ -436,9 +434,6 @@
           var xAxisLabels = $.map(chartSettings.series[0].data, function(x){return x[0];});
           chartSettings.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
        }
-
-        if (chartSettings.series.length == 1)
-           chartSettings.legend.enabled = false;
 
         var chart = new Highcharts.Chart(chartSettings);
 
