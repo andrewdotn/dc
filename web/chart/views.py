@@ -178,8 +178,6 @@ def update(request, chart_id):
         chart.y_axis_description = dict['chart_y_axis_description']
     if dict.has_key('chart_source_title'):
         chart.source_title = dict['chart_source_title']
-    if dict.has_key('chart_source_detail'):
-        chart.source_detail = dict['chart_source_detail']
     if dict.has_key('chart_settings'):
         chart.chart_settings = json.dumps(dict['chart_settings'])
     if dict.has_key('chart_data'):
