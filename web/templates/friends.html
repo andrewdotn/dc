@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+<h1>Sites we love</h1>
+
+<p>
+Here are some of our favourite sites and how they describe themselves:
+</p>
+
+<ul>
+
+  <li>
+  <p>
+  <a href="http://timetric.com/">Timetric.com</a> “Everything you need to
+  publish data and research online … Timetric <a
+    href="http://timetric.com/public-data/">aggregates statistics</a> from
+  the world's leading sources of economic data.” They also have great
+  support for integrating a chart into online media.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://scraperwiki.com/">ScraperWiki </a>is a collaborative
+  platform for writing and scheduling screen scrapers—programs that
+  turn graphical charts and tables into reusable data sources.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  “<a href="http://www.wolframalpha.com/">Wolfram Alpha</a>’s long-term
+  goal is to make all systematic knowledge immediately computable and
+  accessible to everyone.” A <a
+    href="http://www.wolframalpha.com/anniversary.html">list of subject
+    areas it’s recently learned about</a> is mind-blowing.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://www.gapminder.com/">GapMinder</a>’s <a
+    href="http://www.gapminder.org/donations/">goal</a> “is to replace
+  devastating myths with a fact-based world view.” Watch the <a
+    href="http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html">world-famous
+    TED Talk</a>!
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://www.infochimps.com/">Infochimps</a>: “We make data easy
+  to access so you can focus on being more productive.” Instead of toiling
+  for hours to collect, format, and sort data into useful formats, get it
+  instantly from Infochimps, “a place to find, sell and share data with
+  others.”
+  </p>
+  </li>
+
+  <li>
+  <p>
+  Google’s <a href="http://www.google.com/publicdata/home">Public Data
+    Explorer</a> “makes large datasets easy to explore, visualize and
+  communicate” and “[<a
+    href="http://googleblog.blogspot.com/2011/02/visualize-your-own-data-in-google.html">enables</a>]
+  people to better understand the world around them and make more informed,
+  data-driven decisions.”
+  </p>
+  <p>
+  The project has proposed a <a
+  href="http://code.google.com/apis/publicdata/">Dataset
+  Publishing Language</a> called DSPL.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a
+    href="http://www-958.ibm.com/software/data/cognos/manyeyes/">ManyEyes</a>
+  aims “to <a
+    href="https://www.ibm.com/developerworks/mydeveloperworks/blogs/62fefc4c-66f4-441d-bd91-47542642b2e1/entry/welcome_to_the_new_many_eyes?lang=en">‘democratize’</a>
+  visualization and to enable a new social kind of data analysis.”
+  </p>
+
+  <p>
+  NYTimes Economix <a
+    href="http://economix.blogs.nytimes.com/2011/02/16/household-debt-falls-for-9th-quarter/">uses</a> ManyEyes.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://Multpl.com/">Multpl.com</a> is a brilliantly simple solo
+  effort with 16 high-level econopmic datasets such as historical P/E ratio
+  for US equities.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://zfacts.com/">zFacts</a> is a website that <a
+    href="http://zfacts.com/p/534.html">hopes to fill</a> a crucial but
+  almost empty niche:
+
+  To provide think-tank quality information in an easily accessible format …
+  to help the interested public and the press understand current social and
+  political issues.”
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://buzzdata.com/">BuzzData</a> is “a social platform where
+  publishing, discussing and building the story around your hard-earned
+  data is a snap.”
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://blog.datacurious.org/">Datacurious</a> (in development).
+  </p>
+  </li>
+
+
+  <li>
+  <p>
+  <a href="http://www.icharts.net/about">iCharts</a> “is a
+  software-as-a-service (SaaS) company that provides the only easy-to-use
+  and affordable online service for interactive chart creation and social
+  sharing.” Their vision is to “to empower the world to explore
+  and share data by enabling the free flow of visual data among data
+  owners, media, business and consumers.”
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://www.explainum.com/">Explainum</a>—“like wiki for
+  charts”—lets you can build live-updating charts, annotate key data
+  points, and embed them in web pages.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://Verifiable.com/">Verifiable.com</a> had a beautiful UI
+  but is no longer operating. Read the <a
+    href="http://eagereyes.org/blog/2010/end-of-verifiable-com">post-mortem</a>.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://swivel.com">Swivel.com</a> is also no longer operating;
+  read the <a
+    href="http://eagereyes.org/criticism/the-rise-and-fall-of-swivel">post-mortem</a>.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  The iPad app
+  <a
+    href="http://itunes.apple.com/us/app/economy-for-ipad/id396544244?mt=8">Economy</a>
+  shows the latest and historical values of key US economic indicators. It
+  has has a beautiful and effective API.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://Numbrary.com/">Numbrary.com</a> is a (possibly-defunct)
+  free online service dedicated to finding, using and sharing numbers on
+  the web.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://Data360.org/">Data360.org</a>’s mission is to tell
+  data-driven stories about important subjects. It’s free and features
+  about 5,000 relevant datasets, with graphing features.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://NationMaster.com/">NationMaster.com</a> and
+  <a href="http://StateMaster.com/">StateMaster.com</a> offer data on
+  nations and US states.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://wikiposit.com/p?aboutwikiposit">WikiPosit</a>
+  aims </span></a></b>to be a Wikipedia of numerical data.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://Factual.com/">Factual.com</a> is an open data platform
+  and community trying to maximize data accuracy, transparency, and
+  availability.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://getthedata.org/">GetTheData.org</a> is like <a
+    href="http://stackoverflow.com/">Stack Overflow</a> for asking and
+  answering data-related questions.
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <p class=MsoNormal>The <a href="http://opendata.socrata.com/">Socrata
+    Social Data Platform</a> “is the most widely-adopted Open Data solution
+  in Government.”
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="http://open.mflask.com/">Open Data Directory</a> is a free
+  search engine for data sets published by governments, private companies
+  and other organizations. It now indexes more than <a
+    href="http://open.mflask.com/stats">450,000 datasets</a> from many
+  sources.</p>
+  </p>
+  </li>
+
+  <li>
+  <p>
+  <a href="https://datamarket.azure.com/">Windows Azure DataMarket:</a>
+  “One stop shop for Data. Get all data you need for your insights: trusted
+  commercial and premium public domain data.”
+  </p>
+  </li>
+
+</ul>
+
+<h1>Sites we still need to check out</h1>
+
+<p>
+We haven’t had time to look into these in detail yet. And there are other
+great sites we haven’t even heard of yet. Play around with them and let us
+know what you think!
+</p>
+
+<ul>
+  <li><a href="http://www.tableausoftware.com/public">Tableau public</a>
+  (requires Windows)
+  <li><a href="http://d8taplex.com/">d8taplex</a>
+  <li><a href="http://ckan.org/">ckan</a>
+</ul>
+
+{% endblock %}
