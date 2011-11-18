@@ -40,6 +40,10 @@
         margin:0;
         font: 200%/125% 'OpenSansBold', verdana, sans-serif;
       }
+      #main {
+        width:800px;
+        margin:0 0 0 50px;
+      }
       .title {
         background-color:#ffde00;
         padding-left: 0.5em;
@@ -65,14 +69,14 @@
         padding:0.5em;
         margin-top: 1.5em;
         margin-bottom: 1.5em;
-        max-width:800px;
+        width:800px;
         background-color:#eeffee;
         border-radius:15px;
         border:2px solid #ccddcc;
         /*  outline:#ddeedd solid medium; */
       }
       #greeting {
-        font-size:10px;
+        font-size:12px;
         text-align: right;
         margin: 5px 0 -15px 0;
       }

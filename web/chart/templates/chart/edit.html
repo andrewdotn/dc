@@ -1,46 +1,11 @@
+{% extends "base.html" %}
 {% load url from future %}
 {% load markup %}
 
-<html style="overflow-x:hidden; overflow-y:hidden">
-  <head>
-    <style type="text/css">
-      @font-face {
-          font-family: 'ChunkFiveRegular';
-          src: url('/static/fonts/Chunkfive-webfont.eot');
-          src: url('/static/fonts/Chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
-               url('/static/fonts/Chunkfive-webfont.woff') format('woff'),
-               url('/static/fonts/Chunkfive-webfont.ttf') format('truetype'),
-               url('/static/fonts/Chunkfive-webfont.svg#ChunkFiveRegular') format('svg');
-          font-weight: normal;
-          font-style: normal;
-      }
+{% block title %}Edit a chart{% endblock %}
 
-      @font-face {
-          font-family: 'OpenSansRegular';
-          src: url('/static/fonts/OpenSans-Regular-webfont.eot');
-          src: url('/static/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-               url('/static/fonts/OpenSans-Regular-webfont.woff') format('woff'),
-               url('/static/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
-               url('/static/fonts/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
-          font-weight: normal;
-          font-style: normal;
-      }
-
-      @font-face {
-          font-family: 'OpenSansBold';
-          src: url('/static/fonts/OpenSans-Bold-webfont.eot');
-          src: url('/static/fonts/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-               url('/static/fonts/OpenSans-Bold-webfont.woff') format('woff'),
-               url('/static/fonts/OpenSans-Bold-webfont.ttf') format('truetype'),
-               url('/static/fonts/OpenSans-Bold-webfont.svg#OpenSansBold') format('svg');
-          font-weight: normal;
-          font-style: normal;
-      }
-
-      body {
-        background-color: white;
-      }
-
+{% block head_extra %}
+    <style>
       h1 {
         margin-top:8px;
         margin-left:8px;
@@ -75,10 +40,37 @@
         width:10em;
       }
 
+      .chartForm {
+        width:28em;
+        display:float;
+      }
+
       #saveChartSettings, #saveQuitChartSettings,
-      #saveSeries, #saveQuitSeries {
+      #saveSeries, #saveQuitSeries, #resetSeries {
         width:8em;
       }
+
+    .datasource {
+      border-radius: 10px;
+      background-color:#E58F17;
+      max-width:800px
+    }
+
+    #datafromhead {
+      font-size: 18px;
+      max-width:600px;
+    }
+
+    #datafrom {
+      font-size: 14px;
+      margin-top:-1.0em;
+    }
+
+    #datacollective-chart-{{chart.id}} {
+      border-radius:15px;
+      border:6px solid #ffde00;
+      background-color: #fff;
+    }
     </style>
 
     <script src="https://www.google.com/jsapi?key=ABQIAAAAkWq49XHvu8X8iulRFnhxzhQ3Gsq7pFPFeBuJN0rzxVAMBkA73hR2TPEi2ydIp26PuFwdURBB2igsNg" type="text/javascript"></script>
@@ -100,6 +92,7 @@
             chart_html_below_title: $("#chart_html_below_title").html(),
             chart_y_axis_description: $("#chart_y_axis_description").text(),
             chart_source_title: $("#chart_source_title").html(),
+            chart_source_detail: $("#chart_source_detail").html(),
             chart_width: $("#datacollective-chart-{{chart.id}}").width()
           };
         };
@@ -165,6 +158,7 @@
           },
           title: { text: "" },
           credits: { text: "" },
+          legend: {enabled: true},
           plotOptions: {
                           line: {
                                  lineWidth: 5,
@@ -246,6 +240,7 @@
           $("#chartHtmlBelowTitle").val($("#chart_html_below_title").html());
           $("#chartYAxisDescription").val($("#chart_y_axis_description").text());
           $("#chartSourceTitle").val($("#chart_source_title").html());
+          $("#chartSourceDetail").val($("#chart_source_detail").html());
           $("#chartWidth").val($("#datacollective-chart-{{chart.id}}").width());
           $("#seriesData").val(this.seriesMgr.formattedSeriesData(this.seriesMgr.currentSeries));
 
@@ -261,6 +256,8 @@
           this.initFormField(chartSettings, "yAxis.title.text", "yAxisTitle");
 
 	  this.setDocDirty(false);
+
+          hideShowSource();
         };
 
         this.initFormField = function(chartSettings, objName, elName) {
@@ -283,6 +280,8 @@
           $("#chart_html_below_title").html(this.documentMgr.savedSettings.chart_html_below_title);
           $("#chart_y_axis_description").text(this.documentMgr.savedSettings.chart_y_axis_description);
           $("#chart_source_title").html(this.documentMgr.savedSettings.chart_source_title);
+          $("#chart_source_title_2").html(this.documentMgr.savedSettings.chart_source_title);
+          $("#chart_source_detail").html(this.documentMgr.savedSettings.chart_source_detail);
 	  $("#datacollective-chart-{{chart.id}}").width(this.documentMgr.savedSettings.chart_width);
 
           this.settingsMgr.resetSettings();
@@ -291,6 +290,7 @@
 	  this.setDocDirty(false);
 
           this.initForm();
+          hideShowSource();
           renderDynamicChart();
         };
 
@@ -394,11 +394,21 @@
 
         chartSettings.series = editor.seriesMgr.currentSeries;
 
+
         if (!chartSettings.xAxis.labels) {
           chartSettings.xAxis.labels = {};
         }
         chartSettings.xAxis.labels.formatter = function() { return this.value; };
 	chartSettings.plotOptions.line.animation = false;
+
+        var testVal = chartSettings.series[0].data[0][0];
+        if (isNaN(parseInt(testVal))) {
+          var xAxisLabels = $.map(chartSettings.series[0].data, function(x){return x[0];});
+          chartSettings.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
+       }
+
+        if (chartSettings.series.length == 1)
+           chartSettings.legend.enabled = false;
 
         var chart = new Highcharts.Chart(chartSettings);
 
@@ -420,6 +430,24 @@
         $("#settingsForm").hide();
         $("#seriesForm").show();
       }
+
+
+      function hideShowSource() {
+            if ($('#chart_source_title').html().length)
+               $('#datafromhead' ).show();
+            else
+               $('#datafromhead' ).hide();
+
+            if ($('#chart_source_detail').html().length) {
+               $('#datafrom').show()
+//               $('#chart_source_title_2,#df').css('position','static');
+            } else {
+               $('#datafrom').hide()
+//               $('#chart_source_title_2,#df').css('position','relative');
+//               $('#chart_source_title_2,#df').css('top','-.5em');
+           }
+      }
+
 
       $(document).ready(function() {
         var converter = new Markdown.Converter();
@@ -443,8 +471,13 @@
                  $('#chart_html_below_title').html(theString);
             else if (event.target.id == "chartYAxisDescription")
                  $('#chart_y_axis_description').html(theString);
-            else if (event.target.id == "chartSourceTitle")
+            else if (event.target.id == "chartSourceTitle") {
                  $('#chart_source_title').html(theString);
+                 $('#chart_source_title_2').html(theString);
+            } else if (event.target.id == "chartSourceDetail")
+                 $('#chart_source_detail').html(theString);
+
+            hideShowSource();
 
             editor.setDocDirty(true);
         };
@@ -544,7 +577,7 @@
           editor.onConvert();
         }
 
-        var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartYAxisDescription");
+        var changeable = $("#chartTitle, #chartHtmlBelowTitle, #chartSourceTitle, #chartSourceDetail, #chartYAxisDescription");
 
         var chartLabels = $('#xAxisTitle, #yAxisTitle');
 
@@ -563,9 +596,11 @@
       });
     </script>
     {{ ANALYTICS }}
-  </head>
 
-  <body>
+{% endblock %}
+
+{% block content %}
+
     <table><tr>
       <td valign="top">
         <div>
@@ -576,10 +611,29 @@
 
           <div id="chartdiv"></div>
 
-          <div id="creditsdiv" style="font-family:Georgia; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left; float:left">
+          <div id="creditsdiv" style="font-family:Georgia; margin-top:24px; margin-left:125px; width:475px; font-size: 85%; color:#888888; text-align:left;">
             <b>Source</b>: <span id="chart_source_title">{{chart.source_title|safe}}</span>.
           </div>
         </div>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>	  
+        <div class="titlediv">
+          <div id="datafromhead" class="title datasource">
+               <span id="df">data from </span><span id="chart_source_title_2"> {{ chart.source_title|safe }} </span>
+          </div>
+          <div id="datafrom"" class="title datasource" >
+            <br>
+            {% autoescape off %}
+            <span id="chart_source_detail">{{ chart.source_detail }}</span>
+            {% endautoescape %}
+	    <br>
+	    <br>
+          </div>
+        </div>
+<!------------------------------------------------------------------------------------------------------------------------------------>	  
+
+
+
       </td>
       <td valign="top">
         <div>
@@ -614,6 +668,13 @@
                   <div class="formfield"><textarea id="chartSourceTitle" style="width:100%"></textarea></div>
                 </td>
               </tr>
+              <tr>
+                <td colspan="2">
+                  <div>Source Detail(html)</div>
+                  <div class="formfield"><textarea id="chartSourceDetail" style="width:100%"></textarea></div>
+                </td>
+              </tr>
+
               <tr>
                 <td>
                   <div>X Axis Minimum</div>
@@ -655,7 +716,7 @@
             <tr>
               <td>
                 <div>Data</div>
-                <div class="formfield"><textarea rows="28" cols="40" id="seriesData"></textarea></div>
+                <div class="formfield"><textarea rows="36" cols="40" id="seriesData"></textarea></div>
               </td>
             </tr>
             <tr>
@@ -671,5 +732,4 @@
       </td>
     </tr>
     </tr></table>
-  </body>
-</html>
+{% endblock %}
