@@ -4,10 +4,7 @@
 {% block title %}Register for a Data Collective account{% endblock %}
 {% block content %}
 <br>
-<p>Hi, welcome to Data Collective!</p>
-<p>We are in a secret alpha test of our Chart tool.</p>
-<p>It's all raw and unfinished but it does actually work.  You can make interactive charts and put them in your blog or web page.</p>
-<p>When you get the hang of it, you can go from data to blog in under 60 seconds.  We like it, and we'd be delighted to hear what you think.</p>
+<p>Hi! Please let us know a little about you, and then let's go make some charts!</p>
 
 <br>
 <form action="{% url 'registration.views.register' %}" method="post">{% csrf_token %}
