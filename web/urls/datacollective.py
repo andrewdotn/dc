@@ -3,7 +3,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
-from django.shortcuts import render
 from django.views.generic.simple import direct_to_template, redirect_to
 
 import django.contrib.auth.views as auth_views

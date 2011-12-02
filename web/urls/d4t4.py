@@ -4,6 +4,8 @@ from django.conf.urls.defaults import patterns, include, url
 from django.http import HttpResponseNotFound, HttpResponseServerError
 from django.template import Context, Template, Library
 from django.views.generic.simple import redirect_to
+from django.shortcuts import render
+from settings.common import STATIC_ROOT
 
 def handler404(request):
     t = Template("""\
@@ -39,5 +41,8 @@ urlpatterns = patterns('',
 
     (ur'^$', redirect_to, {
         'url': 'https://datacollective.org/sparkblocks.html',
+        'permanent': False}),
+    (r'^header_image.jpg$', redirect_to, {
+        'url': 'http://d4t4.org/static/header_image.jpg',
         'permanent': False}),
 )
