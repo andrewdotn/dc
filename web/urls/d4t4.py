@@ -37,6 +37,10 @@ def handler500(request):
 urlpatterns = patterns('',
     # Some day this will be a general-purpose URL shortener
 
+    (ur'^(?P<sparkblocks>[▁▂▃▅▆▇]+)$',
+            lambda request, sparkblocks: redirect_to(request,
+                url='https://datacollective.org/' + sparkblocks,
+                permanent=False)),
     (ur'^$', redirect_to, {
         'url': 'https://datacollective.org/sparkblocks.html',
         'permanent': False}),
