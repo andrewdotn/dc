@@ -114,6 +114,20 @@
         return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")
       }
 
+      function is_int(value){ 
+         if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+            return true;
+         } else { 
+            return false;
+         } 
+      }
+
+      function xAxisFloatValues(theData) {
+          var data = theData[0].data;
+          $.each(data, function(i, val) {if (! is_int(val[0])) return true;});
+          return false;
+      }
+
       function renderDynamicChart() {
         var options = {{chart.chart_settings|safe}};
 
@@ -167,13 +181,15 @@ options.exporting = {url: "{% url 'chart.views.convert' chart.id %}"};
 
          var theData = {{ chart.chart_data|safe }};
          var testVal = theData[0].data[0][0];
-//         console.log(testVal);
+
          if (typeof testVal == 'string') {
             if (isNaN(parseInt(testVal))) {
               var xAxisLabels = $.map(theData[0].data, function(x){return x[0];});
               options.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
             }
          }
+
+        options.xAxis.allowDecimals = xAxisFloatValues(theData);
 
         options.series = {{ chart.chart_data|safe }};
         if (!options.plotOptions) {
