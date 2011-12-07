@@ -423,8 +423,7 @@
         if (chartSettings.series.length == 1)
            chartSettings.legend.enabled = false;
 
-//        chartSettings.xAxis.allowDecimals = xAxisFloatValues(chartSettings.series);
-       chartSettings.xAxis.allowDecimals = true;
+        chartSettings.xAxis.allowDecimals = xAxisFloatValues(chartSettings.series);
 
         var chart = new Highcharts.Chart(chartSettings);
 
