@@ -87,7 +87,7 @@
          } 
       }
 
-      function xAxisFloatValues(theData) {
+      function xAxisNonIntValues(theData) {
           var data = theData[0].data;
           $.each(data, function(i, val) {if (! is_int(val[0])) return true;});
           return false;
@@ -423,7 +423,7 @@
         if (chartSettings.series.length == 1)
            chartSettings.legend.enabled = false;
 
-        chartSettings.xAxis.allowDecimals = xAxisFloatValues(chartSettings.series);
+        chartSettings.xAxis.allowDecimals = xAxisNonIntValues(chartSettings.series);
 
         var chart = new Highcharts.Chart(chartSettings);
 

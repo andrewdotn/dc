@@ -122,7 +122,7 @@
          } 
       }
 
-      function xAxisFloatValues(theData) {
+      function xAxisNonIntValues(theData) {
           var data = theData[0].data;
           $.each(data, function(i, val) {if (! is_int(val[0])) return true;});
           return false;
@@ -189,7 +189,7 @@ options.exporting = {url: "{% url 'chart.views.convert' chart.id %}"};
             }
          }
 
-        options.xAxis.allowDecimals = xAxisFloatValues(theData);
+        options.xAxis.allowDecimals = xAxisNonIntValues(theData);
 
         options.series = {{ chart.chart_data|safe }};
         if (!options.plotOptions) {
