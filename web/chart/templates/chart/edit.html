@@ -79,8 +79,21 @@
     <script type="text/javascript" src="/static/js/Markdown.Converter.js"></script>
 
     <script type="text/javascript">
-      // -- DocumentMgr
+      function is_int(value){ 
+         if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+            return true;
+         } else { 
+            return false;
+         } 
+      }
 
+      function xAxisNonIntValues(theData) {
+          var data = theData[0].data;
+          $.each(data, function(i, val) {if (! is_int(val[0])) return true;});
+          return false;
+      }
+
+      // -- DocumentMgr
       function DocumentMgr() {
         this.init = function() {
           this.savedSettings = this.currentSettings();
@@ -409,6 +422,8 @@
 
         if (chartSettings.series.length == 1)
            chartSettings.legend.enabled = false;
+
+        chartSettings.xAxis.allowDecimals = xAxisNonIntValues(chartSettings.series);
 
         var chart = new Highcharts.Chart(chartSettings);
 
