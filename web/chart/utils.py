@@ -45,7 +45,10 @@ def import_chart_data(data):
             try:
                 the_x_value = int(x_series[index])
             except:
-                the_x_value = x_series[index]
+                try:
+                    the_x_value = float(x_series[index])
+                except:
+                    the_x_value = x_series[index]
             the_data.append([the_x_value,the_y_value])
 
         dict = {
