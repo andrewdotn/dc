@@ -87,11 +87,30 @@
          } 
       }
 
-      function xAxisNonIntValues(theData) {
-          var data = theData[0].data;
-          $.each(data, function(i, val) {if (! is_int(val[0])) return true;});
-          return false;
-      }
+
+     function getType(x) {
+        var type = "";
+        if (typeof(x) == 'string')
+            type = "string";
+        else {
+            if (is_int(x))
+               type = "int";
+            else
+               type = "float";
+        }
+        return type;
+     }
+
+
+    function getTypeOfAxis(data) {
+        var axisType = "int";
+        if (getType(data[0][0]) == "string")
+            axisType =  "string";
+        else {
+            $.each(data, function(i, val) {if (! is_int(val[0])) axisType = "float";});
+        }
+        return axisType;
+    }
 
       // -- DocumentMgr
       function DocumentMgr() {
@@ -407,23 +426,25 @@
 
         chartSettings.series = editor.seriesMgr.currentSeries;
 
-
         if (!chartSettings.xAxis.labels) {
           chartSettings.xAxis.labels = {};
         }
         chartSettings.xAxis.labels.formatter = function() { return this.value; };
 	chartSettings.plotOptions.line.animation = false;
 
-        var testVal = chartSettings.series[0].data[0][0];
-        if (isNaN(parseInt(testVal))) {
-          var xAxisLabels = $.map(chartSettings.series[0].data, function(x){return x[0];});
-          chartSettings.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
-       }
+        var axisType = getTypeOfAxis(chartSettings.series[0].data);
+
+        if (axisType == "string") {
+              var xAxisLabels = $.map(chartSettings.series[0].data, function(x){return x[0];});
+              chartSettings.xAxis.categories = $.map(xAxisLabels, function(x){return x.replace(/\s+$/gi,'');});
+          } else if (axisType == "float") {
+               chartSettings.xAxis.allowDecimals = true;
+          } else if (axisType == "int") {
+               chartSettings.xAxis.allowDecimals = false;
+          }
 
         if (chartSettings.series.length == 1)
            chartSettings.legend.enabled = false;
-
-        chartSettings.xAxis.allowDecimals = xAxisNonIntValues(chartSettings.series);
 
         var chart = new Highcharts.Chart(chartSettings);
 
