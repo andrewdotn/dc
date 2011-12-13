@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import escape
 from registration.forms import RegistrationFormUniqueEmail
 
 from common.utils import update_sorted_dict_order
@@ -23,12 +24,12 @@ class DCRegistrationForm(RegistrationFormUniqueEmail):
             ['firstname', 'lastname', 'username',
                     'email', 'password1', 'password2'])
 
-    firstname = forms.RegexField(regex=r'^\w*$',
+    firstname = forms.RegexField(regex=r'^.*$',
                                 max_length=30,
                                 widget=forms.TextInput(),
                                 required=False,
                                 label=_(u'first name'))
-    lastname = forms.RegexField(regex=r'^\w*$',
+    lastname = forms.RegexField(regex=r'^.*$',
                                 max_length=30,
                                 widget=forms.TextInput(),
                                 required=False,
@@ -40,8 +41,8 @@ class DCRegistrationForm(RegistrationFormUniqueEmail):
         """
         new_user = super(DCRegistrationForm, self).save(profile_callback)
         if new_user:
-            new_user.first_name = self.cleaned_data['firstname']
-            new_user.last_name = self.cleaned_data['lastname']
+            new_user.first_name = escape(self.cleaned_data['firstname'])
+            new_user.last_name = escape(self.cleaned_data['lastname'])
             new_user.save()
 
         return new_user
