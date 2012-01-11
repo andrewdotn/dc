@@ -3,13 +3,13 @@
 {% load common_tags %}
 
 {% block title %}
-{% if for_user %}{{ user|user_display_name }}’s {% else %}All{% endif %}
+{% if for_user %}{{ for_user|user_display_name }}’s {% else %}All{% endif %}
 Charts
 {% endblock %}
 
 {% block content %}
 <h1>
-  {% if for_user %}{{ user|user_display_name }}’s {% else %}All{% endif %}
+  {% if for_user %}{{ for_user|user_display_name }}’s {% else %}All{% endif %}
   Charts
 </h1>
 
