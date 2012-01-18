@@ -16,6 +16,6 @@ def split(value, delimiter=None):
 def user_display_name(user):
     "Return a human-readable name for a contrib.auth.user object."
     # this should be a method on User, but we want to avoid forking that
-    if user.first_name:
+    if hasattr(user, 'first_name') and user.first_name:
         return user.get_full_name()
     return user.username
